@@ -55,6 +55,15 @@ class User {
 5. In your own words, explain this line:
 
 ```text
+1. The main method, Get email method and the user local variable
+2. The User object is created on the heap
+3. The variable user references the User object
+4. The User object would get deleted as nothing else is using it
+5.
+``` 
+
+
+```text
 An object is structured memory.
 ```
 

@@ -156,23 +156,38 @@ Just create the class names and method names.
 
 ```java
 public class UserRegistrationService {
+    public void registerUser(String email, String name){
+        EmailValidator emailValidator = new EmailValidator(email);
+        UserRepository userRepository = new UserRepository(email, name);
+        WelcomeEmailSender welcomeEmailSender = new WelcomeEmailSender(email);
+        UserReportService userReportService = new UserReportService(email);
 
+        emailValidator.validateEmail(email);
+        userRepository.saveUser(email,name);
+        welcomeEmailSender.sendWelcomeEmail(email);
+        userReportService.generateUserReport(email);
+        
+    }
 }
 
 public class EmailValidator {
-
+    private void validateEmail(String email){
+    }
 }
 
 public class UserRepository {
-
+    private void saveUser(String email, String name){
+    }
 }
 
 public class WelcomeEmailSender {
-
+    private void sendWelcomeEmail(String email) {
+    }
 }
 
 public class UserReportService {
-
+    private void generateUserReport(String email) {
+    }
 }
 ```
 

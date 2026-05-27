@@ -58,6 +58,13 @@ class User {
 An object is structured memory.
 ```
 
+## Answers Q1
+1. Stored on the stack: main, user constructor, getEmail(), email and name
+2. Stored on the heap: User object
+3. The variable user is storing the pointer in memory heap for the User object, the instance of the user object. 
+4. When main finishes, the garbage collector removes the User object and deallocates the memory for this as it is no longer reachable.
+5. An object is an allocated piece of memory for certain parts of code representing one responsiblity. Therefore, for each object that is created, memory is allocated for each of these on the heap, structuring it. 
+
 ---
 
 # Part 2 — Objects and Responsibilities 🧩
@@ -102,6 +109,16 @@ public class UserService {
 6. Which method relates to reporting?
 7. Why could this class become difficult to maintain as the system grows?
 
+
+## Answers Part 2
+1. This class is used for managing users, primarily when adding new users to this service.
+2. This class could change for four different reasons as it has four methods which are designed to do separate tasks. 
+3. validateEmail()
+4. saveUser()
+5. sendWelcomeEmail()
+6. generateUserReport()
+7. This class may become difficult to maintain if more methods are added for more functionality for this class. 
+
 ---
 
 # Part 3 — Apply SRP 🎯
@@ -122,23 +139,23 @@ Just create the class names and method names.
 
 ```java
 public class UserRegistrationService {
-
+    public void UserRegistrationService(){}
 }
 
 public class EmailValidator {
-
+    public void validateEmail(){}
 }
 
 public class UserRepository {
-
+    public void saveUser(){}
 }
 
 public class WelcomeEmailSender {
-
+    public void sendWelcomeEmail(){}
 }
 
 public class UserReportService {
-
+    public void generateUserReport(){}
 }
 ```
 
@@ -205,6 +222,12 @@ public class SmsSender implements MessageSender {
 3. Which SOLID principle does this help with?
 4. How does this make the system easier to extend later?
 
+## Answers
+1. As MessageSender is an interface, it holds a contract of what it is able to do. This means that for every type of message, an implementation of MessageSender can be used.
+2. As Message sender has no real implementation, this means that it is up to the implementation to add the functionality. This means that future messsaging services can be used. EmailSender is not flexible and only allows emails to be sent.
+3. The solid principel that applies is interface segregation.
+4. More messaging services can easily be added by implementing the MessageSender interface. 
+
 ---
 
 # Part 5 — Remove the Hardcoded Dependency ⚠️
@@ -240,10 +263,15 @@ public class UserRegistrationService {
 
     public UserRegistrationService(MessageSender messageSender) {
         // your code here
+
+        this.messageSender = messageSender;
     }
 
     public void register(String email, String name) {
         // your code here
+
+        System.out.println("Registering user");
+        messageSender.send(email, "Welcome, " + name);
     }
 }
 ```
@@ -256,6 +284,12 @@ public class UserRegistrationService {
 4. Which principle is this?
 5. Why is this better?
 
+## Answers
+1. The registering user is no longer locked to using email to register users.
+2. EmailSender was removed.
+3. messageSender is the abstraction.
+4. Dependency Inversion Principle
+5. We are no longer depending on a concrete class which was EmailSender, we are now using an abstraction which allows any type of message to be sent which is more flexible.
 ---
 
 # Part 6 — Inheritance Truth Check 🧬
@@ -284,6 +318,13 @@ class Penguin extends Bird {
 4. How does `Penguin` break that promise?
 5. Which SOLID principle is involved here?
 
+# Answers
+1. This feels logical because a Penguin is a bird so the inhertance makes sense to inherit from the bird class.
+2. It is a problem because Penguins can't fly so throws an exception if used.
+3. The promise that the Bird class makes is that every class which is inherited from this has to use the fly() method.
+4. The Penguin class breaks this promise because Penguins are not able to fly and are unable to fullfill the function of the method.
+5. Liskov Substitution Principle
+
 ## Better Design
 
 Complete this improved design:
@@ -298,7 +339,9 @@ interface FlyingBird {
 }
 
 class Eagle implements Bird, FlyingBird {
-
+    public void fly() {
+        System.out.println("Flying");
+    }
 }
 
 class Penguin implements Bird {
@@ -313,6 +356,8 @@ Explain this sentence:
 ```text
 Inheritance should preserve truth.
 ```
+
+If a class is inheriting a method from the superclass, it should be able to implement it correctly without errors and 'make sense' to implement it for this subclass.
 
 ---
 
@@ -352,7 +397,12 @@ public class UserRegistrationService {
 ```text
 Composition lets us build bigger systems from smaller, clearer pieces.
 ```
-
+## Answers
+1. EmailValidator, UserRepository, MessageSender
+2. Composition
+3. It stops the class becoming overwhelmed with all the requried implementation, which makes it easier to maintain and read.
+4. Composition allows for more readable and maintainable code by creating a management area of what things should happen where.
+5. Composition allows us to build more complex code bases for systems which lots of functionality yet still be able to maintain the code and understand what each part it doing. This is because responsibility is split up between the classes. 
 ---
 
 # Part 8 — Final Reflection 🚀
@@ -370,7 +420,12 @@ Memory is where software lives.
 Objects give memory shape.
 SOLID keeps that shape coherent over time.
 ```
-
+## Answers
+1. The relationship between memory and objects is that objects are able to organise the memory into sections for particular responsibility.
+2. When objects are created, they can depend on each other as some objects need others to do a particular task.
+3. Dependencies make software harder to change because when there are many objects depending on each other, it can create dependency graphs. This means that if one changes, this can have a rolling impact on other parts of the code which is dependent on the changed code.
+4. SOLID helps us control objects to create code which is better written and more maintainable, especially in larger systems.
+5. This means that software is stored in the memory and then objects are able to partition and create order to this software in memory as each object has a particular responsibility. SOLID is able to manage the way the objects are organised over the design over the lifetime of the software. 
 ---
 
 # Stretch Challenge 🌟

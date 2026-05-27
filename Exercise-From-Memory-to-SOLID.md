@@ -299,11 +299,11 @@ public class UserRegistrationService {
     private final MessageSender messageSender;
 
     public UserRegistrationService(MessageSender messageSender) {
-        // your code here
+        this.messageSender = messageSender;
     }
 
     public void register(String email, String name) {
-        // your code here
+        messageSender.send(email, "Welcome, " + name);
     }
 }
 ```
@@ -311,10 +311,24 @@ public class UserRegistrationService {
 ## Questions
 
 1. What changed in the design?
+
+We are using the interface, which means the code can be reused for instances that arent just for email, it can be used in other methods for SMS for example.
+
 2. What concrete class did we remove from `UserRegistrationService`?
+
+Email Sender
+
 3. What abstraction does it now depend on?
+
+messageSender
+
 4. Which principle is this?
+
+Depend on the interface
+
 5. Why is this better?
+
+now the service doesn't care how the person needs to be reached, via text or email or other methods. It's easier to extend to these other methods of sending messages.
 
 ---
 
@@ -339,10 +353,24 @@ class Penguin extends Bird {
 ## Questions
 
 1. Why does this design feel logical at first?
+
+Penguins are a type of bird
+
 2. Why does it become a problem in code?
+
+The peguin subclass is unable to call on a function that the bird superclass can do, the point of inheritance is that the subclass should be able to use the properties and methods that the super class has.
+
 3. What promise does `Bird` appear to make?
+
+Any objects that are birds should be able to fly
+
 4. How does `Penguin` break that promise?
+
+Penguins cant fly
+
 5. Which SOLID principle is involved here?
+
+Liskov's Substitution Principle
 
 ## Better Design
 
@@ -404,14 +432,25 @@ public class UserRegistrationService {
 ## Questions
 
 1. Which objects does `UserRegistrationService` use?
+
+EmailValidator, UserRepository and MessageSender
+
 2. Is this inheritance or composition?
+
+This is composition
+
 3. Why is this better than putting all logic inside one class?
+
+When you want to make changes, it's better if less logic can be affected by the change. So seperating out the classes allows for changes to affect less of the logic and the logic is spread out between multiple classes. Any breaks will only affect one small class of many rather than the entireity of a massive class
+
 4. What does composition allow us to do?
 5. Explain this sentence:
 
 ```text
 Composition lets us build bigger systems from smaller, clearer pieces.
 ```
+
+Seperating out the logic makes systems easier to build up. You can reuse code more easily and debugging is easier.
 
 ---
 

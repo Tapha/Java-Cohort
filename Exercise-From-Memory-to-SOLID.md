@@ -521,6 +521,14 @@ Then answer:
 4. Where are you applying DIP?
 5. How could you add `ApplePayPaymentProcessor` without changing `CheckoutService`?
 
+```text
+1. StripePaymentProcessor, PaypalPaymentProcessor, OrderRepository, ReportSender, CheckoutService
+2. PaymentProcessor
+3. Within the CheckoutService class to make use of the other classes
+4. When making PaymentProcessor the capability that the payment classes depend on
+5. I would simply make a 'ApplePayPaymentProcessor' class that implements from PaymentProcessor
+```
+
 ---
 
 # Final Compression 🧠

@@ -49,14 +49,28 @@ class User {
 ## Questions
 
 1. Which parts of this code are likely stored on the **stack**?
+
+The methods called, so in this example user.getemail() will be on the stack.
+
 2. Which object is created on the **heap**?
+
+The creation of the object, so here the user Amina with her email.
+
 3. What does the variable `user` refer to?
+
+It references the instance of a `User` with the name Amina and her email.
+
 4. When `main()` finishes, what can eventually happen to the `User` object?
+
+There is garbage collection, so it gets removed from memory
+
 5. In your own words, explain this line:
 
 ```text
 An object is structured memory.
 ```
+
+Objects are a way to have memory organised in a way that can be used to build an entire program
 
 ---
 
@@ -95,12 +109,32 @@ public class UserService {
 ## Questions
 
 1. What is this class responsible for?
+
+This class is responsible for validating the email of a user who has registered, saving their details, sending the welcome email and generating a user report, 4 different responsibilities.
+
 2. How many different reasons could this class change?
+
+4 reasons.
+
 3. Which method relates to validation?
+
+`validateEmail()`
+
 4. Which method relates to persistence/database work?
+
+`saveUser()`
+
 5. Which method relates to email?
+
+`sendWelcomeEmail()`
+
 6. Which method relates to reporting?
+
+`generateUserReport()`
+
 7. Why could this class become difficult to maintain as the system grows?
+
+Multiple responsibilites means that if you make a change to any of responsibilities, it could affect the others. This means if there are errors, it would affect multiple functions of the code. In the long term, debugging will be difficult as multiple errors could arise and it would be hard to locate where the bug actually is.
 
 ---
 

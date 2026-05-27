@@ -459,9 +459,18 @@ Seperating out the logic makes systems easier to build up. You can reuse code mo
 Answer these in your own words.
 
 1. What is the relationship between memory and objects?
+
+Objects are how memory is stored in object oriented programs allowing for memory to be manipulated, stored etc. Objects give life to memory and make it into things that can be used in a program at a higher level.
+
 2. What is the relationship between objects and dependencies?
 3. Why do dependencies make software harder to change?
+
+The more dependencies a software has the more that is affected by slight changes in logic. If a piece of code has alot of dependencies then any changes will affect everything dependent on it.
+
 4. What does SOLID help us control?
+
+It helps us make systems more robust and even anti-fragile, and making it so chaos and complexity doesnt destroy the system.
+
 5. What does this sentence mean?
 
 ```text

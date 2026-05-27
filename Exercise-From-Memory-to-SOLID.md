@@ -250,9 +250,20 @@ public class SmsSender implements MessageSender {
 ## Questions
 
 1. What capability does `MessageSender` represent?
-2. Why is `MessageSender` more flexible than depending directly on `EmailSender`?
+
+This is the interface that defines what the other classes can do. It represent being able to send messages only requiring a message and a destination.
+
+2. Why is `MessageSender` more flexible than depending directly on `EmailSender`?    
+
+Email sender requires an email, where as message sender doesn't and can be applied to different types of mediums to send messages.
+
 3. Which SOLID principle does this help with?
-4. How does this make the system easier to extend later?
+
+Interface segregation principle
+
+4. How does this make the system easier to extend later?    
+
+If there becomes another medium to sending messages, it can just be created by implementing the message sender. If you had Email sender and Message sender as their own individual classes without the interface, then more effort would be requiered to make this new class, and alongside that you lose the information that the Email sender and message sender are related and similar.
 
 ---
 

@@ -1,0 +1,42 @@
+Cooking Recommendation app (based off ingredients you have, picks a meal for the day, uses pictures)
+
+User Archetype
+Name: John
+Age: 25
+Sex: Female
+Job: Ux Designer
+Hobbies: Doom scroller, Instagram/pintrest for ideas, watching cooking videos
+Notes: Busy with work, Inconsistent with where/when they eat, Orders allot
+
+App Considerations
+Aesthetically pleasing
+Easy to use
+Easy to gravite to after doom scrolling
+could integrate pintrest/instagram meals
+Track previous recipies
+Ai generate food pictures
+Allowed to add own pictures or acquired pictures
+Shareability of food/ generated food images
+Camera on home page to allow immediate photo of fridge
+could share recipie ideas
+
+
+
+
+
+User Journey ()
+
+Works 9-5, on lunch break,Deliberates whether to order out or eat in, hungry, looks at fridge and takes a picture, App checks whether they have enough ingredients to make a full meal, can say how long it would take to cook, considers dietary requirement and other considerations, suggests food options
+
+
+*Could set allergy/ dietary requirements*
+*Metadata feature, info like latest shop, where they go out to/have been*
+*Could exclude food/ingredients*
+*ingredient recommendations to make meal better*
+*Gives something to cook no matter how limited the ingredients*
+*Could allow manual input of expiry date (very optional)*
+*Allow images of cupboards and other food storage*
+*Suggests user to take other images of foodstuff if available*
+
+
+

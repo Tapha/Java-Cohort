@@ -402,6 +402,8 @@ Explain this sentence:
 Inheritance should preserve truth.
 ```
 
+This states that every subclass should inherit all properties and attributes of the superclass, and if it cant then this isnt true inheritance.
+
 ---
 
 # Part 7 — Composition: Building With Parts 🧩
@@ -444,6 +446,9 @@ This is composition
 When you want to make changes, it's better if less logic can be affected by the change. So seperating out the classes allows for changes to affect less of the logic and the logic is spread out between multiple classes. Any breaks will only affect one small class of many rather than the entireity of a massive class
 
 4. What does composition allow us to do?
+
+
+
 5. Explain this sentence:
 
 ```text
@@ -463,6 +468,9 @@ Answer these in your own words.
 Objects are how memory is stored in object oriented programs allowing for memory to be manipulated, stored etc. Objects give life to memory and make it into things that can be used in a program at a higher level.
 
 2. What is the relationship between objects and dependencies?
+
+Objects can have other objects dependent upon it.
+
 3. Why do dependencies make software harder to change?
 
 The more dependencies a software has the more that is affected by slight changes in logic. If a piece of code has alot of dependencies then any changes will affect everything dependent on it.
@@ -478,6 +486,8 @@ Memory is where software lives.
 Objects give memory shape.
 SOLID keeps that shape coherent over time.
 ```
+
+It shows how memory is built up and given shape by objects to be manipulated and interact with other objects, allowing a coherent program to be built up. SOLID prinicples allows for this built up program to not fall and be robust in the face of new complexity and chao being introduced to the system
 
 ---
 

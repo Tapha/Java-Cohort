@@ -65,17 +65,21 @@ users
 ## Questions
 
 1. What does the `User` class represent in Java?
+   User class - > user object creating the user objects with an id email and name
 2. What does the `users` table represent in the database?
+   stores the user data in the database
 3. What does one row in the `users` table correspond to in Java?
+   to one user object 
 4. What does one column in the table correspond to in Java?
-5. Complete this mapping:
+   one field 
+6. Complete this mapping:
 
 | Database    | Java |
 | ----------- | ---- |
-| table       | ?    |
-| row         | ?    |
-| column      | ?    |
-| primary key | ?    |
+| table       | class    |
+| row         | object   |
+| column      | field    |
+| primary key | id field |
 
 ---
 
@@ -86,10 +90,10 @@ A normal Java class becomes a JPA entity when we tell JPA that it should be mapp
 Complete the missing annotations:
 
 ```java
-// Add annotation here
+@Entity
 public class User {
 
-    // Add annotation here
+    @Id
     private Long id;
 
     private String email;
@@ -108,14 +112,18 @@ public class User {
 ## Questions
 
 1. Which annotation marks a class as an entity?
+   @Entity 
 2. Which annotation marks the primary key field?
+   @Id
 3. Why does JPA usually need a no-argument constructor?
+   It creates the objects instanrlt when getting it from the rows from the database
 4. In your own words, what is an entity?
+  
 
 Use this sentence starter:
 
 ```text
-An entity is a Java object that...
+An entity is a Java object that is mapped to the database table so it can be stored and gathered from back from the database table
 ```
 
 ---
@@ -137,14 +145,17 @@ Imagine this database row:
 Write the Java object that represents this row.
 
 ```java
-User user = new User(?, ?, ?);
+User user = new User(3, "sara@example.com", "Sara");
 ```
 
 ## Questions
 
 1. Where does the `User` object live while the Java program is running?
+   In the memory
 2. Where does the row live long-term?
+   Database
 3. What does ORM help translate between?
+   Between the objects within the memory and the rows within the databse table
 
 ---
 
@@ -163,23 +174,25 @@ List<User> users = userRepository.findAll();
 ## Questions
 
 1. What does `List<User>` mean?
+   List is a collection of user object
 2. If the `users` table has 100 rows, what might `findAll()` return?
+   100 of the users
 3. Complete the flow:
 
 ```text
-users table
+user table
         ↓
-? rows
+many rows
         ↓
 ORM maps each row
         ↓
-? objects
+user objects
         ↓
-List<?>
+List<User>
 ```
 
 4. Why did we learn collections before ORM?
-
+   Because we needed to understand how java stores many things in memory, thereofre ORM returns many databse rows, but a it needs a collection like List to hold them.
 ---
 
 # Part 5 — Repository as Persistence Boundary 🔎
@@ -202,13 +215,17 @@ public interface UserRepository {
 ## Questions
 
 1. What is the job of a repository?
+   Handles the data access of entities where you can update them
 2. Should a repository send welcome emails? Why or why not?
+   No it doesnt need data access to send a welcome email 
 3. Should a repository calculate business discounts? Why or why not?
+   Again no because it doesnt handle the data or persistence logic
 4. Which SOLID principle helps explain this?
-5. Complete this sentence:
+   Single  Responsibilites Principle as each of the class should have one specific job
+6. Complete this sentence:
 
 ```text
-Repository = boundary between ? and ?
+Repository = boundary between business logic and data persistence 
 ```
 
 ---
@@ -234,11 +251,19 @@ public class UserService {
 ## Questions
 
 1. What responsibilities are mixed together here?
+   Email validation, SQL, database, saving users, sending the messages and generating reports
 2. Why could this become difficult to maintain?
-3. Which part should belong to a validator?
-4. Which part should belong to a repository?
+   One class is doing too many roles, if we wanted to update it, it may ruin or need to change the whole thing 
+3.  Which part should belong to a validator?
+   Email validator 
+4.  Which part should belong to a repository?
+   build sql queries
+   connect to database
+    insert user
 5. Which part should belong to a message sender?
+   send welcome email
 6. Which part should belong to a report service?
+   generate report
 
 ## Refactor Plan
 
@@ -246,11 +271,11 @@ Fill in the responsibility table:
 
 | Responsibility            | Better Class |
 | ------------------------- | ------------ |
-| validate email            | ?            |
-| save user                 | ?            |
-| send welcome email        | ?            |
-| generate user report      | ?            |
-| coordinate the whole flow | ?            |
+| validate email            | EmailValidator           |
+| save user                 | UserRepository           |
+| send welcome email        | MessageSender     |
+| generate user report      | UserReportService           |
+| coordinate the whole flow | UserRegistrationService           |
 
 ---
 
@@ -277,12 +302,16 @@ public class UserRegistrationService {
 
     public void register(String email, String name) {
         // 1. validate email
+            validator.validate(email);
 
         // 2. create User object
+            User user = new User (email,name);
 
         // 3. save User through repository
+            userRepository.save (user);
 
         // 4. send welcome message
+            messageSender.send(email, "Welcome " + name);
     }
 }
 ```
@@ -290,10 +319,15 @@ public class UserRegistrationService {
 ## Questions
 
 1. What is the role of `UserRegistrationService`?
+   To start and control the registration process for the users calling the classes in order
 2. Does it directly know SQL?
+   No as the repository deals with the data access
 3. Does it directly know how messages are sent?
+   No as the MessageSender deals with that
 4. Which objects does it depend on?
-5. Is this composition? Explain.
+   EmailValidator, UserRepository, MessageSender
+5.  Is this composition? Explain.
+   Yes because the UserRegistrationService has other objects and uses those to comeplete the full regstriation process. 
 
 ---
 
@@ -319,12 +353,15 @@ Inside the same persistence context, JPA may return the same managed entity inst
 ## Questions
 
 1. What does the persistence context manage?
+   Entity objects within the memory
 2. Why is it useful for JPA to track entities in memory?
+   To track if anything has changed
 3. What does it mean for an entity to be “managed”?
+   Managing the object 
 4. Complete this sentence:
 
 ```text
-The persistence context connects database identity to...
+The persistence context connects database identity to the object identity in memory 
 ```
 
 ---
@@ -337,10 +374,10 @@ Match each state to its meaning.
 
 | State           | Meaning |
 | --------------- | ------- |
-| New / transient | ?       |
-| Managed         | ?       |
-| Detached        | ?       |
-| Removed         | ?       |
+| New / transient |B. Object exists in memory but has not been saved yet|
+| Managed         |A. JPA is tracking the entity|
+| Detached        |D. Object exists but JPA is no longer tracking it |
+| Removed         |C. Entity is marked for deletion|
 
 Meanings:
 
@@ -353,20 +390,22 @@ D. Object exists but JPA is no longer tracking it
 
 ## Questions
 
-1. What state is this object probably in?
+1. What state is this object probably in? 
 
 ```java
 User user = new User("amina@example.com", "Amina");
 ```
+New / transient
 
 2. What might happen after this?
 
 ```java
 userRepository.save(user);
 ```
+Managed
 
 3. Why does entity lifecycle matter?
-
+It when or if JPA is doing something tracking, new, managed, detached or removed an object
 ---
 
 # Part 10 — Dirty Checking 🧼
@@ -385,19 +424,24 @@ Assume this happens inside a transaction and the entity is managed.
 ## Questions
 
 1. What changed in memory?
+   Users name
 2. What can JPA detect?
+   Managed entites that has been changed 
 3. What SQL might eventually happen?
+   UPDATE the user information
 4. Why can dirty checking be powerful?
+   It can change the object and that would allo wthe JPA to update the database automatically
 5. Why can it also be confusing?
+   SQL might not update automatically
 
 Complete the flow:
 
 ```text
 Managed entity changes in memory
         ↓
-JPA detects ?
+JPA detects fields
         ↓
-SQL ? happens
+SQL update happens
         ↓
 Database row changes
 ```
@@ -427,16 +471,19 @@ orders.user_id → users.id
 ## Questions
 
 1. What does `List<Order>` represent in Java?
+   Order objects linking to the user
 2. What does `orders.user_id` represent in the database?
+   foreign key linking each order row to user row
 3. What kind of relationship is this?
+   1-many relationship
 4. Complete the mapping:
 
 ```text
 One User object
         ↓
-Many ? objects
+Many order objects
         ↓
-List<?>
+List<Order>
 ```
 
 ---
@@ -456,13 +503,17 @@ List<Order> orders = user.getOrders();
 ## Questions
 
 1. What might be loaded first?
+   User object
 2. What might be loaded later?
+   Orders when getOrders is called
 3. Why can lazy loading improve performance?
+   Avoids loading extra data that isnt need, only calls when needed
 4. Why can lazy loading cause surprise queries?
+   Can call a database query
 5. Complete this sentence:
 
 ```text
-ORM can make database access look like...
+ORM can make database access look like working with normal java objects, whiule the database queries behind the scene
 ```
 
 ---
@@ -484,15 +535,19 @@ Assume there are 100 users.
 ## Questions
 
 1. What is the first query likely to load?
+   all 100 users
 2. What might happen when `user.getOrders()` is called for each user?
+   calls for each users 
 3. How many total queries could happen in the bad case?
+   would be 101 queries 
 4. Why is this expensive?
+   can make the system slow because it calls out so many queries to the database
 5. Explain the N+1 problem in your own words.
 
 Use this sentence starter:
 
 ```text
-The N+1 problem happens when...
+The N+1 problem happens when one query may load a list of objects but then the extar queries happen one by one when data is being accessed
 ```
 
 ---
@@ -503,11 +558,11 @@ Fill in the table.
 
 | SOLID Principle | ORM Meaning |
 | --------------- | ----------- |
-| SRP             | ?           |
-| OCP             | ?           |
-| LSP             | ?           |
-| ISP             | ?           |
-| DIP             | ?           |
+| SRP             | repositories should not contain business logic   |
+| OCP             | new persistence behavior should not break core logic   |
+| LSP             | entity models should tell the truth|
+| ISP             | repository interfaces should stay focused |
+| DIP             | services should depend on repository abstractions|
 
 Use these ideas:
 
@@ -526,20 +581,30 @@ new persistence behavior should not break core logic
 Answer these in your own words.
 
 1. What is ORM?
+   object relational mapping
 2. Why do Java applications need ORM or something like it?
+   As java works with objects but the databsases stores the data collection in tables so helps translate between the two
 3. What is the relationship between a table and a class?
+A table stores many records of one type and a class describes the type in java
 4. What is the relationship between a row and an object?
+    a row is with an objecy because one row in the table can become one java object in memory
 5. What is the relationship between many rows and a collection?
+   many database rows can become many Java onjects stored in the List
 6. What does a repository do?
+   Handles the database acess where you can save and update
 7. What is the persistence context?
+   managed in the memory area where tracks entities 
 8. Why is lazy loading both useful and dangerous?
+   Useful -> avoidings using data you do not need,
+   Dangerous -> can create hidden queries and cause performance problems
 9. Why does ORM not remove the need to understand databases?
+    The queries and everything else still matter 
 10. Explain this sentence:
 
 ```text
 ORM is a system for synchronizing object state with database state over time.
 ```
-
+The ORM keeps java objects and database rows same overtime 
 ---
 
 # Stretch Challenge 🌟
@@ -559,14 +624,21 @@ You need:
 ## Tasks
 
 1. Decide which classes are entities.
+   Customer, Order, OrderItem, Product
 2. Decide which classes are repositories.
+   CustomerRepository, OrderRepository
 3. Decide which class coordinates the checkout flow.
+   CheckoutService
 4. Identify one one-to-many relationship.
+   One customer can have many Orders
 5. Identify one many-to-one relationship.
+   Many Orders can belong to one customer 
 6. Show where a `List<OrderItem>` might appear.
+   May show in Order class 
 7. Explain where lazy loading could happen.
+   When an Order is loaded first but the OrderItem list only loaded when it is needed at the .getItems () is used 
 8. Explain where the N+1 problem might appear.
-
+When you load many orders and then it loops through each order and then calls order.getItems (), it would cause one query for the orders then many extra queries for the items
 ---
 
 # Final Compression 🧠

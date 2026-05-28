@@ -65,17 +65,29 @@ users
 ## Questions
 
 1. What does the `User` class represent in Java?
+
+User represents the object users, allowing us to define a user. It gives us the properties a user can have and the methods it can do.
+
 2. What does the `users` table represent in the database?
+
+This is where a list of all users that has been saved to the database exists.
+
 3. What does one row in the `users` table correspond to in Java?
+
+one single user
+
 4. What does one column in the table correspond to in Java?
+
+one attribute for all users
+
 5. Complete this mapping:
 
 | Database    | Java |
 | ----------- | ---- |
-| table       | ?    |
-| row         | ?    |
-| column      | ?    |
-| primary key | ?    |
+| table       | class    |
+| row         | object    |
+| column      | field    |
+| primary key | @id    |
 
 ---
 
@@ -86,10 +98,10 @@ A normal Java class becomes a JPA entity when we tell JPA that it should be mapp
 Complete the missing annotations:
 
 ```java
-// Add annotation here
+@Entity
 public class User {
 
-    // Add annotation here
+    @id
     private Long id;
 
     private String email;
@@ -108,14 +120,23 @@ public class User {
 ## Questions
 
 1. Which annotation marks a class as an entity?
+
+@Entity
+
 2. Which annotation marks the primary key field?
+
+@id
+
 3. Why does JPA usually need a no-argument constructor?
+
+
+
 4. In your own words, what is an entity?
 
 Use this sentence starter:
 
 ```text
-An entity is a Java object that...
+An entity is a Java object that maps to the database. It is structured in a way that allows the JPA to know how to communicate with the database.
 ```
 
 ---
@@ -137,13 +158,19 @@ Imagine this database row:
 Write the Java object that represents this row.
 
 ```java
-User user = new User(?, ?, ?);
+User user = new User(3, "sara@example.com", "Sara");
 ```
 
 ## Questions
 
 1. Where does the `User` object live while the Java program is running?
+
+In the Heap
+
 2. Where does the row live long-term?
+
+In the database
+
 3. What does ORM help translate between?
 
 ---

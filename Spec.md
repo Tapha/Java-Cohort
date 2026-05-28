@@ -9,5 +9,6 @@ Agentic Tasks: Small enough for individual agents to accomplish within context w
 
 Agents are like representations of human beings, break down steps to be understandable to them.
 
+Can get idea ingredients to construct the high level spec with ai, then deconstuct high level spec to make the others
 
 

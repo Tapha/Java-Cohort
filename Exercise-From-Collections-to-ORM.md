@@ -72,10 +72,18 @@ users
 
 | Database    | Java |
 | ----------- | ---- |
-| table       | ?    |
-| row         | ?    |
-| column      | ?    |
-| primary key | ?    |
+| table       | entity    |
+| row         | object  |
+| column      | property    |
+| primary key | ID    |
+
+```text
+1. The user class reprsents a user object
+2. The users table represents a table in the database
+3. One row in the users table corresponds to one object in java
+4. One column in the table corresponds to one field or property in java
+
+```
 
 ---
 
@@ -86,10 +94,10 @@ A normal Java class becomes a JPA entity when we tell JPA that it should be mapp
 Complete the missing annotations:
 
 ```java
-// Add annotation here
+@Entity
 public class User {
 
-    // Add annotation here
+    @Id
     private Long id;
 
     private String email;
@@ -118,6 +126,13 @@ Use this sentence starter:
 An entity is a Java object that...
 ```
 
+```text
+1. @Entity
+2. @Id
+3. Provides neutral ground for JPA to map a row onto??
+4. An entity is a Java object that maps to a database table
+```
+
 ---
 
 # Part 3 — One Row, One Object 🧱
@@ -137,7 +152,7 @@ Imagine this database row:
 Write the Java object that represents this row.
 
 ```java
-User user = new User(?, ?, ?);
+User user = new User(3, "sara@example.com", "Sara");
 ```
 
 ## Questions
@@ -146,6 +161,12 @@ User user = new User(?, ?, ?);
 2. Where does the row live long-term?
 3. What does ORM help translate between?
 
+
+```text
+1. The User object lives on the heap during runtime
+2. The row lives on the database long-term
+3. The ORM helps translate between the Objects and the Rows
+```
 ---
 
 # Part 4 — Many Rows, Collection of Objects 📚
@@ -169,16 +190,22 @@ List<User> users = userRepository.findAll();
 ```text
 users table
         ↓
-? rows
+many rows
         ↓
 ORM maps each row
         ↓
-? objects
+many User objects
         ↓
-List<?>
+List<User>
 ```
 
 4. Why did we learn collections before ORM?
+
+```text
+1. This means a list of user objects
+2. findAll() would return all 100 rows as a list of 100 user objects
+4. This is because there are usually many rows in a database, with each row being translated to an object, many rows becomes collections of objects.
+```
 
 ---
 
@@ -208,7 +235,14 @@ public interface UserRepository {
 5. Complete this sentence:
 
 ```text
-Repository = boundary between ? and ?
+Repository = boundary between buisness logic and data storage
+```
+
+```text
+1. It's job is to access tha data on a database to build entities
+2. No it shouldn't. This would violate SOLID principles and cause the repository to do too much
+3. No it shouldn't. This also violates SOLID principles and would lead to a bloated class with too many reasons to change
+4. SRP
 ```
 
 ---
@@ -240,17 +274,26 @@ public class UserService {
 5. Which part should belong to a message sender?
 6. Which part should belong to a report service?
 
+
+ ```text
+1. Email validation, database access, message sending and report generation are all mixed together
+2. A change in one of this processes would result in having to change the whole class
+3. Email validation should belong to the validator
+4. Database access should belong to the repository
+5. Message sending should belong to the message sender
+report generation should belong to the report service
+```
 ## Refactor Plan
 
 Fill in the responsibility table:
 
 | Responsibility            | Better Class |
 | ------------------------- | ------------ |
-| validate email            | ?            |
-| save user                 | ?            |
-| send welcome email        | ?            |
-| generate user report      | ?            |
-| coordinate the whole flow | ?            |
+| validate email            | EmailValidator            |
+| save user                 | UserRepository            |
+| send welcome email        | MessageSender            |
+| generate user report      | ReportServices            |
+| coordinate the whole flow | UserRegistrationService            |
 
 ---
 

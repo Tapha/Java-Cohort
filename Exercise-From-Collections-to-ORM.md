@@ -338,6 +338,14 @@ public class UserRegistrationService {
 4. Which objects does it depend on?
 5. Is this composition? Explain.
 
+```text
+1. This functions as the coordinator for the other responsibilities
+2. No it doesn't directly know SQL
+3. No
+4.It depends on the validator, userRepository and MessageSender objects
+5. Yes this is composition as it brings together capabilities from other classes to achieve a given goal
+```
+
 ---
 
 # Part 8 — Persistence Context 🧠
@@ -367,9 +375,13 @@ Inside the same persistence context, JPA may return the same managed entity inst
 4. Complete this sentence:
 
 ```text
-The persistence context connects database identity to...
+The persistence context connects database identity to the entity
 ```
-
+```text
+1. It manages the entity during the current session
+2. It maintains consistency as if the same object is used again in the same context, the same managed object is returned
+3. It means the version of the table in java is tracked. This includes changes, whether it needs to be saved or whether the entity is being requested again
+```
 ---
 
 # Part 9 — Entity Lifecycle 🔄
@@ -380,10 +392,10 @@ Match each state to its meaning.
 
 | State           | Meaning |
 | --------------- | ------- |
-| New / transient | ?       |
-| Managed         | ?       |
-| Detached        | ?       |
-| Removed         | ?       |
+| New / transient | B       |
+| Managed         | A       |
+| Detached        | D       |
+| Removed         | C       |
 
 Meanings:
 
@@ -409,6 +421,12 @@ userRepository.save(user);
 ```
 
 3. Why does entity lifecycle matter?
+
+```text
+1. New/transient
+2. Managed
+3. ORM is about the objects state over time. Understanding this helps to make more efficient code
+```
 
 ---
 
@@ -444,6 +462,13 @@ SQL ? happens
         ↓
 Database row changes
 ```
+```text
+1. The users name is changed in memory
+2. It can detect that a managed entity has changed
+3. An SQL UPDATE can happen when the transaction commits
+4. It automatically updates the database with information edited in Java
+5. It changes the database after the transaction commits so sometimes changing an object changes the database way later
+```
 
 ---
 
@@ -477,9 +502,15 @@ orders.user_id → users.id
 ```text
 One User object
         ↓
-Many ? objects
+Many order objects
         ↓
-List<?>
+List<Order>
+```
+
+```text
+1. This represents a list of order objects
+2. This represents a foreign key within the orders table
+3.This is a One-to-Many relationship
 ```
 
 ---
@@ -505,9 +536,14 @@ List<Order> orders = user.getOrders();
 5. Complete this sentence:
 
 ```text
-ORM can make database access look like...
+ORM can make database access look like object access
 ```
-
+```text
+1. The user object
+2. The orders associated with the user
+3. It only loads related data when it's needed
+4. This occurs when you access the required data further down the line and it makes the query then
+```
 ---
 
 # Part 13 — The N+1 Problem 🧨

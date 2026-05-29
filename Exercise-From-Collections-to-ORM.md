@@ -579,7 +579,7 @@ The N+1 problem happens when...
 2. It would call it 100 times as there are 100 users so 1 for each user
 3. 1+100
 4. Because it appears simple but loads over 100 times
-5. 
+5. The N+1 problem happens when you make queries for every row in a database (N) after getting all the rows (+1 query)
 ```
 
 ---
@@ -590,11 +590,11 @@ Fill in the table.
 
 | SOLID Principle | ORM Meaning |
 | --------------- | ----------- |
-| SRP             | ?           |
-| OCP             | ?           |
-| LSP             | ?           |
-| ISP             | ?           |
-| DIP             | ?           |
+| SRP             | repositories should not contain business logic           |
+| OCP             | new persistence behavior should not break core logic           |
+| LSP             | entity models should tell the truth           |
+| ISP             | repository interfaces should stay focused            |
+| DIP             | services should depend on repository abstractions           |
 
 Use these ideas:
 
@@ -627,6 +627,19 @@ Answer these in your own words.
 ORM is a system for synchronizing object state with database state over time.
 ```
 
+```text
+1. ORM is a translator from a database to objects that java can handle and vice versa
+2. Because java is an object oriented language and so can only work with objects.
+3. A class labelled as an entity is mapped to a table on a database by the ORM
+4. A row is mapped to an individual object by the ORM
+5. Many rows in a database is mapped to a collection of objects in java by the ORM
+6. A repository handles data access to the database and structures the creation of entities as a result
+7. It's an in-memory space for entities. Maintains consistency by managing entities in that space
+8. Lazy loading improves performance as you only load the data you need. It can be dangerous if it's not understood that the data hasn't been loaded further down into the code if it hasn't been used yet.
+9. This is because an understanding of how databases work and how ORM translates it helps to write more efficient and effective code.
+10. It makes sure changes to the representation of database tables and rows present in java is reflected properly in the database over time and vice versa
+```
+
 ---
 
 # Stretch Challenge 🌟
@@ -654,7 +667,21 @@ You need:
 7. Explain where lazy loading could happen.
 8. Explain where the N+1 problem might appear.
 
+```text
+1. Customer, Order, OrderItem, Product
+2. CustomerRepository, OrderRepository
+3. CheckoutService
+4. Customer to Order
+5. OrderItem to Order
+6. List<OrderItem> orderItems = OrderRepository.findAll();
+7. List<Order> orders = customer.getOrders(); as the query to get the orders wouldn't happen until the orders list is actually used
+8. If we wanted to get the list of orders for every customer as we would have to make a query to get all the customers then a query for each customer to get their orders
+```
+
+
 ---
+
+
 
 # Final Compression 🧠
 

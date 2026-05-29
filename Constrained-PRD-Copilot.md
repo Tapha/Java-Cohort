@@ -1,365 +1,329 @@
-You did not provide **INPUT B — Boilerplate Manifest**, which is the critical constraint layer this task depends on.  
-Per your own rule: *“every requirement must bind to something that actually exists”* — that is currently impossible.
-
-So this output will do two things honestly:
-
-1. **Bind only where generic, near-universal boilerplate patterns exist** (e.g. REST API, standard frontend routing patterns, ORM tables).
-2. **Surface the absence of the manifest itself as the primary friction artifact** (because it blocks true grounding).
-
-***
-
-# CONSTRAINED PRD (PARTIAL — BLOCKED BY MISSING MANIFEST)
+# **Constrained PRD — “Fridge → Meal” (bound to boilerplate)**
 
 ***
 
 ## 1. BINDING TABLE
 
+Each requirement is forced onto the **React Native + Spring Boot + SQL + AI SDK** stack.
+
 > Legend:  
-> **REUSE** = almost certain to exist in modern boilerplates  
-> **EXTEND** = safely additive without structural change  
-> **NEW** = unavoidable; justified
+> **REUSE** = directly maps to an existing convention  
+> **EXTEND** = modify an existing pattern  
+> **NEW** = new artifact (justified)
 
 ***
 
-### CORE LOOP
+### Core Loop + User Journey
 
-| Requirement                          | Binding | Target                                                                                              |
-| ------------------------------------ | ------- | --------------------------------------------------------------------------------------------------- |
-| Camera live on open                  | EXTEND  | `frontend/app/root route (e.g. /)` → auto-init camera stream component                              |
-| Capture fridge photo                 | REUSE   | existing file upload / media capture component pattern                                              |
-| Upload image to backend              | REUSE   | `/api/upload` or `/api/media` route (common pattern)                                                |
-| Process image (vision → ingredients) | NEW     | `/api/vision/analyze` (no generic boilerplate includes multimodal inference) — *core product logic* |
-| Generate one meal from ingredients   | NEW     | `/api/meal/generate` — *LLM/logic endpoint*                                                         |
-| Return single meal result            | EXTEND  | response schema from API layer                                                                      |
-| ≤10s response time                   | EXTEND  | existing request lifecycle + timeout config                                                         |
-| “Cook this” action                   | REUSE   | standard POST interaction (e.g. `/api/events`)                                                      |
-| “I cooked it” confirmation           | EXTEND  | existing analytics/event tracking pattern                                                           |
-
-***
-
-### SURFACES
-
-| Surface             | Binding | Target                                                  |
-| ------------------- | ------- | ------------------------------------------------------- |
-| S1 Camera screen    | EXTEND  | existing main page component                            |
-| S2 Processing state | REUSE   | loading state pattern (spinners / suspense / skeletons) |
-| S3 Meal result      | EXTEND  | result display component                                |
-| S4 Steps view       | EXTEND  | detail-view pattern (modal/page)                        |
-| S5 Permission flow  | REUSE   | browser/native permission handling                      |
-| S6 Re-shoot         | REUSE   | navigation back to root route                           |
+| Requirement                      | Binding    | Implementation Anchor                                                                   |
+| -------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
+| Open app → camera live (G4, S1)  | **NEW**    | `frontend/screens/CameraScreen.tsx` — initial route; justified: no camera screen exists |
+| Capture fridge photo             | **REUSE**  | React Native camera library pattern (`react-native-camera` / expo-camera)               |
+| Upload photo to backend          | **EXTEND** | `POST /api/v1/meal/from-image` in Spring Controller; extends existing REST pattern      |
+| ≤10s processing (G3, S2)         | **EXTEND** | Existing async service layer → add timeout constraint + progress response DTO           |
+| AI ingredient detection          | **REUSE**  | Existing *AI service SDK (Java Object Adapter)*                                         |
+| Meal generation from ingredients | **NEW**    | `MealGenerationService.java`; justification: no existing domain logic                   |
+| Return one meal (G2, S3)         | **EXTEND** | JSON response DTO pattern (`MealResponse`)                                              |
+| “Cook this” action               | **NEW**    | `POST /api/v1/session/{id}/cook` — requires state tracking                              |
+| “I cooked it” confirmation       | **NEW**    | `POST /api/v1/session/{id}/complete` — new interaction signal                           |
+| Re-shoot flow (S6)               | **REUSE**  | Navigation stack reset in React Native                                                  |
 
 ***
 
-### SUCCESS CRITERIA / TRACKING
+### Backend Structure
 
-| Requirement                | Binding | Target                              |
-| -------------------------- | ------- | ----------------------------------- |
-| Time-to-result tracking    | EXTEND  | existing logging/metrics middleware |
-| “Cook this” events         | REUSE   | analytics/event table               |
-| “I cooked it” confirmation | EXTEND  | analytics event payload             |
-| Time-of-day clustering     | EXTEND  | timestamp column in events table    |
-| Repeat usage               | EXTEND  | user/session tracking               |
-
-***
-
-### NON-GOALS ENFORCEMENT
-
-| Non-goal           | Binding                                               |
-| ------------------ | ----------------------------------------------------- |
-| No saved recipes   | REUSE (omit existing “favorites” features if present) |
-| No social          | REUSE (disable/remove sharing modules if exist)       |
-| No inventory state | NEW CONSTRAINT — avoid writing persistence logic      |
-| No planner         | REUSE (do not add scheduling features)                |
+| Requirement                 | Binding    | Implementation Anchor                                              |
+| --------------------------- | ---------- | ------------------------------------------------------------------ |
+| REST API pattern            | **REUSE**  | `@RestController`, `/api/v1/*` convention                          |
+| Service layer orchestration | **REUSE**  | `@Service` classes (existing Spring Boot pattern)                  |
+| Error handling              | **EXTEND** | Add `VisionProcessingException`, handled via `@ControllerAdvice`   |
+| Async processing            | **EXTEND** | Use `@Async` or CompletableFuture; extend existing service pattern |
+| Time-bound processing       | **NEW**    | Timeout wrapper (e.g., `ProcessingDeadlineService`)                |
 
 ***
 
-### DATA / BACKEND
+### Data + Persistence
 
-| Requirement             | Binding | Target                                |
-| ----------------------- | ------- | ------------------------------------- |
-| Store photo temporarily | REUSE   | existing blob storage / uploads table |
-| Store session result    | EXTEND  | request log / session table           |
-| Ingredient output       | NEW     | requires structured storage           |
-| Meal output             | NEW     | requires structured storage           |
+| Requirement                      | Binding    | Implementation Anchor       |
+| -------------------------------- | ---------- | --------------------------- |
+| Session tracking (G6, analytics) | **NEW**    | `meal_session` table        |
+| Store detected ingredients       | **NEW**    | `detected_ingredient` table |
+| Store generated meal             | **NEW**    | `generated_meal` table      |
+| Track “cook” + “completed”       | **EXTEND** | Columns on `meal_session`   |
 
 ***
 
-### NET-NEW ITEMS (JUSTIFIED)
+### Analytics / Success Metrics
 
-| Item                                   | Why NEW is required                                   |
-| -------------------------------------- | ----------------------------------------------------- |
-| Vision inference endpoint              | No boilerplate includes fridge → ingredient detection |
-| Meal generation endpoint               | Core product logic                                    |
-| Ingredient schema                      | Not a standard entity                                 |
-| Meal schema                            | Not a standard entity                                 |
-| Session-level pipeline (vision → meal) | Cross-service orchestration does not pre-exist        |
+| Requirement            | Binding                                                  |
+| ---------------------- | -------------------------------------------------------- |
+| Time-to-result ≤10s    | **EXTEND** logging (`request_start`, `response_time_ms`) |
+| Cook rate tracking     | **NEW** persisted field                                  |
+| Repeat usage           | **REUSE** session timestamps                             |
+| Time-of-day clustering | **REUSE** timestamp column                               |
+
+***
+
+### Non-Goals Enforcement
+
+| Non-goal           | Binding                                              |
+| ------------------ | ---------------------------------------------------- |
+| No accounts        | **REUSE**: absence of auth module                    |
+| No saved recipes   | **REUSE**: no persistence beyond session-linked data |
+| No social features | **REUSE**: no endpoints added                        |
+| No grocery logic   | **REUSE**: exclude from service layer                |
 
 ***
 
 ## 2. FRICTION LOG
 
-This is where the real value is — and it's heavy.
+This is where reality pushes back.
 
 ***
 
-### F1 — **MISSING BOILERPLATE MANIFEST (BLOCKER)**
+### F1 — **Camera-first launch vs React Native app lifecycle**
 
-* **Requirement:** Bind to existing files, routes, schema
-* **Friction:** No knowledge of:
-  * framework (Next.js? Django? Rails?)
-  * ORM (Prisma? TypeORM? ActiveRecord?)
-  * auth model
-  * file structure
-* **Impact:** All bindings above are probabilistic, not real
-* **Cheapest honest option:**  
-  → **STOP and supply manifest**
-* **Status:** **HARD BLOCKER**
+* **Requirement:** Camera live immediately on open
+* **Friction:** RN apps typically boot to a navigation container; camera permission must be resolved first
+* **Cheapest honest options:**
+  * Change requirement: allow **first-run permission screen before camera** *(already partially accepted)*
+  * Accept cost: preload camera + optimistic render
+* ✅ Recommended: **Keep requirement, accept permission-first exception**
 
 ***
 
-### F2 — CAMERA-FIRST UX vs WEB BOILERPLATES
+### F2 — **≤10s processing vs synchronous Spring Boot request**
 
-* **Requirement:** camera auto-live on open
-* **Friction:**
-  * Most web boilerplates do NOT default to camera permissions
-  * Requires HTTPS + permission handling + device constraints
+* **Requirement:** hard latency budget
+* **Friction:** AI inference + meal generation may exceed HTTP timeout
 * **Options:**
-  * Change requirement → add “Tap to enable camera” (adds friction)
-  * Accept cost → custom camera bootstrap logic
-* **Reality:** **This is non-trivial on web, trivial on mobile-native**
+  * Change boilerplate: introduce async job queue (RabbitMQ, Kafka)
+  * Change requirement: allow delayed response
+  * Accept cost: aggressive timeout + partial results
+* 🚨 Decision: **FRICTION — needs distributed async (not present)**  
+  → cascade risk to architecture
 
 ***
 
-### F3 — ≤10s GUARANTEE vs MULTI-STAGE PIPELINE
+### F3 — **“Always return a meal” vs real ingredient constraints**
 
-* **Requirement:** vision → ingredients → meal ≤10s
-* **Friction:**
-  * Two async processes (vision + generation)
-  * Typical API chains exceed latency budget
+* **Requirement:** no “no result” state
+* **Friction:** algorithm cannot guarantee cookable meal
 * **Options:**
-  * Change requirement → allow progressive response
-  * Change architecture → parallelize / cache
-  * Accept cost → expensive infra
-* **Drift signal:** STRONG
+  * Change requirement (allow fallback)
+  * Accept hallucinated recipes (dangerous)
+* 🚨 Requires **spec decision (CB4)**  
+  → backend cannot safely implement
 
 ***
 
-### F4 — “ALWAYS RETURN A MEAL” vs REAL DATA
+### F4 — **No manual correction vs unreliable AI detection**
 
-* **Requirement:** no failure state
-* **Friction:**
-  * Real ingredient detection may be empty/incorrect
+* **Requirement:** no ingredient editing
+* **Friction:** AI SDK output may be wrong
 * **Options:**
-  * Change requirement → allow fallback meal
-  * Accept hallucinated meal risk
-* **This is a spec contradiction (already flagged CB4)**
+  * Change requirement (add lightweight correction)
+  * Accept re-shoot loop frustration
+* 🚨 High-risk — product may fail without correction  
+  → **CB5 remains unresolved**
 
 ***
 
-### F5 — NO MANUAL CORRECTION vs MISDETECTION
+### F5 — **No auth vs persistence**
 
-* **Requirement:** no input UX
-* **Friction:**
-  * Vision errors inevitable
+* **Requirement:** no accounts
+* **Friction:** analytics + repeat tracking need identity
 * **Options:**
-  * Change requirement → allow minimal correction UI
-  * Accept poor outputs
-* **This is CB5 — unresolved by design**
+  * Accept anonymous session IDs (cookie/device ID)
+  * Add auth (breaks non-goal)
+* ✅ Recommended: **Anonymous device/session ID**
 
 ***
 
-### F6 — STATELESS PRODUCT vs ANALYTICS NEEDS
+### F6 — **Offline behaviour undefined**
 
-* **Requirement:** no inventory/history
-* **Friction:**
-  * Success metrics require stored sessions/events
-* **Resolution:**  
-  → store metadata but not “inventory”
-* **Cost:** conceptual purity compromised slightly
-
-***
-
-### F7 — CAMERA PERMISSION FAILURE = PRODUCT FAILURE
-
-* **Requirement:** entire app depends on camera
-* **Friction:**
-  * Boilerplates don’t enforce permission-recovery UX
+* **Requirement:** unstated
+* **Friction:** AI SDK likely requires network
 * **Options:**
-  * Extend frontend to handle fail states
-* **Cost:** medium
+  * Add offline fallback (impossible with current stack)
+  * Define hard failure state
+* ✅ Recommended: **explicit “requires connection” state (CB6)**
 
 ***
 
-### F8 — UNKNOWN AUTH MODEL
+### F7 — **AI SDK abstraction mismatch**
 
-* **Requirement:** track repeat usage
-* **Friction:**
-  * If no auth → need anonymous session system
+* **Requirement:** real-time multimodal processing
+* **Friction:** SDK may not support:
+  * ingredient extraction + recipe generation in one pass
 * **Options:**
-  * Extend session layer
-* **Blocked by missing manifest**
+  * Chain multiple calls (latency risk)
+  * Build custom orchestration layer
+* ⚠️ Cost accepted → **EXTEND service layer heavily**
 
 ***
 
-## 3. DATA MODEL DELTA (GENERIC ORM SHAPE)
+## 3. DATA MODEL DELTA
 
-Since ORM is unknown, this is expressed in a **Prisma-like neutral form**.
+Using typical **Spring Boot + JPA (Hibernate)** conventions.
 
 ***
 
-### `Session`
+### `meal_session`
 
-Tracks one fridge → meal loop
-
+```sql
+CREATE TABLE meal_session (
+  id BIGSERIAL PRIMARY KEY,
+  created_at TIMESTAMP NOT NULL,
+  image_url TEXT NOT NULL,
+  processing_time_ms INT,
+  cooked BOOLEAN DEFAULT FALSE,
+  completed BOOLEAN DEFAULT FALSE
+);
 ```
-Session {
-  id
-  userId (nullable)
-  createdAt
-  imageUrl
-  latencyMs
+
+***
+
+### `detected_ingredient`
+
+```sql
+CREATE TABLE detected_ingredient (
+  id BIGSERIAL PRIMARY KEY,
+  session_id BIGINT REFERENCES meal_session(id),
+  name VARCHAR(255),
+  confidence FLOAT
+);
+```
+
+***
+
+### `generated_meal`
+
+```sql
+CREATE TABLE generated_meal (
+  id BIGSERIAL PRIMARY KEY,
+  session_id BIGINT REFERENCES meal_session(id),
+  title VARCHAR(255),
+  steps TEXT,
+  time_minutes INT
+);
+```
+
+***
+
+### JPA Entities
+
+```java
+@Entity
+class MealSession {
+  @Id @GeneratedValue Long id;
+  Instant createdAt;
+  String imageUrl;
+  Integer processingTimeMs;
+  Boolean cooked;
+  Boolean completed;
 }
 ```
 
 ***
 
-### `IngredientDetection`
+## 4. CONVENTION NOTES (CRITICAL FOR AGENTS)
 
-```
-IngredientDetection {
-  id
-  sessionId (FK)
-  name
-  confidence
-}
-```
+These are the rails — do not break them downstream.
 
 ***
 
-### `MealResult`
+### Backend (Spring Boot)
 
-```
-MealResult {
-  id
-  sessionId (FK)
-  title
-  steps (JSON)
-  timeEstimateMinutes
-}
-```
+* **Controllers**
+  * Path: `/api/v1/...`
+  * Naming: `XController.java`
+  * No business logic inside controllers
 
-***
+* **Services**
+  * Naming: `XService.java`
+  * Contain orchestration logic
+  * AI SDK calls MUST live here
 
-### `Event`
+* **DTOs**
+  * Suffix: `Request`, `Response`
+  * Never expose entities directly
 
-(for success metrics)
+* **Error handling**
+  * Centralized via `@ControllerAdvice`
+  * Never throw raw exceptions to client
 
-```
-Event {
-  id
-  sessionId (FK)
-  type ("cook_tap" | "cooked_confirmed")
-  createdAt
-}
-```
+* **Async**
+  * Use `CompletableFuture` or `@Async`
+  * Do NOT block controller threads
 
 ***
 
-### NOTES
+### Frontend (React Native)
 
-* **No inventory table** (explicit non-goal)
-* **No recipe DB** (meals are generated per session)
-* **Loose coupling via sessionId**
+* **Structure**
+  ```
+  /screens
+  /components
+  /services (API calls)
+  /navigation
+  ```
 
-***
+* **Navigation**
+  * Stack-based (Camera → Result → Steps)
 
-## 4. CONVENTION NOTES (ASSUMED BASELINES)
+* **API calls**
+  * Centralized in `/services/api.ts`
 
-These are inferred standard patterns — must be replaced once manifest exists.
-
-***
-
-### API DESIGN
-
-* RESTful routes:
-  * `/api/vision/analyze`
-  * `/api/meal/generate`
-* JSON responses only
-* Stateless endpoints
+* **State**
+  * Local state (no Redux unless necessary)
 
 ***
 
-### FRONTEND
+### Database
 
-* Single entry route (`/`)
-* Component structure:
-  * `CameraView`
-  * `ProcessingState`
-  * `MealResultView`
-* State machine style flow (camera → loading → result)
+* Snake\_case tables
+* Foreign keys always explicit
+* No soft deletes unless required
 
 ***
 
-### ERROR HANDLING
+### CI/CD (Jenkins + Docker)
 
-* Never expose raw errors to UI
-* Always fallback:
-  * retry
-  * re-shoot
-
-***
-
-### STATE MANAGEMENT
-
-* Session scoped (no persistence)
-* Minimal global state
+* Build pipeline:
+  * test → build → dockerize → deploy
+* JUnit coverage required for:
+  * Service layer
+  * Controller layer
 
 ***
 
-### STORAGE
+## DRIFT & CASCADE FOOTER
 
-* Images stored via existing upload provider
-* TTL or cleanup recommended
+### Drift Signals Identified
 
-***
-
-### ANALYTICS
-
-* Event-based tracking
-* No behavioral personalization (non-goal)
+* Async processing requirement exceeds current backend simplicity
+* AI reliability conflicts with “no manual correction”
+* “Always return meal” conflicts with reality constraints
 
 ***
 
-# FINAL READ
+### Cascade-Back Required
 
-### What is actually grounded?
-
-* The **shape of the system**
-* The **minimum new components required**
-* The **pressure points where the spec collides with reality**
-
-### What is NOT grounded (critical)?
-
-* Exact files
-* Exact routes
-* Exact ORM syntax
-* Auth integration
-* Storage provider
+* **CB4:** Empty fridge contradiction
+* **CB5:** Manual correction allowed?
+* **CB6:** Offline behavior definition
+* **F2 escalation:** Async architecture decision (queue vs synchronous)
 
 ***
 
-# REQUIRED NEXT STEP (NON-OPTIONAL)
+## Bottom Line
 
-Provide:
+* \~70% of PRD **binds cleanly** to boilerplate (REST + RN + JPA)
+* The **core risk is not UI — it’s AI reliability + latency**
+* The biggest architectural pressure point:  
+  → **synchronous Spring Boot is misaligned with a hard 10s AI loop**
 
-```
-{{BOILERPLATE_MANIFEST}}
-```
+This is the real constraint:
 
-Without it, any deeper binding would violate your own rule:
-
-> *“Every requirement must bind to something that actually exists.”*
-
-***
-
-If you send it, I’ll convert this into a **fully concrete Constrained PRD with exact file paths, routes, schema, and zero ambiguity.**
+> Without async orchestration + clarified spec assumptions, the “core loop” is architecturally fragile.

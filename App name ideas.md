@@ -3,7 +3,7 @@ fridge meals
 Home eats
 no empty fridge
 vibe cooks
-fridge 2 meal
+## fridge 2 meal
 fridge cooks
 use it up
 spare meals

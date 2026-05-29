@@ -574,6 +574,14 @@ Use this sentence starter:
 The N+1 problem happens when...
 ```
 
+```text
+1. All the users
+2. It would call it 100 times as there are 100 users so 1 for each user
+3. 1+100
+4. Because it appears simple but loads over 100 times
+5. 
+```
+
 ---
 
 # Part 14 — ORM and SOLID 🧱

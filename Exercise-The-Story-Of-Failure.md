@@ -26,13 +26,25 @@ add two numbers
 Questions:
 
 1. What behaviour does this promise?
+
+It will output the total of 2 numbers.
+
 2. What input would you give it?
+
+2 integers
+
 3. What output would prove it worked?
+
+an integer which is the total of the 2 integers that are inputted.
+
 4. What output would prove it failed?
+
+an integer which isnt the total of the 2 inputs
+
 5. Complete:
 
 ```text
-A test is a way of proving that...
+A test is a way of proving that the code works as intended
 ```
 
 ---
@@ -43,12 +55,12 @@ For each behaviour, fill in the expected result.
 
 | Behaviour        | Input               | Expected Output |
 | ---------------- | ------------------- | --------------- |
-| Add numbers      | 2 and 3             | ?               |
-| Multiply numbers | 4 and 5             | ?               |
-| Validate email   | `amina@example.com` | ?               |
-| Validate email   | `amina`             | ?               |
-| Apply discount   | price = 100         | ?               |
-| Apply discount   | price = 50          | ?               |
+| Add numbers      | 2 and 3             | 5               |
+| Multiply numbers | 4 and 5             | 20              |
+| Validate email   | `amina@example.com` | True            |
+| Validate email   | `amina`             | False           |
+| Apply discount   | price = 100         | 50              |
+| Apply discount   | price = 50          | 25              |
 
 Core idea:
 
@@ -74,11 +86,29 @@ return success
 Questions:
 
 1. What is the happy path?
+
+This is the path where all inputs are correct, and there are no failures or errors, so it flows from start to finish
+
 2. What could go wrong?
+
+Many things, the email could be invalid, the email and name inputs could be the wrong type, the database may not be connected, there could be a user with the name and email already in the database.
+
 3. What should happen if the email is invalid?
+
+The user should be told to input a valid email.
+
 4. What should happen if the user already exists?
+
+The user should be told that they already exist on the system
+
 5. What should happen if saving fails?
+
+All potential changes to the database should be rolled back, and the user should be told that it didnt save and they should try again
+
 6. What should happen if sending the welcome message fails?
+
+Error message should be produced, if the user tries again they will get the earlier error saying they already are in the database.
+
 
 ---
 
@@ -101,9 +131,9 @@ A user registers with a valid email.
 Fill in:
 
 ```text
-Arrange:
-Act:
-Assert:
+Arrange: start on the register page
+Act: input name as "amina" and email as "amina@hotmail.co.uk"
+Assert: user registers
 ```
 
 Scenario:
@@ -115,9 +145,9 @@ A user registers with a blank email.
 Fill in:
 
 ```text
-Arrange:
-Act:
-Assert:
+Arrange: start on register page
+Act: input name as "amina" and email as "aminaAhotmail.co.uk"
+Assert: registration fails and error message is presented
 ```
 
 ---
@@ -137,10 +167,18 @@ UserRegistrationService
 Questions:
 
 1. What behaviour belongs to the registration service?
+
+validating emails, creating users, saving users and sending a welcome message
+
 2. What behaviour belongs to the validator?
+
+checking if the email is valid
+
 3. What behaviour belongs to the repository?
 4. What behaviour belongs to the message sender?
 5. Why should we not test everything as one giant blob?
+
+When testing we want to ensure that if a test fails, we can easily find the point of failure and change it. If you have on test for lots of logic, it will be difficult for you to pinpoint what caused the failure.
 
 Answer frame:
 
@@ -163,11 +201,25 @@ EmailValidator
 Questions:
 
 1. Which dependency touches storage?
+
+UserRepository
+
 2. Which dependency sends communication?
+
+MessageSender
+
 3. Which dependency checks input?
+
+EmailValidator
+
 4. Why might real storage make a test harder?
+
+you want a test to be repeatable, so if your test adds information to the database, if you add it again you may have issues.
+
 5. Why might real email sending make a test dangerous?
 6. What could we use instead of the real dependency?
+
+Mocks
 
 Core idea:
 
@@ -188,9 +240,20 @@ It only remembers what happened.
 Questions:
 
 1. Why is a fake repository useful?
+
+We only want to test logic, however using real databases can cause failures that are outside of the logic we want to test.
+
 2. What behaviour can it help us observe?
+
+It allows us to observe logic and logic alone in our test
+
 3. What does it protect us from?
+
+Factors causing a test failure that isnt due to logic.
+
 4. When would we need the real database instead?
+
+In end to end testing and in integration tests potentially if we are testing the databases intergration with the code.
 
 Distinction:
 
@@ -224,9 +287,20 @@ message sender should send welcome message.
 Questions:
 
 1. Which example checks a result?
+
+The first
+
 2. Which example checks an interaction?
+
+The second
+
 3. Why do services often require interaction checks?
+
+
+
 4. Why do pure calculation methods often require result checks?
+
+
 
 ---
 
@@ -252,9 +326,21 @@ Clear error is returned.
 Questions:
 
 1. What should happen?
+
+the user shouldnt be registered, and the user should be told that the email is already in use.
+
 2. What should not happen?
+
+The user should not be registered
+
 3. Why is “not saving” part of the expected behaviour?
+
+Saving is incorrect in the flow of the system, and can cause bigger issues down the line.
+
 4. Why is “not sending message” part of the expected behaviour?
+
+Sending a message implying success would confuse the user
+
 
 ---
 
@@ -264,8 +350,8 @@ Fill in:
 
 | Test Type        | Meaning | Example |
 | ---------------- | ------- | ------- |
-| Unit test        | ?       | ?       |
-| Integration test | ?       | ?       |
+| Unit test        | Testing one method       | ?       |
+| Integration test | testing multiple parts working together       | ?       |
 
 Use these ideas:
 

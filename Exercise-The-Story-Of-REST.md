@@ -38,6 +38,9 @@ Write one sentence.
 ```txt
 SOAP mainly focuses on...
 ```
+```txt
+SOAP mainly focuses on operations
+```
 
 ### 2. What does REST mainly focus on?
 
@@ -46,12 +49,16 @@ Write one sentence.
 ```txt
 REST mainly focuses on...
 ```
+```txt
+REST mainly focuses on resources
+```
+
 
 ### 3. Complete the contrast
 
 ```txt
-SOAP thinks in ____________________.
-REST thinks in ____________________.
+SOAP thinks in operations.
+REST thinks in resources.
 ```
 
 ### 4. Why did JSON become common with REST APIs?
@@ -59,8 +66,8 @@ REST thinks in ____________________.
 Write two reasons.
 
 ```txt
-Reason 1:
-Reason 2:
+Reason 1: JSON is easier to read
+Reason 2: Natural for javascript
 ```
 
 ---
@@ -73,12 +80,12 @@ Write either `SOAP` or `REST`.
 
 | Example | SOAP or REST? | Why? |
 |---|---|---|
-| `GetMealSuggestion()` | | |
-| `POST /api/meals` | | |
-| `CheckAccountBalance()` | | |
-| `GET /api/recipes/15` | | |
-| `SubmitInsuranceClaim()` | | |
-| `DELETE /api/meals/42` | | |
+| `GetMealSuggestion()` | SOAP | It's looking for an operation |
+| `POST /api/meals` | REST | It's going straight for the resource at the URL with the http method |
+| `CheckAccountBalance()` | SOAP| It's looking for an operation |
+| `GET /api/recipes/15` |REST | It's going straight for the resource at the URL with the http method |
+| `SubmitInsuranceClaim()` |SOAP |It's looking for an operation  |
+| `DELETE /api/meals/42` |REST |It's going straight for the resource at the URL with the http method |
 
 ### Hint
 
@@ -112,11 +119,11 @@ Now try these.
 
 | SOAP-style operation | REST-style endpoint |
 |---|---|
-| `CreateMeal()` | |
-| `GetMealById()` | |
-| `DeleteMeal()` | |
-| `UploadFridgeImage()` | |
-| `GetRecipeSteps()` | |
+| `CreateMeal()` | POST /api/meals |
+| `GetMealById()` | GET /api/meals/Id |
+| `DeleteMeal()` | DELETE /api/meals/Id |
+| `UploadFridgeImage()` | PUT api/meals/Id |
+| `GetRecipeSteps()` | GET /api/recipies/Id|
 
 ### Think carefully
 
@@ -155,17 +162,17 @@ Example:
 Your answers:
 
 ```txt
-1.
-2.
-3.
-4.
+1. /images
+2. /recipies
+3. /ingredients
+4. /notes
 ```
 
 Now choose the two most important resources for version 1.
 
 ```txt
-Most important resource 1:
-Most important resource 2:
+Most important resource 1: meals
+Most important resource 2: images
 ```
 
 ---
@@ -201,31 +208,31 @@ Answer these before coding.
 ### 1. What is the resource?
 
 ```txt
-Resource:
+Resource: meals
 ```
 
 ### 2. What HTTP method are we using?
 
 ```txt
-HTTP method:
+HTTP method: GET
 ```
 
 ### 3. Which class handles the route?
 
 ```txt
-Class:
+Class: MealController
 ```
 
 ### 4. Which class contains the business logic?
 
 ```txt
-Class:
+Class:MealService
 ```
 
 ### 5. Which class shapes the response data?
 
 ```txt
-Class:
+Class:MealResponse
 ```
 
 ---
@@ -340,11 +347,11 @@ You should see JSON.
 Fill in the blanks.
 
 ```txt
-The browser sends a __________ request.
-The request enters the __________.
-The controller calls the __________.
-The service returns a __________ object.
-Spring Boot converts the Java object into __________.
+The browser sends a Http request.
+The request enters the controller.
+The controller calls the service.
+The service returns a MealResponse object.
+Spring Boot converts the Java object into JSON.
 The browser displays the response.
 ```
 
@@ -379,6 +386,10 @@ HTTP
 boundary
 ```
 
+```txt
+In fridge2meal, when the frontend sends a Http request, the mobile app doesn't need to know what the backend is doing. The frontend only needs a clear endpoint and a clear JSON response
+```
+
 ---
 
 ## Stretch challenge
@@ -411,6 +422,12 @@ Questions:
 1. Which file did you change?
 2. Did you need to create a new DTO?
 3. Why or why not?
+```
+
+```txt
+1. MealController.java and MealService.java
+2. No
+3. This is because the same DTO works for this endpoint as well
 ```
 
 ---

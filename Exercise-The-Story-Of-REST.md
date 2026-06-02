@@ -36,7 +36,7 @@ Answer these in your own words.
 Write one sentence.
 
 ```txt
-SOAP mainly focuses on...
+SOAP mainly focuses on operations and this is through directly interacting with actions defined by the system. SOAP uses XML to wrap the communication between the systems to act as a formal envelope wrapper. 
 ```
 
 ### 2. What does REST mainly focus on?
@@ -44,14 +44,14 @@ SOAP mainly focuses on...
 Write one sentence.
 
 ```txt
-REST mainly focuses on...
+REST mainly focuses on requests on resources from another system which are communicated using JSON. REST does not need to know about how the system it is communicating works as it will just communicate with the endpoint specified in the path. 
 ```
 
 ### 3. Complete the contrast
 
 ```txt
-SOAP thinks in ____________________.
-REST thinks in ____________________.
+SOAP thinks in operations.
+REST thinks in resources.
 ```
 
 ### 4. Why did JSON become common with REST APIs?
@@ -59,8 +59,8 @@ REST thinks in ____________________.
 Write two reasons.
 
 ```txt
-Reason 1:
-Reason 2:
+Reason 1: JSON is used with JavaScript, which is used on the web. 
+Reason 2: JSON is easier to read. 
 ```
 
 ---
@@ -73,12 +73,12 @@ Write either `SOAP` or `REST`.
 
 | Example | SOAP or REST? | Why? |
 |---|---|---|
-| `GetMealSuggestion()` | | |
-| `POST /api/meals` | | |
-| `CheckAccountBalance()` | | |
-| `GET /api/recipes/15` | | |
-| `SubmitInsuranceClaim()` | | |
-| `DELETE /api/meals/42` | | |
+| `GetMealSuggestion()` |SOAP |It is an operation which SOAP uses. |
+| `POST /api/meals` |REST |This is a POST http request used by REST. |
+| `CheckAccountBalance()` |SOAP |It is an operation, not a request. |
+| `GET /api/recipes/15` |REST |GET is a resource request. |
+| `SubmitInsuranceClaim()` |SOAP |This is an operation, it is not a request. |
+| `DELETE /api/meals/42` |REST |DELETE is a resource request |
 
 ### Hint
 
@@ -112,11 +112,11 @@ Now try these.
 
 | SOAP-style operation | REST-style endpoint |
 |---|---|
-| `CreateMeal()` | |
-| `GetMealById()` | |
-| `DeleteMeal()` | |
-| `UploadFridgeImage()` | |
-| `GetRecipeSteps()` | |
+| `CreateMeal()` |/api/meals/create |
+| `GetMealById()` |/api/meals/id |
+| `DeleteMeal()` |/api/meals/delete |
+| `UploadFridgeImage()` |/api/images/upload |
+| `GetRecipeSteps()` |/api/recipes/steps |
 
 ### Think carefully
 
@@ -155,17 +155,17 @@ Example:
 Your answers:
 
 ```txt
-1.
-2.
-3.
-4.
+1. /aiGeneration
+2. /recipes
+3. /images
+4. /share
 ```
 
 Now choose the two most important resources for version 1.
 
 ```txt
-Most important resource 1:
-Most important resource 2:
+Most important resource 1: /meals
+Most important resource 2: /images
 ```
 
 ---
@@ -201,31 +201,31 @@ Answer these before coding.
 ### 1. What is the resource?
 
 ```txt
-Resource:
+Resource: /api/meals/suggestion
 ```
 
 ### 2. What HTTP method are we using?
 
 ```txt
-HTTP method:
+HTTP method: GET
 ```
 
 ### 3. Which class handles the route?
 
 ```txt
-Class:
+Class: MealController
 ```
 
 ### 4. Which class contains the business logic?
 
 ```txt
-Class:
+Class: MealService
 ```
 
 ### 5. Which class shapes the response data?
 
 ```txt
-Class:
+Class: MealResponse
 ```
 
 ---
@@ -340,11 +340,11 @@ You should see JSON.
 Fill in the blanks.
 
 ```txt
-The browser sends a __________ request.
-The request enters the __________.
-The controller calls the __________.
-The service returns a __________ object.
-Spring Boot converts the Java object into __________.
+The browser sends a HTTP request.
+The request enters the Controller.
+The controller calls the Service.
+The service returns a MealResponse object.
+Spring Boot converts the Java object into JSON.
 The browser displays the response.
 ```
 
@@ -378,6 +378,9 @@ backend
 HTTP
 boundary
 ```
+## Answer
+
+REST is a good fit for Fridge2Meal because we want to send data between the frontend and the backend of the application as they are separate entities. As we have to request resources, it is ideal to use REST because it uses HTTP requests and responds in JSON. This means that it is easy to communicate the data between the two sides of the system without having the understanding of how each sides work. If both sides are able to send data to a predefined endpoint, they are able to communicate, which makes development simpler. 
 
 ---
 

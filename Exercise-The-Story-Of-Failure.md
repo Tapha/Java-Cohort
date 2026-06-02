@@ -46,14 +46,14 @@ A test is a way of proving that...
 
 For each behaviour, fill in the expected result.
 
-| Behaviour        | Input               | Expected Output |
-| ---------------- | ------------------- | --------------- |
-| Add numbers      | 2 and 3             | 5               |
-| Multiply numbers | 4 and 5             | 20              |
-| Validate email   | `amina@example.com` | Valid           |
-| Validate email   | `amina`             | Not Valid       |
-| Apply discount   | price = 100         | ?               |
-| Apply discount   | price = 50          | ?               |
+| Behaviour        | Input               | Expected Output                                                                |
+| ---------------- | ------------------- | ------------------------------------------------------------------------------ |
+| Add numbers      | 2 and 3             | 5                                                                              |
+| Multiply numbers | 4 and 5             | 20                                                                             |
+| Validate email   | `amina@example.com` | Valid                                                                          |
+| Validate email   | `amina`             | Not Valid                                                                      |
+| Apply discount   | price = 100         | Discount applied to price e.g. if discount was 10% then the output would be 90 |
+| Apply discount   | price = 50          | Discount applied to price e.g. if discount was 10% then the output would be 45 |
 
 Core idea:
 

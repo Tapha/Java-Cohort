@@ -114,9 +114,9 @@ A user registers with a valid email.
 Fill in:
 
 ```text
-Arrange: 
-Act: 
-Assert:
+Arrange: User starts the registration on the system. 
+Act: User enters valid email and system checks validity.
+Assert: System registers correctly with the email provided, confirmation message is sent. 
 ```
 
 Scenario:
@@ -128,9 +128,9 @@ A user registers with a blank email.
 Fill in:
 
 ```text
-Arrange:
-Act:
-Assert:
+Arrange: User starts the registration on the system. 
+Act: User enters a blank email and system checks if email is valid. 
+Assert: System returns correct error message for that situation. 
 ```
 
 ---

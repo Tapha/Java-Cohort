@@ -29,25 +29,29 @@ You are learning how Java systems breathe.
 Complete the missing words:
 
 ```text
-Input = data __________ the program
+Input = data in the program
 
-Output = data __________ the program
+Output = data out the program
 
-Memory = where Java __________ with data
+Memory = where Java works with data
 
-I/O = how data crosses the __________ of the system
+I/O = how data crosses the boundary of the system
 ```
 
 ## Questions
 
 1. Why is a program without I/O like a room with no doors?
+   Because the data cant leave and doesnt not interact with the system at all
 2. Give three examples of input.
+   form, JSON request, file being read
 3. Give three examples of output.
+   console.log text, JSON response, log message 
 4. Why is I/O not just about files?
+   Because it works with many thing such as the JSON and database not just the files
 5. Complete this sentence:
 
 ```text
-I/O matters because software needs to...
+I/O matters because software needs to receive data, work with it then send the data back out
 ```
 
 ---
@@ -58,22 +62,21 @@ For each example, decide whether it is input, output, or both.
 
 | Example | Input / Output / Both? | Why? |
 |---|---|---|
-| User types their name into the console | ? | ? |
-| Java prints “Hello” to the console | ? | ? |
-| Java reads `students.txt` | ? | ? |
-| Java writes `results.txt` | ? | ? |
-| Frontend sends JSON to backend | ? | ? |
-| Backend returns JSON response | ? | ? |
-| Application writes a log message | ? | ? |
-| Java queries a database | ? | ? |
-| Java saves a row to a database | ? | ? |
+| User types their name into the console | Input| data entering the system |
+| Java prints “Hello” to the console | output | data leaving and displaying hello |
+| Java reads `students.txt` | input | files data that enters java memory  |
+| Java writes `results.txt` | output | data that leaves the memory and goes into the file|
+| Frontend sends JSON to backend | input | data that enters the beckend |
+| Backend returns JSON response | output | JSON data that leaves the backend|
+| Application writes a log message | output | displays log message |
+| Java queries a database |  both| a request goes out and returns data that goes back in| Java saves a row to a database | output | data leaves the system and goes to the database |
 
 ## Reflection
 
 Complete:
 
 ```text
-A boundary is crossed whenever...
+A boundary is crossed whenever data crosses the system boundary 
 ```
 
 ---
@@ -84,15 +87,15 @@ Match the metaphor to the Java concept.
 
 | Metaphor | Java / Software Concept |
 |---|---|
-| water | ? |
-| water entering | ? |
-| water leaving | ? |
-| cups | ? |
-| containers | ? |
-| pipes | ? |
-| buckets | ? |
-| storage tanks | ? |
-| long-term reservoir | ? |
+| water | memory |
+| water entering | input |
+| water leaving | output |
+| cups | variables |
+| containers | objects |
+| pipes | streams |
+| buckets | buffers |
+| storage tanks | files |
+| long-term reservoir | database|
 
 Use these options:
 
@@ -111,14 +114,16 @@ database
 ## Questions
 
 1. Why is I/O about movement?
+   data goes in, the memory shapes and the data then goes back out
 2. Why is memory not the same thing as input?
+   the memory holds the data, the input is the data entering
 3. Explain this sentence:
 
 ```text
 Input is the incoming flow.
 Memory is the working substance.
 ```
-
+Input is the incoming flow, the momery is the working substance, therefore the input enters the system and then the memory holds it 
 ---
 
 # 🖨️ Part 4 — Console Output
@@ -132,14 +137,17 @@ System.out.println("Hello world");
 ## Questions
 
 1. What data exists in memory?
+   "Hello world"
 2. Where does the data go?
+ console
 3. Is this input or output?
+ output
 4. Complete the flow:
 
 ```text
 String in memory
         ↓
-?
+System.out.println("Hello world")
         ↓
 Console output
 ```
@@ -148,6 +156,7 @@ Console output
 
 Write one more example of console output.
 
+System.out.println("Ubah")
 ---
 
 # ⌨️ Part 5 — Console Input
@@ -167,19 +176,23 @@ System.out.println("Hello " + name);
 ## Questions
 
 1. What is the input source?
+ System.in
 2. What reads the input?
+   scanner
 3. Where is the user’s name stored after it is read?
+   name
 4. What output is produced?
+   Hello + name 
 5. Complete the flow:
 
 ```text
 User types name
         ↓
-?
+System.in recieves name
         ↓
 Scanner reads input
         ↓
-?
+Name is stroed in memory
         ↓
 Console displays greeting
 ```
@@ -201,10 +214,10 @@ Explain why this is the wrong category of question.
 Use this structure:
 
 ```text
-Input is...
-Memory is...
-Static means...
-The better question is...
+Input is data entering the system
+Memory is where the system holds that data while it works
+Static means how data is owned or managed
+The better question is where does the input go after it is read?
 ```
 
 ## Final answer frame
@@ -212,11 +225,9 @@ The better question is...
 Complete:
 
 ```text
-Input = what __________
-
-Memory = where it is __________
-
-Static/dynamic = how data is __________ or __________
+Input = what enters
+Memory = where it is held
+Static/dynamic = how data is owned or managed
 ```
 
 ---
@@ -238,16 +249,20 @@ application.properties
 ## Questions
 
 1. Why do we need files if we already have memory?
-2. What happens to normal runtime memory when the program stops?
+   files would still exist when the memory disappears
+2 What happens to normal runtime memory when the program stops?
+   disappears
 3. What happens when Java reads a file?
+   data enters memory
 4. What happens when Java writes a file?
+   data leaves the memory and goes to the file
 
 Complete:
 
 ```text
-Read = outside → __________
+Read = outside → memory
 
-Write = memory → __________
+Write = memory → outside
 ```
 
 ---
@@ -272,22 +287,23 @@ public class FileExample {
 
 ## Questions
 
-1. What file is being read?
-2. Which method reads the file?
-3. What variable holds the file content?
-4. Where does the file content live after it is read?
-5. What output happens after reading?
+1. What file is being read? students.txt
+2. Which method reads the file? Files.readString()
+3. What variable holds the file content? content
+4. Where does the file content live after it is read? memory
+5. What output happens after reading? prints in the console
 
 Complete the flow:
 
 ```text
 students.txt
         ↓
-?
+Files.readString()
+
         ↓
 String content in memory
         ↓
-?
+System.out.println()
         ↓
 Console output
 ```
@@ -314,16 +330,17 @@ public class WriteFileExample {
 
 ## Questions
 
-1. What data starts in memory?
-2. Which method writes the file?
-3. What file is created or updated?
-4. Is this input or output?
+1. What data starts in memory? "Amina,David,Sara";
+2. Which method writes the file? Files.writeString
+3. What file is created or updated? students.txt
+4. Is this input or output? output
 5. Complete the flow:
 
 ```text
 String in memory
         ↓
-?
+Files.writeString()
+
         ↓
 students.txt on disk
 ```
@@ -340,15 +357,15 @@ Path path = Path.of("students.txt");
 
 ## Questions
 
-1. Does this line read the file?
-2. What does `Path.of("students.txt")` represent?
-3. Why is a path like an address?
-4. What is the difference between a path and the data inside the file?
+1. Does this line read the file? No
+2. What does `Path.of("students.txt")` represent? the location where the file is found
+3. Why is a path like an address? shows you where the filed live
+4. What is the difference between a path and the data inside the file? path is not the data it is where the data is stored
 
 Complete:
 
 ```text
-Path = __________ of external data
+Path = address of external data
 ```
 
 ---
@@ -359,10 +376,10 @@ A stream moves data gradually.
 
 ## Questions
 
-1. Why might reading a whole file at once be a problem?
-2. What kinds of data might be too large to load all at once?
-3. Why is a stream like a pipe?
-4. Give three examples where streams are useful.
+1. Why might reading a whole file at once be a problem? too large to read
+2. What kinds of data might be too large to load all at once? things like images and videos
+3. Why is a stream like a pipe? the data moves through the pipe gradually
+4. Give three examples where streams are useful.Streams are useful for large files, uploads, downloads, network responses, images, PDFs, audio/video, and big log
 
 Use examples from:
 
@@ -380,7 +397,7 @@ big logs
 Complete:
 
 ```text
-Stream = pipe for moving data __________
+Stream = pipe for moving data gradually
 ```
 
 ---
@@ -391,8 +408,8 @@ Match the term to the meaning.
 
 | Term | Meaning |
 |---|---|
-| InputStream | ? |
-| OutputStream | ? |
+| InputStream | pipe coming in, reads bytes into the program |
+| OutputStream | pipe going out, writes bytes out of the program |
 
 Use:
 
@@ -405,15 +422,15 @@ writes bytes out of the program
 
 ## Questions
 
-1. Are streams byte-based or text-based?
-2. What does an `InputStream` bring into Java memory?
-3. What does an `OutputStream` send out?
+1. Are streams byte-based or text-based? byte-based
+2. What does an `InputStream` bring into Java memory?bytes into Java memory
+3. What does an `OutputStream` send out?sends bytes out of Java memory
 4. Complete:
 
 ```text
-InputStream = pipe __________
+InputStream = pipe coming in
 
-OutputStream = pipe __________
+OutputStream = pipe going out
 ```
 
 ---
@@ -424,21 +441,22 @@ Fill in the table.
 
 | Tool | Works With | Example Use |
 |---|---|---|
-| InputStream | ? | ? |
-| OutputStream | ? | ? |
-| Reader | ? | ? |
-| Writer | ? | ? |
+| InputStream | incoming bytes | images, PDFs, audio, video |
+| OutputStream | outgoing bytes | writing images, PDFs, binary files |
+| Reader | incoming characters | reading .txt, .csv, .json |
+| Writer | outgoing characters | writing text files or logs |
 
 ## Questions
 
-1. When would a `Reader` be more natural than an `InputStream`?
-2. When would an `InputStream` be more natural than a `Reader`?
+1. When would a `Reader` be more natural than an `InputStream`? text 
+2. When would an `InputStream` be more natural than a `Reader`?with bytes, such as images, PDFs, audio, or video.
+
 3. Complete:
 
 ```text
-Streams = __________
+Streams = bytes
 
-Readers/Writers = __________
+Readers/Writers = text
 ```
 
 ---

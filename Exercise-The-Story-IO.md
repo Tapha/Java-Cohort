@@ -1,0 +1,920 @@
+# 🌊 Exercise: The Story of I/O — How Java Systems Breathe 📥📤☕️
+
+## Goal
+
+By the end of this exercise, you should be able to explain how Java moves data through this full cycle:
+
+```text
+Outside world
+        ↓
+Input
+        ↓
+Java memory
+        ↓
+Processing
+        ↓
+Output
+        ↓
+Outside world
+```
+
+You are not just learning file handling.
+
+You are learning how Java systems breathe.
+
+---
+
+# 🧠 Part 1 — The Big Picture
+
+Complete the missing words:
+
+```text
+Input = data __________ the program
+
+Output = data __________ the program
+
+Memory = where Java __________ with data
+
+I/O = how data crosses the __________ of the system
+```
+
+## Questions
+
+1. Why is a program without I/O like a room with no doors?
+2. Give three examples of input.
+3. Give three examples of output.
+4. Why is I/O not just about files?
+5. Complete this sentence:
+
+```text
+I/O matters because software needs to...
+```
+
+---
+
+# 🚪 Part 2 — Identify the Doorway
+
+For each example, decide whether it is input, output, or both.
+
+| Example | Input / Output / Both? | Why? |
+|---|---|---|
+| User types their name into the console | ? | ? |
+| Java prints “Hello” to the console | ? | ? |
+| Java reads `students.txt` | ? | ? |
+| Java writes `results.txt` | ? | ? |
+| Frontend sends JSON to backend | ? | ? |
+| Backend returns JSON response | ? | ? |
+| Application writes a log message | ? | ? |
+| Java queries a database | ? | ? |
+| Java saves a row to a database | ? | ? |
+
+## Reflection
+
+Complete:
+
+```text
+A boundary is crossed whenever...
+```
+
+---
+
+# 💧 Part 3 — The Water Metaphor
+
+Match the metaphor to the Java concept.
+
+| Metaphor | Java / Software Concept |
+|---|---|
+| water | ? |
+| water entering | ? |
+| water leaving | ? |
+| cups | ? |
+| containers | ? |
+| pipes | ? |
+| buckets | ? |
+| storage tanks | ? |
+| long-term reservoir | ? |
+
+Use these options:
+
+```text
+variables
+memory
+input
+output
+objects
+streams
+buffers
+files
+database
+```
+
+## Questions
+
+1. Why is I/O about movement?
+2. Why is memory not the same thing as input?
+3. Explain this sentence:
+
+```text
+Input is the incoming flow.
+Memory is the working substance.
+```
+
+---
+
+# 🖨️ Part 4 — Console Output
+
+Look at this code:
+
+```java
+System.out.println("Hello world");
+```
+
+## Questions
+
+1. What data exists in memory?
+2. Where does the data go?
+3. Is this input or output?
+4. Complete the flow:
+
+```text
+String in memory
+        ↓
+?
+        ↓
+Console output
+```
+
+## Challenge
+
+Write one more example of console output.
+
+---
+
+# ⌨️ Part 5 — Console Input
+
+Look at this code:
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Enter your name:");
+
+String name = scanner.nextLine();
+
+System.out.println("Hello " + name);
+```
+
+## Questions
+
+1. What is the input source?
+2. What reads the input?
+3. Where is the user’s name stored after it is read?
+4. What output is produced?
+5. Complete the flow:
+
+```text
+User types name
+        ↓
+?
+        ↓
+Scanner reads input
+        ↓
+?
+        ↓
+Console displays greeting
+```
+
+---
+
+# 🧩 Part 6 — Input Is Not Memory
+
+A student asks:
+
+```text
+Is input static memory?
+```
+
+## Task
+
+Explain why this is the wrong category of question.
+
+Use this structure:
+
+```text
+Input is...
+Memory is...
+Static means...
+The better question is...
+```
+
+## Final answer frame
+
+Complete:
+
+```text
+Input = what __________
+
+Memory = where it is __________
+
+Static/dynamic = how data is __________ or __________
+```
+
+---
+
+# 📄 Part 7 — Files as External Storage
+
+A file exists outside the running Java program.
+
+Examples:
+
+```text
+students.txt
+orders.csv
+config.json
+image.png
+application.properties
+```
+
+## Questions
+
+1. Why do we need files if we already have memory?
+2. What happens to normal runtime memory when the program stops?
+3. What happens when Java reads a file?
+4. What happens when Java writes a file?
+
+Complete:
+
+```text
+Read = outside → __________
+
+Write = memory → __________
+```
+
+---
+
+# 📥 Part 8 — Reading a File
+
+Look at this code:
+
+```java
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class FileExample {
+
+    public static void main(String[] args) throws Exception {
+        String content = Files.readString(Path.of("students.txt"));
+
+        System.out.println(content);
+    }
+}
+```
+
+## Questions
+
+1. What file is being read?
+2. Which method reads the file?
+3. What variable holds the file content?
+4. Where does the file content live after it is read?
+5. What output happens after reading?
+
+Complete the flow:
+
+```text
+students.txt
+        ↓
+?
+        ↓
+String content in memory
+        ↓
+?
+        ↓
+Console output
+```
+
+---
+
+# 📤 Part 9 — Writing a File
+
+Look at this code:
+
+```java
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class WriteFileExample {
+
+    public static void main(String[] args) throws Exception {
+        String content = "Amina,David,Sara";
+
+        Files.writeString(Path.of("students.txt"), content);
+    }
+}
+```
+
+## Questions
+
+1. What data starts in memory?
+2. Which method writes the file?
+3. What file is created or updated?
+4. Is this input or output?
+5. Complete the flow:
+
+```text
+String in memory
+        ↓
+?
+        ↓
+students.txt on disk
+```
+
+---
+
+# 🧭 Part 10 — Paths
+
+A `Path` points to a file or folder location.
+
+```java
+Path path = Path.of("students.txt");
+```
+
+## Questions
+
+1. Does this line read the file?
+2. What does `Path.of("students.txt")` represent?
+3. Why is a path like an address?
+4. What is the difference between a path and the data inside the file?
+
+Complete:
+
+```text
+Path = __________ of external data
+```
+
+---
+
+# 🌊 Part 11 — Streams as Pipes
+
+A stream moves data gradually.
+
+## Questions
+
+1. Why might reading a whole file at once be a problem?
+2. What kinds of data might be too large to load all at once?
+3. Why is a stream like a pipe?
+4. Give three examples where streams are useful.
+
+Use examples from:
+
+```text
+large files
+uploads
+downloads
+network responses
+images
+PDFs
+audio/video
+big logs
+```
+
+Complete:
+
+```text
+Stream = pipe for moving data __________
+```
+
+---
+
+# 🔌 Part 12 — InputStream and OutputStream
+
+Match the term to the meaning.
+
+| Term | Meaning |
+|---|---|
+| InputStream | ? |
+| OutputStream | ? |
+
+Use:
+
+```text
+pipe coming in
+pipe going out
+reads bytes into the program
+writes bytes out of the program
+```
+
+## Questions
+
+1. Are streams byte-based or text-based?
+2. What does an `InputStream` bring into Java memory?
+3. What does an `OutputStream` send out?
+4. Complete:
+
+```text
+InputStream = pipe __________
+
+OutputStream = pipe __________
+```
+
+---
+
+# ✍️ Part 13 — Readers and Writers
+
+Fill in the table.
+
+| Tool | Works With | Example Use |
+|---|---|---|
+| InputStream | ? | ? |
+| OutputStream | ? | ? |
+| Reader | ? | ? |
+| Writer | ? | ? |
+
+## Questions
+
+1. When would a `Reader` be more natural than an `InputStream`?
+2. When would an `InputStream` be more natural than a `Reader`?
+3. Complete:
+
+```text
+Streams = __________
+
+Readers/Writers = __________
+```
+
+---
+
+# 🪣 Part 14 — Buffers
+
+A buffer is temporary memory used while moving data.
+
+## Questions
+
+1. Why is moving data one tiny piece at a time inefficient?
+2. Why is a buffer like a bucket?
+3. What does `BufferedReader` suggest?
+4. What does `BufferedWriter` suggest?
+5. Complete:
+
+```text
+Buffer = temporary __________ used to make I/O smoother
+```
+
+## Reflection
+
+Explain this metaphor:
+
+```text
+Instead of carrying water drop by drop,
+carry a bucket.
+```
+
+---
+
+# 🧬 Part 15 — Serialization and Deserialization
+
+Complete the definitions:
+
+```text
+Serialization = object → __________
+
+Deserialization = __________ → object
+```
+
+## Questions
+
+1. Why can’t Java memory objects directly travel across a network?
+2. Why do objects need to be converted before storage or transfer?
+3. What formats can objects be serialized into?
+4. Why is serialization important for APIs?
+
+Complete the flow:
+
+```text
+Java object
+        ↓
+?
+        ↓
+JSON/text/bytes
+        ↓
+file/API/network
+```
+
+Reverse flow:
+
+```text
+JSON/text/bytes
+        ↓
+?
+        ↓
+Java object
+```
+
+---
+
+# 🟨 Part 16 — JSON as API Format
+
+Java object shape:
+
+```java
+public record MealResponse(
+    String title,
+    String description,
+    List<String> steps
+) {}
+```
+
+JSON shape:
+
+```json
+{
+  "title": "Tomato Pasta",
+  "description": "A simple pasta meal",
+  "steps": [
+    "Boil pasta",
+    "Cook tomatoes",
+    "Mix together"
+  ]
+}
+```
+
+## Questions
+
+1. Which one lives inside Java memory?
+2. Which one crosses the network?
+3. What does Spring Boot often do automatically?
+4. Complete:
+
+```text
+Java object → __________ response
+
+JSON request → __________ object
+```
+
+---
+
+# 🌐 Part 17 — JSON Request to Java Object
+
+Frontend sends:
+
+```json
+{
+  "ingredients": ["tomato", "pasta", "cheese"]
+}
+```
+
+Java receives:
+
+```java
+public record MealRequest(
+    List<String> ingredients
+) {}
+```
+
+Controller:
+
+```java
+@PostMapping("/suggestion")
+public MealResponse suggestMeal(@RequestBody MealRequest request) {
+    return mealService.generateMeal(request);
+}
+```
+
+## Questions
+
+1. What is the JSON request body?
+2. What Java object represents the request?
+3. What does `@RequestBody` suggest conceptually?
+4. What does the service receive?
+5. What does the controller return?
+
+Complete the flow:
+
+```text
+JSON request body
+        ↓
+Spring __________ JSON
+        ↓
+MealRequest object in memory
+        ↓
+Service uses object
+        ↓
+MealResponse object
+        ↓
+Spring __________ to JSON
+        ↓
+HTTP response
+```
+
+---
+
+# 🧱 Part 18 — DTOs as Boundary Objects
+
+DTO means:
+
+```text
+Data Transfer Object
+```
+
+Fill in the table.
+
+| Type | Purpose |
+|---|---|
+| Entity | ? |
+| DTO | ? |
+| Service | ? |
+| Collection | ? |
+
+Use:
+
+```text
+database-mapped object
+data crossing an API boundary
+business logic / coordination
+many objects in memory
+```
+
+## Questions
+
+1. Why is a DTO a boundary shape?
+2. Why should we avoid exposing entities directly through APIs?
+3. What is the difference between `MealRequest` and `MealResponse`?
+4. Complete:
+
+```text
+Entity = __________ shape
+
+DTO = __________ shape
+```
+
+---
+
+# 🧾 Part 19 — Logs Are Output
+
+Logging is output.
+
+Examples:
+
+```text
+User registration started
+Meal suggestion generated
+File upload failed
+Database connection failed
+Payment provider timed out
+```
+
+## Questions
+
+1. Why are logs a form of output?
+2. Where can logs go?
+3. Why is a system without logs blind?
+4. What kind of information should logs include?
+5. What kind of information should logs avoid?
+
+Complete:
+
+```text
+Good logs make runtime behaviour __________
+```
+
+---
+
+# ⚠️ Part 20 — I/O Can Fail
+
+Any time data crosses a boundary, failure can happen.
+
+Match the failure to the boundary.
+
+| Failure | Boundary |
+|---|---|
+| file not found | ? |
+| permission denied | ? |
+| network timeout | ? |
+| invalid JSON | ? |
+| database unavailable | ? |
+| disk full | ? |
+
+## Questions
+
+1. Why do boundaries fail?
+2. Why is I/O closely connected to exceptions?
+3. What should professional code do when boundary failure happens?
+
+Complete:
+
+```text
+Boundaries fail.
+Professional code handles __________ failure.
+```
+
+---
+
+# 🐢 Part 21 — I/O and Performance
+
+Rank these from fastest to slowest in general:
+
+```text
+network call
+memory access
+database query
+CPU work
+disk I/O
+```
+
+## Questions
+
+1. Why is I/O often slower than memory?
+2. Why can calling an API inside a loop become dangerous?
+3. Why can too many database queries hurt performance?
+4. How does this connect to the ORM N+1 problem?
+
+Complete:
+
+```text
+The N+1 problem is an __________ problem hiding behind object access.
+```
+
+---
+
+# 🔄 Part 22 — Full Backend Data Journey
+
+Complete the backend journey:
+
+```text
+Frontend sends JSON request
+        ↓
+HTTP input crosses network
+        ↓
+Controller receives request
+        ↓
+JSON becomes __________
+        ↓
+Service processes __________
+        ↓
+Repository may query __________
+        ↓
+ORM maps rows to __________
+        ↓
+Service creates response __________
+        ↓
+Java object becomes __________
+        ↓
+HTTP response leaves backend
+```
+
+## Questions
+
+1. Where does input happen?
+2. Where does memory processing happen?
+3. Where does database I/O happen?
+4. Where does output happen?
+5. Why is this the full breathing cycle of a backend?
+
+---
+
+# 🍅 Part 23 — Fridge2Meal Flow
+
+Request:
+
+```http
+POST /api/meals/suggestion
+```
+
+Request body:
+
+```json
+{
+  "ingredients": ["tomato", "pasta", "cheese"]
+}
+```
+
+Expected response:
+
+```json
+{
+  "title": "Tomato Pasta",
+  "description": "A simple meal using tomato, pasta and cheese.",
+  "steps": [
+    "Boil pasta",
+    "Cook tomatoes into a sauce",
+    "Mix pasta and sauce together"
+  ]
+}
+```
+
+## Tasks
+
+1. Create a `MealRequest` DTO.
+2. Create a `MealResponse` DTO.
+3. Identify the input.
+4. Identify the output.
+5. Identify where serialization happens.
+6. Identify where deserialization happens.
+7. Identify which part belongs to the controller.
+8. Identify which part belongs to the service.
+
+## Reflection
+
+Complete:
+
+```text
+This feature contains REST + I/O + JSON + DTOs + objects because...
+```
+
+---
+
+# 🗺️ Part 24 — Connect the Curriculum
+
+Fill in the missing pieces.
+
+```text
+Memory gives the program a __________ space.
+
+Objects give memory __________.
+
+Collections organize __________ objects.
+
+ORM connects objects to __________ storage.
+
+Exceptions handle boundary __________.
+
+Logging makes runtime behaviour __________.
+
+I/O moves data __________ and __________.
+
+REST structures __________ I/O.
+```
+
+---
+
+# 🚀 Final Reflection
+
+Answer in your own words:
+
+1. What is I/O?
+2. Why is I/O how software touches the outside world?
+3. What is the difference between input and memory?
+4. What is a stream?
+5. What is a buffer?
+6. What is serialization?
+7. What is deserialization?
+8. Why is JSON important in REST APIs?
+9. What is a DTO?
+10. Why can I/O fail?
+11. Why is I/O often a performance bottleneck?
+12. Explain this sentence:
+
+```text
+I/O is how Java systems breathe.
+```
+
+---
+
+# 🌟 Stretch Challenge — Design an I/O Flow
+
+Design an I/O flow for a student management feature.
+
+Scenario:
+
+```text
+A frontend sends a student registration request.
+The backend validates it.
+The backend saves the student.
+The backend logs the event.
+The backend returns a JSON response.
+```
+
+## Tasks
+
+1. Write the request JSON.
+2. Design a `StudentRequest` DTO.
+3. Design a `StudentResponse` DTO.
+4. Identify the input boundary.
+5. Identify the output boundary.
+6. Identify where the database I/O happens.
+7. Identify where logging output happens.
+8. Identify two possible failure points.
+9. Explain how the system should respond if validation fails.
+10. Explain how the system should respond if saving fails.
+
+---
+
+# 🧠 Final Compression
+
+```text
+Input = data entering
+Output = data leaving
+Memory = where Java works
+Path = address of external data
+File = stored external data
+Stream = pipe for moving data
+Buffer = temporary bucket
+Reader/Writer = text I/O
+InputStream/OutputStream = byte I/O
+Serialization = object → transferable format
+Deserialization = transferable format → object
+JSON = common API format
+DTO = boundary data shape
+REST = structured web I/O
+```
+
+Use this as your map.

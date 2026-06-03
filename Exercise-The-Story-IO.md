@@ -29,25 +29,37 @@ You are learning how Java systems breathe.
 Complete the missing words:
 
 ```text
-Input = data __________ the program
+Input = data entering the program
 
-Output = data __________ the program
+Output = data exiting the program
 
-Memory = where Java __________ with data
+Memory = where Java saves and stores the data
 
-I/O = how data crosses the __________ of the system
+I/O = how data crosses the different layers of the system
 ```
 
 ## Questions
 
 1. Why is a program without I/O like a room with no doors?
+
+There is no where for data to flow in and out of the system.
+
 2. Give three examples of input.
+
+a txt file, a cvs file, a pdf
+
 3. Give three examples of output.
+
+The same as above, logs images etc.
+
 4. Why is I/O not just about files?
+
+
+
 5. Complete this sentence:
 
 ```text
-I/O matters because software needs to...
+I/O matters because software needs to have data flow
 ```
 
 ---
@@ -58,15 +70,15 @@ For each example, decide whether it is input, output, or both.
 
 | Example | Input / Output / Both? | Why? |
 |---|---|---|
-| User types their name into the console | ? | ? |
-| Java prints “Hello” to the console | ? | ? |
-| Java reads `students.txt` | ? | ? |
-| Java writes `results.txt` | ? | ? |
-| Frontend sends JSON to backend | ? | ? |
-| Backend returns JSON response | ? | ? |
-| Application writes a log message | ? | ? |
-| Java queries a database | ? | ? |
-| Java saves a row to a database | ? | ? |
+| User types their name into the console | input | info flowing into system |
+| Java prints “Hello” to the console | output | info flowing out of system |
+| Java reads `students.txt` | input | ? |
+| Java writes `results.txt` | output | ? |
+| Frontend sends JSON to backend | input | ? |
+| Backend returns JSON response | output | ? |
+| Application writes a log message | output | ? |
+| Java queries a database | both | data is entering the database and info will be returned to java |
+| Java saves a row to a database | both | ? |
 
 ## Reflection
 
@@ -84,15 +96,15 @@ Match the metaphor to the Java concept.
 
 | Metaphor | Java / Software Concept |
 |---|---|
-| water | ? |
-| water entering | ? |
-| water leaving | ? |
-| cups | ? |
-| containers | ? |
-| pipes | ? |
-| buckets | ? |
-| storage tanks | ? |
-| long-term reservoir | ? |
+| water | data |
+| water entering | input |
+| water leaving | output |
+| cups | variables |
+| containers | objects |
+| pipes | streams |
+| buckets | buffers |
+| storage tanks | files |
+| long-term reservoir | database |
 
 Use these options:
 
@@ -111,13 +123,20 @@ database
 ## Questions
 
 1. Why is I/O about movement?
+
+I/O allows for flow between the application from outside to inside and vise versa.
+
 2. Why is memory not the same thing as input?
+
+Memory is stored data, something thats an input is data but at this point it isn't yet saved.
+
 3. Explain this sentence:
 
 ```text
 Input is the incoming flow.
 Memory is the working substance.
 ```
+
 
 ---
 
@@ -131,15 +150,24 @@ System.out.println("Hello world");
 
 ## Questions
 
-1. What data exists in memory?
+1. What data exists in memory?}
+
+Nothing
+
 2. Where does the data go?
+
+It gets outputted to the console log
+
 3. Is this input or output?
+
+output
+
 4. Complete the flow:
 
 ```text
 String in memory
         ↓
-?
+System.out.println()
         ↓
 Console output
 ```
@@ -167,8 +195,17 @@ System.out.println("Hello " + name);
 ## Questions
 
 1. What is the input source?
+
+The console
+
 2. What reads the input?
+
+Scanner object
+
 3. Where is the user’s name stored after it is read?
+
+in the String name
+
 4. What output is produced?
 5. Complete the flow:
 

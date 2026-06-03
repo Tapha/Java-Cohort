@@ -29,13 +29,13 @@ You are learning how Java systems breathe.
 Complete the missing words:
 
 ```text
-Input = data __________ the program
+Input = data entering the program
 
-Output = data __________ the program
+Output = data leaving the program
 
-Memory = where Java __________ with data
+Memory = where Java works with data
 
-I/O = how data crosses the __________ of the system
+I/O = how data crosses the bounday of the system
 ```
 
 ## Questions
@@ -49,7 +49,9 @@ I/O = how data crosses the __________ of the system
 ```text
 I/O matters because software needs to...
 ```
-
+## Answers
+1. The analogy of I/O is a doorway where data can enter and leave the program. If a program has no way to work with I/O, there is no way data would be able to enter or leave the program therefore like a room without doors.
+2. 
 ---
 
 # 🚪 Part 2 — Identify the Doorway
@@ -58,22 +60,22 @@ For each example, decide whether it is input, output, or both.
 
 | Example | Input / Output / Both? | Why? |
 |---|---|---|
-| User types their name into the console | ? | ? |
-| Java prints “Hello” to the console | ? | ? |
-| Java reads `students.txt` | ? | ? |
-| Java writes `results.txt` | ? | ? |
-| Frontend sends JSON to backend | ? | ? |
-| Backend returns JSON response | ? | ? |
-| Application writes a log message | ? | ? |
-| Java queries a database | ? | ? |
-| Java saves a row to a database | ? | ? |
+| User types their name into the console | Input | External data is entering the system.  |
+| Java prints “Hello” to the console | Output | Data is leaving the system. |
+| Java reads `students.txt` | Input | External data is entering the system. |
+| Java writes `results.txt` | Output | Data is leaving the system in the form of a .txt file. |
+| Frontend sends JSON to backend | Both | It is both because data is leaving the frontend but entering the backend. |
+| Backend returns JSON response | Both | This is both because data is leaving the backend and entering the frontend. |
+| Application writes a log message | Output | Data is leaving the system as a log message. |
+| Java queries a database | Input | Data is entering the system from the database. |
+| Java saves a row to a database | Output | Data is leaving the system as a database row. |
 
 ## Reflection
 
 Complete:
 
 ```text
-A boundary is crossed whenever...
+A boundary is crossed whenever data enters or leaves a system. 
 ```
 
 ---
@@ -84,15 +86,15 @@ Match the metaphor to the Java concept.
 
 | Metaphor | Java / Software Concept |
 |---|---|
-| water | ? |
-| water entering | ? |
-| water leaving | ? |
-| cups | ? |
-| containers | ? |
-| pipes | ? |
-| buckets | ? |
-| storage tanks | ? |
-| long-term reservoir | ? |
+| water | memory |
+| water entering | input |
+| water leaving | output |
+| cups | variables |
+| containers | objects |
+| pipes | streams |
+| buckets | buffers |
+| storage tanks | files |
+| long-term reservoir | database |
 
 Use these options:
 
@@ -118,7 +120,10 @@ database
 Input is the incoming flow.
 Memory is the working substance.
 ```
-
+## Answers
+1. I/O is about movement because data is moving between systems by entering and leaving.
+2. Memory is not the same as input because memory is where working data is stored e.g. objects but input is data entering the system. Anything from memory is already in the system, it is not external.
+3. Input is where data enters the system and memory is where the system works with the data. 
 ---
 
 # 🖨️ Part 4 — Console Output
@@ -139,14 +144,21 @@ System.out.println("Hello world");
 ```text
 String in memory
         ↓
-?
+System.out.println()
         ↓
 Console output
 ```
 
+## Answers
+1. The "Hello World" string is in memory as an object.
+2. The data gets displayed to the user's screen.
+3. This is an example of output. 
+
 ## Challenge
 
 Write one more example of console output.
+
+System.out.println("Completing I/O Exercises");
 
 ---
 
@@ -175,15 +187,20 @@ System.out.println("Hello " + name);
 ```text
 User types name
         ↓
-?
+System.in receives input
         ↓
 Scanner reads input
         ↓
-?
+String stored in memory and output created
         ↓
 Console displays greeting
 ```
 
+## Answers
+1. The console via System.in.
+2. The Scanner object reads the input.
+3. The user's name gets stored in memory as an object.
+4. Hello NameEnteredByUser
 ---
 
 # 🧩 Part 6 — Input Is Not Memory
@@ -206,6 +223,9 @@ Memory is...
 Static means...
 The better question is...
 ```
+
+## Answer
+
 
 ## Final answer frame
 

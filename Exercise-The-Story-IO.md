@@ -29,13 +29,13 @@ You are learning how Java systems breathe.
 Complete the missing words:
 
 ```text
-Input = data __________ the program
+Input = data entering the program
 
-Output = data __________ the program
+Output = data leaving the program
 
-Memory = where Java __________ with data
+Memory = where Java works with data
 
-I/O = how data crosses the __________ of the system
+I/O = how data crosses the boundaries of the system
 ```
 
 ## Questions
@@ -50,6 +50,14 @@ I/O = how data crosses the __________ of the system
 I/O matters because software needs to...
 ```
 
+```text
+1. This is because a program with no input or output has no way to be accessed like a room without doors
+2. A database row, A user filling a form, an uploaded image
+3. writing to a file, writing to a database, Response to a http request
+4. It's the communication of files and things included within into and out of a system
+5. I/O matters because software needs to breath
+```
+
 ---
 
 # 🚪 Part 2 — Identify the Doorway
@@ -58,22 +66,22 @@ For each example, decide whether it is input, output, or both.
 
 | Example | Input / Output / Both? | Why? |
 |---|---|---|
-| User types their name into the console | ? | ? |
-| Java prints “Hello” to the console | ? | ? |
-| Java reads `students.txt` | ? | ? |
-| Java writes `results.txt` | ? | ? |
-| Frontend sends JSON to backend | ? | ? |
-| Backend returns JSON response | ? | ? |
-| Application writes a log message | ? | ? |
-| Java queries a database | ? | ? |
-| Java saves a row to a database | ? | ? |
+| User types their name into the console | input | passing text into the program |
+| Java prints “Hello” to the console | output | program is passing out text |
+| Java reads `students.txt` | input | program is taking in text from file |
+| Java writes `results.txt` | output | program is writing text to a file |
+| Frontend sends JSON to backend | input | JSON is being passed into the backend |
+| Backend returns JSON response | output | program backend is returning a response to the outside |
+| Application writes a log message | output | program is writing to something about its state |
+| Java queries a database | input | program is sending a request to a database |
+| Java saves a row to a database | output | ORM turns an object into a row for the database |
 
 ## Reflection
 
 Complete:
 
 ```text
-A boundary is crossed whenever...
+A boundary is crossed whenever I/O happens
 ```
 
 ---
@@ -84,15 +92,15 @@ Match the metaphor to the Java concept.
 
 | Metaphor | Java / Software Concept |
 |---|---|
-| water | ? |
-| water entering | ? |
-| water leaving | ? |
-| cups | ? |
-| containers | ? |
-| pipes | ? |
-| buckets | ? |
-| storage tanks | ? |
-| long-term reservoir | ? |
+| water | memory |
+| water entering | input |
+| water leaving | output |
+| cups | variables |
+| containers | objects |
+| pipes | streams |
+| buckets | buffers |
+| storage tanks | files |
+| long-term reservoir | database |
 
 Use these options:
 
@@ -119,6 +127,12 @@ Input is the incoming flow.
 Memory is the working substance.
 ```
 
+```text
+1. Because it's concerned with data moving in and out of programs
+2. Memory is where work is done on the data wheras input is how said data enters memory
+3. Input is the data flowing in whereas memory is where the data the program is working with is stored
+```
+
 ---
 
 # 🖨️ Part 4 — Console Output
@@ -139,15 +153,23 @@ System.out.println("Hello world");
 ```text
 String in memory
         ↓
-?
+System.out.println()
         ↓
 Console output
+```
+
+```text
+1. "Hello world"
+2. to the console
+3. This is output
 ```
 
 ## Challenge
 
 Write one more example of console output.
-
+```text
+System.out.println("Hello world");
+```
 ---
 
 # ⌨️ Part 5 — Console Input
@@ -175,13 +197,20 @@ System.out.println("Hello " + name);
 ```text
 User types name
         ↓
-?
+System.in receives input
         ↓
 Scanner reads input
         ↓
-?
+String stored in memory
         ↓
 Console displays greeting
+```
+
+```text
+1. The user typing in their name
+2. The scanner
+3. In memory
+4. ("Hello " + name)
 ```
 
 ---
@@ -201,10 +230,10 @@ Explain why this is the wrong category of question.
 Use this structure:
 
 ```text
-Input is...
-Memory is...
-Static means...
-The better question is...
+Input is the incoming flow
+Memory is the working substance
+Static means how data is owned/managed
+The better question is does input flow into static memory
 ```
 
 ## Final answer frame
@@ -212,11 +241,11 @@ The better question is...
 Complete:
 
 ```text
-Input = what __________
+Input = what data is coming in
 
-Memory = where it is __________
+Memory = where it is worked on
 
-Static/dynamic = how data is __________ or __________
+Static/dynamic = how data is owned or managed
 ```
 
 ---
@@ -249,6 +278,13 @@ Read = outside → __________
 
 Write = memory → __________
 ```
+```text
+1. The data in memory is deleted when the program stops running. Files is used to store data we don't want deleted
+2. It deletes
+3. The data enters memory
+4. The data is writen to a file on the disk
+```
+
 
 ---
 
@@ -283,13 +319,21 @@ Complete the flow:
 ```text
 students.txt
         ↓
-?
+Files.readString()
         ↓
 String content in memory
         ↓
-?
+System.out.println()
         ↓
 Console output
+```
+
+```text
+1. students.txt
+2. Files.readString()
+3. content
+4. memory
+5. The text within students.txt
 ```
 
 ---
@@ -323,10 +367,18 @@ public class WriteFileExample {
 ```text
 String in memory
         ↓
-?
+Files.writeString()
         ↓
 students.txt on disk
 ```
+
+```text
+1. content
+2. Files.writeString()
+3. students.txt
+4. output
+```
+
 
 ---
 
@@ -349,6 +401,12 @@ Complete:
 
 ```text
 Path = __________ of external data
+```
+```text
+1. No
+2. The location of students.txt in storage
+3. It directs to where a file is stored
+4. The path is the address of the file wherease the data inside the file is the information stored within the file itself
 ```
 
 ---

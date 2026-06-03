@@ -51,7 +51,7 @@ REST mainly focuses on...
 
 ```txt
 SOAP thinks in ____________________.
-REST thinks in ____________________.
+REST thinks in Resources.
 ```
 
 ### 4. Why did JSON become common with REST APIs?
@@ -59,8 +59,8 @@ REST thinks in ____________________.
 Write two reasons.
 
 ```txt
-Reason 1:
-Reason 2:
+Reason 1: Its simpler to read than XML
+Reason 2: JSON is the bridge between the front end, backend and other microservices, so since it can be used for all it is used by the REST apis
 ```
 
 ---

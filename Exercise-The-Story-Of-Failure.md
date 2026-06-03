@@ -25,14 +25,14 @@ add two numbers
 
 Questions:
 
-1. What behaviour does this promise?
-2. What input would you give it?
-3. What output would prove it worked?
-4. What output would prove it failed?
+1. What behaviour does this promise?          1. It promises to take two numbers and add them together.
+2. What input would you give it?              2. Two numbers to add.
+3. What output would prove it worked?         3. If it adds two numbers and gives you the correct answer.
+4. What output would prove it failed?         4. If it didn't add two numbers or give you the correct result
 5. Complete:
 
 ```text
-A test is a way of proving that...
+A test is a way of proving that...  method or code runs and does what is should or is required to do. 
 ```
 
 ---
@@ -43,12 +43,12 @@ For each behaviour, fill in the expected result.
 
 | Behaviour        | Input               | Expected Output |
 | ---------------- | ------------------- | --------------- |
-| Add numbers      | 2 and 3             | ?               |
-| Multiply numbers | 4 and 5             | ?               |
-| Validate email   | `amina@example.com` | ?               |
-| Validate email   | `amina`             | ?               |
-| Apply discount   | price = 100         | ?               |
-| Apply discount   | price = 50          | ?               |
+| Add numbers      | 2 and 3             | ? 5               |
+| Multiply numbers | 4 and 5             | ?  20             |
+| Validate email   | `amina@example.com` | ?  valid email           |
+| Validate email   | `amina`             | ? error invalid email              |
+| Apply discount   | price = 100         | ? price = less than 100              |
+| Apply discount   | price = 50          | ? price is less than 50              |
 
 Core idea:
 
@@ -73,12 +73,12 @@ return success
 
 Questions:
 
-1. What is the happy path?
-2. What could go wrong?
-3. What should happen if the email is invalid?
-4. What should happen if the user already exists?
-5. What should happen if saving fails?
-6. What should happen if sending the welcome message fails?
+1. What is the happy path? Where everything works the first time. (return sucess.)
+2. What could go wrong? Every step can go wrong. Email invalid, user already exists, error saying users loss of data, no welcome message.
+3. What should happen if the email is invalid?  return error and do not create/save the user. 
+4. What should happen if the user already exists? User exists, stop process to choose another username.
+5. What should happen if saving fails? return error message, do not send welcome message.
+6. What should happen if sending the welcome message fails? Return error, stop process do not return success message.
 
 ---
 
@@ -101,9 +101,9 @@ A user registers with a valid email.
 Fill in:
 
 ```text
-Arrange:
-Act:
-Assert:
+Arrange: allow user to register and enter their username.
+Act: register user and save let them know they have registered succesfully.
+Assert: check username is valid and it has been saved and verified.
 ```
 
 Scenario:
@@ -115,9 +115,9 @@ A user registers with a blank email.
 Fill in:
 
 ```text
-Arrange:
-Act:
-Assert:
+Arrange: User tries to enter email but it is blank.
+Act: Tells user email is blank, add a valid email.
+Assert: check if user has added a valid email, and has been notified that their email is blank. 
 ```
 
 ---
@@ -136,11 +136,11 @@ UserRegistrationService
 
 Questions:
 
-1. What behaviour belongs to the registration service?
-2. What behaviour belongs to the validator?
-3. What behaviour belongs to the repository?
-4. What behaviour belongs to the message sender?
-5. Why should we not test everything as one giant blob?
+1. What behaviour belongs to the registration service?--- validate email, save user, send welcome message, create user after user inputs it.
+2. What behaviour belongs to the validator?--- It verifies whether the email is valid or has already been used.
+3. What behaviour belongs to the repository? --- To make sure the info is savede and stored correctly.
+4. What behaviour belongs to the message sender? ---Sending the welcome message.
+5. Why should we not test everything as one giant blob?--- It becomes harder to find bugs, understand failures, test individual responsibilities and maintain code.
 
 Answer frame:
 
@@ -162,12 +162,12 @@ EmailValidator
 
 Questions:
 
-1. Which dependency touches storage?
-2. Which dependency sends communication?
-3. Which dependency checks input?
-4. Why might real storage make a test harder?
-5. Why might real email sending make a test dangerous?
-6. What could we use instead of the real dependency?
+1. Which dependency touches storage?-------- User Repository.
+2. Which dependency sends communication? -----------------Message Sender
+3. Which dependency checks input?------------------- Email validator
+4. Why might real storage make a test harder?--------- It may not always have the same data at all times, Can be slower as data has to be read from or written to storage, Could be connection issues with storage, 
+5. Why might real email sending make a test dangerous? Could contain sensitive, confidential or private information.
+6. What could we use instead of the real dependency? A mockup, to see everything, the code, tests, classes, objects before the real programme is built.
 
 Core idea:
 
@@ -187,10 +187,10 @@ It only remembers what happened.
 
 Questions:
 
-1. Why is a fake repository useful?
-2. What behaviour can it help us observe?
-3. What does it protect us from?
-4. When would we need the real database instead?
+1. Why is a fake repository useful? It can be used to test your code without using a real database or storage system. It is also faster and provides predicatable data without having to rely on a real database or storage system.
+2. What behaviour can it help us observe? It lets us observe how the app will behave when data is stored or retrieved, without the need of a real database.
+3. What does it protect us from? It can be used to make mistakes on, test, code, everything, protecting us from making them in the real app.
+4. When would we need the real database instead? When you want to test that your actual application actually works with the database, to see if data is stored and retrieved correctly in a real environment.
 
 Distinction:
 
@@ -315,7 +315,7 @@ subtypes must preserve expected behaviour
 
 Answer:
 
-1. What is a test?
+1. What is a test? A test is a procedure that allows you to check if your code, app, or program works before you run it., e.g Does this code produce the correct result.
 2. What is behaviour?
 3. Why do we test failure paths?
 4. Why do dependencies make testing harder?

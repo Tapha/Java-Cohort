@@ -47,11 +47,13 @@ I/O = how data crosses the bounday of the system
 5. Complete this sentence:
 
 ```text
-I/O matters because software needs to...
+I/O matters because software needs to move data across boundaries. 
 ```
 ## Answers
 1. The analogy of I/O is a doorway where data can enter and leave the program. If a program has no way to work with I/O, there is no way data would be able to enter or leave the program therefore like a room without doors.
-2. 
+2. Read from console, read file and take a network request.
+3. Write to console, write to a file and send a response across network. 
+4. I/O involves network and database queries. 
 ---
 
 # 🚪 Part 2 — Identify the Doorway
@@ -683,10 +685,10 @@ Fill in the table.
 
 | Type | Purpose |
 |---|---|
-| Entity | ? |
-| DTO | ? |
-| Service | ? |
-| Collection | ? |
+| Entity | database mapped object |
+| DTO | data crossing an API boundary |
+| Service | business logic and coordination |
+| Collection | many objects in memory |
 
 Use:
 
@@ -705,11 +707,14 @@ many objects in memory
 4. Complete:
 
 ```text
-Entity = __________ shape
+Entity = storage shape
 
-DTO = __________ shape
+DTO = boundary shape
 ```
-
+## Answers
+1. It is a boundary shape because it is a representation of the entity.
+2. Because entities could leak into the API and untracked changes could be made to the entities.
+3. MealRequest is the format which requests are sent in and MealResponse is the format which responses are sent in.
 ---
 
 # 🧾 Part 19 — Logs Are Output
@@ -737,9 +742,14 @@ Payment provider timed out
 Complete:
 
 ```text
-Good logs make runtime behaviour __________
+Good logs make runtime behaviour visible
 ```
-
+## Answers
+1. Logs are a form of output because logs send information out of a running program.
+2. Logs can go to the console or a file. 
+3. A system without logs is blind because there is nothing telling you about what events are happening in the system.
+4. Logs should include information about current events which are happening in the system and their success or failure.
+5. Logs should avoid logging information such as personal information like passwords or API keys.
 ---
 
 # ⚠️ Part 20 — I/O Can Fail
@@ -750,12 +760,12 @@ Match the failure to the boundary.
 
 | Failure | Boundary |
 |---|---|
-| file not found | ? |
-| permission denied | ? |
-| network timeout | ? |
-| invalid JSON | ? |
-| database unavailable | ? |
-| disk full | ? |
+| file not found | Path/File system |
+| permission denied | API |
+| network timeout | Network |
+| invalid JSON | Serialization |
+| database unavailable | database |
+| disk full | disk storage  |
 
 ## Questions
 
@@ -767,9 +777,12 @@ Complete:
 
 ```text
 Boundaries fail.
-Professional code handles __________ failure.
+Professional code handles boundary failure.
 ```
-
+## Answers
+1. Boundaries fail because it is the access to external data and systems which may not always be available.
+2. I/O is a risky operation because there is no guarantee that this boundary will be available so it could throw an exception. I/O operations should be wrapped in a try{} catch{} block.
+3. Professional code should handle boundary failure gracefully without any catastrophic events. 
 ---
 
 # 🐢 Part 21 — I/O and Performance
@@ -777,11 +790,11 @@ Professional code handles __________ failure.
 Rank these from fastest to slowest in general:
 
 ```text
-network call
-memory access
-database query
 CPU work
+memory access
 disk I/O
+database query
+network call
 ```
 
 ## Questions
@@ -794,9 +807,13 @@ disk I/O
 Complete:
 
 ```text
-The N+1 problem is an __________ problem hiding behind object access.
+The N+1 problem is an I/O problem hiding behind object access.
 ```
-
+## Answers
+1. I/O is slower than memory because it involves a request to disk, which is a much slower operation compared to memory transfer speeds.
+2. It may cause issues with the API timing out or going through too many tokens.
+3. Database operations are slow so many database operations will cause a queue of operations waiting to happen, this will slow performance.
+4. The ORM N+1 problem is there are database queries in hiding and behind these database queries are I/O operations. 
 ---
 
 # 🔄 Part 22 — Full Backend Data Journey
@@ -810,17 +827,17 @@ HTTP input crosses network
         ↓
 Controller receives request
         ↓
-JSON becomes __________
+JSON becomes Data DTO
         ↓
-Service processes __________
+Service processes business logic
         ↓
-Repository may query __________
+Repository may query database
         ↓
-ORM maps rows to __________
+ORM maps rows to entities
         ↓
-Service creates response __________
+Service creates response DTO
         ↓
-Java object becomes __________
+Java object becomes JSON
         ↓
 HTTP response leaves backend
 ```
@@ -834,6 +851,13 @@ HTTP response leaves backend
 5. Why is this the full breathing cycle of a backend?
 
 ---
+
+## Answers
+1. The HTTP request entering the backend is an example of input.
+2. The JSON becoming Java DTO.
+3. Repository may query database
+4. HTTP response leaving the backend
+5. The backend takes an input, processes the data and does any required queries and then processes the output data and sends it as a response. 
 
 # 🍅 Part 23 — Fridge2Meal Flow
 
@@ -876,12 +900,54 @@ Expected response:
 7. Identify which part belongs to the controller.
 8. Identify which part belongs to the service.
 
+
+## Answers
+1.
+```
+public record MealRequest(
+    List<String> ingredients
+) {}
+
+```
+2. 
+```
+public record MealResponse(
+    String title,
+    String description,
+    List<String> steps
+) {}
+
+```
+3.
+```
+POST /api/meals/suggestion
+{
+  "ingredients": ["tomato", "pasta", "cheese"]
+}
+```
+4.
+```
+{
+  "title": "Tomato Pasta",
+  "description": "A simple meal using tomato, pasta and cheese.",
+  "steps": [
+    "Boil pasta",
+    "Cook tomatoes into a sauce",
+    "Mix pasta and sauce together"
+  ]
+}
+```
+5. Serialization happens when the object for the response gets turned back into JSON to be sent to the frontend.
+6. Deserialization happens when the request JSON gets turned into an object so it can be used in Java.
+7. The controller receives the JSON request.
+8. The service will generate the required data for the controller to send as a response. 
+
 ## Reflection
 
 Complete:
 
 ```text
-This feature contains REST + I/O + JSON + DTOs + objects because...
+This feature contains REST + I/O + JSON + DTOs + objects because data is crossing multiple boundaries. 
 ```
 
 ---
@@ -891,21 +957,21 @@ This feature contains REST + I/O + JSON + DTOs + objects because...
 Fill in the missing pieces.
 
 ```text
-Memory gives the program a __________ space.
+Memory gives the program a working space.
 
-Objects give memory __________.
+Objects give memory shape.
 
-Collections organize __________ objects.
+Collections organize many objects.
 
-ORM connects objects to __________ storage.
+ORM connects objects to database storage.
 
-Exceptions handle boundary __________.
+Exceptions handle boundary failure.
 
-Logging makes runtime behaviour __________.
+Logging makes runtime behaviour visible.
 
-I/O moves data __________ and __________.
+I/O moves data in and out.
 
-REST structures __________ I/O.
+REST structures web I/O.
 ```
 
 ---
@@ -930,7 +996,19 @@ Answer in your own words:
 ```text
 I/O is how Java systems breathe.
 ```
-
+## Answers 
+1. I/O is the process of allowing data to enter and leave a system through various boundaries.
+2. I/O allows software to interact with other software and services which are available and receive extra data, it is not closed off.
+3. Input is where data enters a system whereas memory is where data is worked on in a system.
+4. A stream is where data is sent in parts usually because it is too big to be sent at once into memory.
+5. A buffer is a bucket or temporary memory location to collect incoming data before it is sent on to make the movement of data more efficient.
+6. Serialization is turning Java objects into another useful format e.g. JSON.
+7. Deserialization is turning a format sent into a program into a Java object so it can be used in the Java program.
+8. JSON is important because it is the common format for sending data over APIs and goes hand in hand with JavaScript which is used on the web.
+9. A DTO is a representation of an entity so entities do not have to be visible to the APIs.
+10. I/O can fail because it relies on other systems and resources which may not always be available so can often throw exceptions.
+11. I/O is a performance bottleneck because it isn't memory operations and relies on network and disk which are inherently slow.
+12. This sentence represents the fact that software will take data in (input), process the data and then send data out of the system (output). This is a full cycle rather like the breathing cycle which humans do. 
 ---
 
 # 🌟 Stretch Challenge — Design an I/O Flow

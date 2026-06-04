@@ -417,8 +417,13 @@ big logs
 Complete:
 
 ```text
-Stream = pipe for moving data __________
+Stream = pipe for moving data gradually
 ```
+## Answers 
+1. Files which are generally streamed may be too large to be stored in memory and would overfill memory, causing problems.
+2. Large files, audio files, video files and PDFs.
+3. Streams are like pipes because they are a controlled flow of data, moving data piece by piece.
+4. Uploading and downloading large files, streaming video and downloading images. 
 
 ---
 
@@ -428,8 +433,8 @@ Match the term to the meaning.
 
 | Term | Meaning |
 |---|---|
-| InputStream | ? |
-| OutputStream | ? |
+| InputStream | pipe coming in |
+| OutputStream | pipe going out |
 
 Use:
 
@@ -448,11 +453,14 @@ writes bytes out of the program
 4. Complete:
 
 ```text
-InputStream = pipe __________
+InputStream = pipe coming in
 
-OutputStream = pipe __________
+OutputStream = pipe going out
 ```
-
+## Answers
+1. Streams are byte based.
+2. An InputStream reads bytes into a program.
+3. OutputStream writes bytes out of a program. 
 ---
 
 # ✍️ Part 13 — Readers and Writers
@@ -461,10 +469,10 @@ Fill in the table.
 
 | Tool | Works With | Example Use |
 |---|---|---|
-| InputStream | ? | ? |
-| OutputStream | ? | ? |
-| Reader | ? | ? |
-| Writer | ? | ? |
+| InputStream | incoming bytes | reading bytes from a video |
+| OutputStream | outgoing bytes | writing bytes as a PDF file |
+| Reader | incoming characters | reading from .csv files |
+| Writer | outgoing characters | writing to .txt files |
 
 ## Questions
 
@@ -473,11 +481,13 @@ Fill in the table.
 3. Complete:
 
 ```text
-Streams = __________
+Streams = bytes
 
-Readers/Writers = __________
+Readers/Writers = text
 ```
-
+## Answers
+1. A Reader would be more natural when working with text files.
+2. An InputStream would be more natural when working with byte based files like audio and video. 
 ---
 
 # 🪣 Part 14 — Buffers
@@ -493,8 +503,14 @@ A buffer is temporary memory used while moving data.
 5. Complete:
 
 ```text
-Buffer = temporary __________ used to make I/O smoother
+Buffer = temporary memory used to make I/O smoother
 ```
+
+## Answers
+1. It will take longer to do any operation as data will need to continuously loaded into memory.
+2. It will wait and collect a chunk of data then move the data when it has enough.
+3. A buffer for reading text files.
+4. A buffer for writing to text files. 
 
 ## Reflection
 
@@ -504,7 +520,7 @@ Explain this metaphor:
 Instead of carrying water drop by drop,
 carry a bucket.
 ```
-
+This means that the buffer will collect a bucket of data when it arrives and deliver that as opposed to moving small bits of data each time they arrive. 
 ---
 
 # 🧬 Part 15 — Serialization and Deserialization
@@ -512,9 +528,9 @@ carry a bucket.
 Complete the definitions:
 
 ```text
-Serialization = object → __________
+Serialization = object → transferable format
 
-Deserialization = __________ → object
+Deserialization = transferable format → object
 ```
 
 ## Questions
@@ -529,7 +545,7 @@ Complete the flow:
 ```text
 Java object
         ↓
-?
+serialization
         ↓
 JSON/text/bytes
         ↓
@@ -541,10 +557,15 @@ Reverse flow:
 ```text
 JSON/text/bytes
         ↓
-?
+deserialization
         ↓
 Java object
 ```
+## Answers
+1. Java memory objects cannot travel across a network because the receiving side will not know how to interpret the Java object.
+2. Because Java objects only exist in memory and can only be used by Java so for other access, they need to be converted.
+3. JSON, text or bytes.
+4. Serialization is important for APIs because APIs expect JSON to be transferred and not Java objects. 
 
 ---
 
@@ -582,11 +603,14 @@ JSON shape:
 4. Complete:
 
 ```text
-Java object → __________ response
+Java object → JSON response
 
-JSON request → __________ object
+JSON request → JSON object
 ```
-
+## Answers
+1. The Java record lives inside the Java memory.
+2. The JSON is sent across the network.
+3. Spring Boot will convert Java objects to JSON and back again automatically.
 ---
 
 # 🌐 Part 17 — JSON Request to Java Object
@@ -629,7 +653,7 @@ Complete the flow:
 ```text
 JSON request body
         ↓
-Spring __________ JSON
+Spring deserializes JSON
         ↓
 MealRequest object in memory
         ↓
@@ -637,11 +661,14 @@ Service uses object
         ↓
 MealResponse object
         ↓
-Spring __________ to JSON
+Spring serializes to JSON
         ↓
 HTTP response
 ```
-
+## Answers
+1. The JSON which is sent as part of the request.
+2. The MealRequest object
+3. Does the deserialization of the JSON. 
 ---
 
 # 🧱 Part 18 — DTOs as Boundary Objects

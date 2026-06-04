@@ -79,6 +79,19 @@ users
 
 ---
 
+## Answers 
+1. The User class represents an entity. 
+2. The users table is a collection of records in the database.
+3. One row corresponds to a Java object.
+4. One column represents a Java field.
+5.
+| Database    | Java    |
+| ----------- | ----    |
+| table       | Class   |
+| row         | Object  |
+| column      | Field   |
+| primary key | @Id     |
+
 # Part 2 — Turn a Class Into an Entity 🏷️
 
 A normal Java class becomes a JPA entity when we tell JPA that it should be mapped to a database table.
@@ -118,6 +131,12 @@ Use this sentence starter:
 An entity is a Java object that...
 ```
 
+## Answers
+1. @Entity
+2. @Id
+3. JPA needs a zero argument constructor so that it can be instantiated as a blank object.
+4. An entity is a Java object which is representative of a relational database table. 
+
 ---
 
 # Part 3 — One Row, One Object 🧱
@@ -139,12 +158,18 @@ Write the Java object that represents this row.
 ```java
 User user = new User(?, ?, ?);
 ```
+User user = new User(3, "sara@example.com", "Sara");
 
 ## Questions
 
 1. Where does the `User` object live while the Java program is running?
 2. Where does the row live long-term?
 3. What does ORM help translate between?
+
+## Answers
+1. The user object is stored in memory during runtime.
+2. The row lives on disk in a relational database.
+3. The ORM helps translate between a relational database and a Java object. 
 
 ---
 
@@ -178,7 +203,24 @@ ORM maps each row
 List<?>
 ```
 
+## Answers 
+1. A Java list of User objects
+2. Returns a list of the 100 rows of the users table
+3.
+```text
+users table
+        ↓
+many rows
+        ↓
+ORM maps each row
+        ↓
+many user objects
+        ↓
+List<User>
+```
+
 4. Why did we learn collections before ORM?
+We learnt collections before ORM because ORM returns and uses collections. As collections are a major part of ORM, it makes sense to understand that theory first. 
 
 ---
 
@@ -211,6 +253,13 @@ public interface UserRepository {
 Repository = boundary between ? and ?
 ```
 
+## Answers
+1. A repository is used to retreive and save entries.
+2. A repository should not send welcome emails because a repository should have one purpose only, comply with SOLID principles and this would not adhere to SRP.
+3. A repository should not calculate business discounts because it should only have one purpose and use SRP using solid principles.
+4. Single Responsiblity Principle
+5. Repository = boundary between business logic and data storage
+
 ---
 
 # Part 6 — Service vs Repository ⚖️
@@ -240,17 +289,25 @@ public class UserService {
 5. Which part should belong to a message sender?
 6. Which part should belong to a report service?
 
+## Answers
+1. The method in the class has the following responsibilities: validating emails, building SQL queries, connecting to the database, inserting user, sending welcome emails and generating business reports.
+2. This will be difficult to maintain because the class is doing multiple different tasks and responsibilities which will need changing throughout the life of the program. This means that this class is likely to be more fragile.
+3. Validate email
+4. Insert user
+5. Send welcome email
+6. Generate report
+
 ## Refactor Plan
 
 Fill in the responsibility table:
 
 | Responsibility            | Better Class |
 | ------------------------- | ------------ |
-| validate email            | ?            |
-| save user                 | ?            |
-| send welcome email        | ?            |
-| generate user report      | ?            |
-| coordinate the whole flow | ?            |
+| validate email            | EmailValidator            |
+| save user                 | UserRepository            |
+| send welcome email        | MessageSender            |
+| generate user report      | ReportGenerator            |
+| coordinate the whole flow | UserRegistrationService            |
 
 ---
 
@@ -297,6 +354,13 @@ public class UserRegistrationService {
 
 ---
 
+## Answers
+1. To coordinate the registration of new users, it orchestrates the whole process.
+2. No it does not directly use SQL, it uses defined methods and objects through JPA.
+3. No it doesn't know exactly know ho wth emessages are sent because it hands it off to another object, which has the responsibility.
+4. EmailValidator, UserRespository, MessageSender
+5. Yes because it is involving other objects. 
+
 # Part 8 — Persistence Context 🧠
 
 JPA has something called the persistence context.
@@ -326,7 +390,11 @@ Inside the same persistence context, JPA may return the same managed entity inst
 ```text
 The persistence context connects database identity to...
 ```
-
+## Answers
+1. Persistence context manages an in memory space that is for entries.
+2. So if the entity is used again, it can return the same object which was shown before.
+3. If an entity is managed, it will track which entities are loaded, changed, require saving and if the same entity is being requested again.
+4. The persistence context connects database identity to entities. 
 ---
 
 # Part 9 — Entity Lifecycle 🔄
@@ -337,10 +405,10 @@ Match each state to its meaning.
 
 | State           | Meaning |
 | --------------- | ------- |
-| New / transient | ?       |
-| Managed         | ?       |
-| Detached        | ?       |
-| Removed         | ?       |
+| New / transient |  object exists in memory but not saved yet      |
+| Managed         | JPA is tracking it       |
+| Detached        | object exists but JPA is no longer tracking it       |
+| Removed         | marked for deletion       |
 
 Meanings:
 
@@ -367,6 +435,11 @@ userRepository.save(user);
 
 3. Why does entity lifecycle matter?
 
+
+## Answers
+1. New/transient
+2. Managed, JPA is now tracking as it is saved in the database.
+3. ORM is not just about the objects as objects change state over time. 
 ---
 
 # Part 10 — Dirty Checking 🧼
@@ -401,7 +474,23 @@ SQL ? happens
         ↓
 Database row changes
 ```
+## Answers
 
+1. The name has changed in the object in memory.
+2. JPA has detected that the entity that it is tracking has changed.
+3. An SQL UPDATE statement will take place.
+4. Allows changes to the database to be quickly done as JPA is always tracking the objects.
+5. The database doesn't always update straight away, the change may happen later.
+
+```text
+Managed entity changes in memory
+        ↓
+JPA detects change
+        ↓
+SQL UPDATE happens
+        ↓
+Database row changes
+```
 ---
 
 # Part 11 — Relationships 🕸️
@@ -438,7 +527,18 @@ Many ? objects
         ↓
 List<?>
 ```
-
+## Answers
+1. A collection in list form of type Order, a collection of order objects from the database.
+2. The column user_id in the orders table.
+3. One to many relationship, one user can have many orders
+4. 
+```text
+One User object
+        ↓
+Many order objects
+        ↓
+List<Order>
+```
 ---
 
 # Part 12 — Lazy Loading ⚠️
@@ -465,6 +565,12 @@ List<Order> orders = user.getOrders();
 ORM can make database access look like...
 ```
 
+## Answers
+1. The user object
+2. The list of orders
+3. Saves unnecessary IO operations from taking place and reduces amount stored in memory.
+4. The real queries which take place are hidden behind JPA so there is no way of knowing exactly what operations are taking place.
+5. ORM can make database access look like object work but the database still exists. 
 ---
 
 # Part 13 — The N+1 Problem 🧨
@@ -494,20 +600,25 @@ Use this sentence starter:
 ```text
 The N+1 problem happens when...
 ```
-
+## Answers
+1. userRepository.findAll()
+2. The database will be queried to fetch the orders and load into a Java object. 
+3. N (number of users) + 1 queries worst case
+4. Lots of database queries are happening behind the scenes, increasing IO operations and increasing memory load.
+5. The N+1 problem happens when there are more queries than expected given a number of users when iterating. 
 ---
 
 # Part 14 — ORM and SOLID 🧱
 
 Fill in the table.
 
-| SOLID Principle | ORM Meaning |
-| --------------- | ----------- |
-| SRP             | ?           |
-| OCP             | ?           |
-| LSP             | ?           |
-| ISP             | ?           |
-| DIP             | ?           |
+| SOLID Principle | ORM Meaning                                             |
+| --------------- | ------------------------------------------------------- |
+| SRP             | repositories should not contain business logic          |
+| OCP             | new persistence behavior should not break core logic    |
+| LSP             | entity models should tell the truth                     |
+| ISP             | repository interfaces should stay focused               |
+| DIP             | services should depend on repository abstractions       |
 
 Use these ideas:
 
@@ -539,7 +650,17 @@ Answer these in your own words.
 ```text
 ORM is a system for synchronizing object state with database state over time.
 ```
-
+## Answers
+1. An ORM bridges the link and transition between relational databases and Java objects
+2. A relational database and Java are very different in the way that they operate so an ORM is needed to translate from relational databases to object oriented programming languages.
+3. A class is the object oriented representation of a table.
+4. An object is the object oriented representation of a row in a database.
+5. A collection in Java represents many rows in a database.
+6. A repository manages the process of accessing and saving to databases, it acts as the translation layer.
+7. Persistence context is what manages what is happening to the data from the database which is represented as entities in memory.
+8. Lazy loading is useful because it allows for database operations to happen later, saving resources but can also cause issues and be dangerous because more operations can happen than expected at certain times.
+9. An ORM does not remove the need to understand databases because it still uses the fundamentals of databases in the way that it works for example, a class is the object oriented representation of a database table.
+10. An ORM allows for the access to databases in an object oriented environment and will manage the actual database operations behind the scenes to ensure that both have the same data. 
 ---
 
 # Stretch Challenge 🌟

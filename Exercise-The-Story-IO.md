@@ -256,7 +256,7 @@ Input = what the data is coming from
 
 Memory = where it is stored
 
-Static/dynamic = how data is __________ or __________
+Static/dynamic = how data is owned or managed
 ```
 
 ---
@@ -278,16 +278,27 @@ application.properties
 ## Questions
 
 1. Why do we need files if we already have memory?
+
+Memory gets deleted when the java runtime ends. Files is data storage that is quite flexible and can be used by people to send to others.
+
 2. What happens to normal runtime memory when the program stops?
+
+It gets deleted.
+
 3. What happens when Java reads a file?
+
+the file starts on the disk, then it is read by java and converted into memory
+
 4. What happens when Java writes a file?
+
+The memory is converted by java and writen into a file which is put on the disk
 
 Complete:
 
 ```text
-Read = outside → __________
+Read = outside → memory
 
-Write = memory → __________
+Write = memory → file
 ```
 
 ---
@@ -313,21 +324,35 @@ public class FileExample {
 ## Questions
 
 1. What file is being read?
+
+"students.txt"
+
 2. Which method reads the file?
+
+readString()
+
 3. What variable holds the file content?
+
+content
+
 4. Where does the file content live after it is read?
+
+in java memory
+
 5. What output happens after reading?
+
+it is outputted to the console
 
 Complete the flow:
 
 ```text
 students.txt
         ↓
-?
+Files.readString()
         ↓
 String content in memory
         ↓
-?
+System.out.println()
         ↓
 Console output
 ```
@@ -346,7 +371,6 @@ public class WriteFileExample {
 
     public static void main(String[] args) throws Exception {
         String content = "Amina,David,Sara";
-
         Files.writeString(Path.of("students.txt"), content);
     }
 }
@@ -355,15 +379,27 @@ public class WriteFileExample {
 ## Questions
 
 1. What data starts in memory?
+
+the content, so the string "Amina,David,Sara"
+
 2. Which method writes the file?
+
+writeString
+
 3. What file is created or updated?
+
+students.txt
+
 4. Is this input or output?
+
+output
+
 5. Complete the flow:
 
 ```text
 String in memory
         ↓
-?
+Files.writeString()
         ↓
 students.txt on disk
 ```
@@ -381,14 +417,26 @@ Path path = Path.of("students.txt");
 ## Questions
 
 1. Does this line read the file?
+
+No
+
 2. What does `Path.of("students.txt")` represent?
+
+It points to the position of the students.txt file
+
 3. Why is a path like an address?
+
+Refers to the location of a file
+
 4. What is the difference between a path and the data inside the file?
+
+path is the location of the file, the data is a seperate thing that is what makes up the file.
+
 
 Complete:
 
 ```text
-Path = __________ of external data
+Path = location of external data
 ```
 
 ---
@@ -400,8 +448,17 @@ A stream moves data gradually.
 ## Questions
 
 1. Why might reading a whole file at once be a problem?
+
+It will take a while to process, or a whole file might be too large to be held at once.
+
 2. What kinds of data might be too large to load all at once?
+
+Videos especially
+
 3. Why is a stream like a pipe?
+
+It groups data into bytes allowing it to flow into the system
+
 4. Give three examples where streams are useful.
 
 Use examples from:
@@ -420,7 +477,7 @@ big logs
 Complete:
 
 ```text
-Stream = pipe for moving data __________
+Stream = pipe for moving data gradually
 ```
 
 ---
@@ -431,8 +488,8 @@ Match the term to the meaning.
 
 | Term | Meaning |
 |---|---|
-| InputStream | ? |
-| OutputStream | ? |
+| InputStream | pipe coming in, reads bytes into the program |
+| OutputStream | pipe going out, writes bytes out of the program |
 
 Use:
 
@@ -446,14 +503,23 @@ writes bytes out of the program
 ## Questions
 
 1. Are streams byte-based or text-based?
+
+bytes
+
 2. What does an `InputStream` bring into Java memory?
+
+bytes from files
+
 3. What does an `OutputStream` send out?
+
+Bytes from memory
+
 4. Complete:
 
 ```text
-InputStream = pipe __________
+InputStream = pipe coming in
 
-OutputStream = pipe __________
+OutputStream = pipe coming out
 ```
 
 ---
@@ -464,21 +530,27 @@ Fill in the table.
 
 | Tool | Works With | Example Use |
 |---|---|---|
-| InputStream | ? | ? |
-| OutputStream | ? | ? |
-| Reader | ? | ? |
-| Writer | ? | ? |
+| InputStream | incoming bytes | images |
+| OutputStream | outgoing bytes | pdfs |
+| Reader | incoming characters | .txt files |
+| Writer | outgoing characters | .cvs files |
 
 ## Questions
 
 1. When would a `Reader` be more natural than an `InputStream`?
+
+When reading in files based on characters, like txt files
+
 2. When would an `InputStream` be more natural than a `Reader`?
+
+When reading in files based on bytes, like pdf files
+
 3. Complete:
 
 ```text
-Streams = __________
+Streams = bytes
 
-Readers/Writers = __________
+Readers/Writers = characters
 ```
 
 ---
@@ -490,13 +562,25 @@ A buffer is temporary memory used while moving data.
 ## Questions
 
 1. Why is moving data one tiny piece at a time inefficient?
+
+imagine carrying drops of water one by one from one location to another. 
+
 2. Why is a buffer like a bucket?
+
+collects chunks of data and moves it as a group
+
 3. What does `BufferedReader` suggest?
+
+A chunk of data has been collected and is incoming to the system
+
 4. What does `BufferedWriter` suggest?
+
+a chunk of data has been collected and is leaving the system
+
 5. Complete:
 
 ```text
-Buffer = temporary __________ used to make I/O smoother
+Buffer = temporary memory used to make I/O smoother
 ```
 
 ## Reflection
@@ -507,6 +591,7 @@ Explain this metaphor:
 Instead of carrying water drop by drop,
 carry a bucket.
 ```
+Instead of carrying data bit by bit or byte by byte or character by character, group chunks of the data together before moving it, making it more efficient.
 
 ---
 

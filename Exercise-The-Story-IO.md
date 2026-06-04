@@ -600,24 +600,35 @@ Instead of carrying data bit by bit or byte by byte or character by character, g
 Complete the definitions:
 
 ```text
-Serialization = object → __________
+Serialization = object → transferable format
 
-Deserialization = __________ → object
+Deserialization = transferable format → object
 ```
 
 ## Questions
 
 1. Why can’t Java memory objects directly travel across a network?
+
+objects are how java intepret stuff, however that isnt the same across a network
+
 2. Why do objects need to be converted before storage or transfer?
+
+
+
 3. What formats can objects be serialized into?
+
+json, text or bytes
+
 4. Why is serialization important for APIs?
+
+JSON formats can travel across networks, and API often bridges across networks information.
 
 Complete the flow:
 
 ```text
 Java object
         ↓
-?
+serialization
         ↓
 JSON/text/bytes
         ↓
@@ -629,7 +640,7 @@ Reverse flow:
 ```text
 JSON/text/bytes
         ↓
-?
+deserialization
         ↓
 Java object
 ```
@@ -665,14 +676,23 @@ JSON shape:
 ## Questions
 
 1. Which one lives inside Java memory?
+
+The java object
+
 2. Which one crosses the network?
+
+The JSON
+
 3. What does Spring Boot often do automatically?
+
+Covert from a java object to json and vice versa
+
 4. Complete:
 
 ```text
-Java object → __________ response
+Java object → JSON response
 
-JSON request → __________ object
+JSON request → Java object
 ```
 
 ---
@@ -707,7 +727,21 @@ public MealResponse suggestMeal(@RequestBody MealRequest request) {
 ## Questions
 
 1. What is the JSON request body?
+
+```json
+{
+  "ingredients": ["tomato", "pasta", "cheese"]
+}
+```
+
 2. What Java object represents the request?
+
+```java
+public record MealRequest(
+    List<String> ingredients
+) {}
+```
+
 3. What does `@RequestBody` suggest conceptually?
 4. What does the service receive?
 5. What does the controller return?

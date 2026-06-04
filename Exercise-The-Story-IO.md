@@ -215,6 +215,7 @@ Is input static memory?
 
 Explain why this is the wrong category of question.
 
+
 Use this structure:
 
 ```text
@@ -225,18 +226,18 @@ The better question is...
 ```
 
 ## Answer
-
+Input is data entering the system and memory is where data is worked on for example, where Java works is in memory. Static means the data in the system is consitent and unchanging. 
 
 ## Final answer frame
 
 Complete:
 
 ```text
-Input = what __________
+Input = what enters
 
-Memory = where it is __________
+Memory = where it is worked on
 
-Static/dynamic = how data is __________ or __________
+Static/dynamic = how data is owned or managed
 ```
 
 ---
@@ -265,11 +266,15 @@ application.properties
 Complete:
 
 ```text
-Read = outside → __________
+Read = outside → memory
 
-Write = memory → __________
+Write = memory → outside
 ```
-
+## Answer
+1. We need files because we need a way to store data when the program has finished running as memory is only available during the time the program is running.
+2. Runtime memory disappears when the program stops as it is deallocated.
+3. When Java reads a file, it reads the file on disk and the data from the file enters memory.
+4. When Java writes a file, it writes the area of memory that needs writing into a file on disk. 
 ---
 
 # 📥 Part 8 — Reading a File
@@ -303,15 +308,20 @@ Complete the flow:
 ```text
 students.txt
         ↓
-?
+Files.readString()
         ↓
 String content in memory
         ↓
-?
+System.out.println()
         ↓
 Console output
 ```
-
+## Answers
+1. students.txt
+2. Files.readString()
+3. content
+4. The content of the file is in memory.
+5. Printing to the console System.out.println(contents).
 ---
 
 # 📤 Part 9 — Writing a File
@@ -343,11 +353,15 @@ public class WriteFileExample {
 ```text
 String in memory
         ↓
-?
+Files.writeString()
         ↓
 students.txt on disk
 ```
-
+## Answers
+1. String variable content.
+2. Files.writeString()
+3. students.txt
+4. Output
 ---
 
 # 🧭 Part 10 — Paths
@@ -368,9 +382,12 @@ Path path = Path.of("students.txt");
 Complete:
 
 ```text
-Path = __________ of external data
+Path = location of external data
 ```
-
+## Answers
+1. No, it just creates a path object for the file.
+2. A pointer to the location of students.txt
+3. It is like an address because it points to the location of where data should be. 
 ---
 
 # 🌊 Part 11 — Streams as Pipes

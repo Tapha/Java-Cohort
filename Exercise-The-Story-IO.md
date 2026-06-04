@@ -654,15 +654,15 @@ many objects in memory
 
 ## Questions
 
-1. Why is a DTO a boundary shape?
-2. Why should we avoid exposing entities directly through APIs?
-3. What is the difference between `MealRequest` and `MealResponse`?
+1. Why is a DTO a boundary shape? it moves the data across an API boundary
+2. Why should we avoid exposing entities directly through APIs? to stop database leaking into the APO
+3. What is the difference between `MealRequest` and `MealResponse`? MealRequesr carries the input data, but the MealResponse carries the output data
 4. Complete:
 
 ```text
-Entity = __________ shape
+Entity = storage shape
 
-DTO = __________ shape
+DTO = boundary shape
 ```
 
 ---
@@ -683,16 +683,16 @@ Payment provider timed out
 
 ## Questions
 
-1. Why are logs a form of output?
-2. Where can logs go?
-3. Why is a system without logs blind?
-4. What kind of information should logs include?
-5. What kind of information should logs avoid?
+1. Why are logs a form of output? they send the information out
+2. Where can logs go? into files, console
+3. Why is a system without logs blind? making the behvaiour invisible
+4. What kind of information should logs include? important things like events or errors
+5. What kind of information should logs avoid? unnecessary data tha isnt needed
 
 Complete:
 
 ```text
-Good logs make runtime behaviour __________
+Good logs make runtime behaviour visible
 ```
 
 ---
@@ -705,24 +705,24 @@ Match the failure to the boundary.
 
 | Failure | Boundary |
 |---|---|
-| file not found | ? |
-| permission denied | ? |
-| network timeout | ? |
-| invalid JSON | ? |
-| database unavailable | ? |
-| disk full | ? |
+| file not found |file system |
+| permission denied | file system |
+| network timeout | network |
+| invalid JSON | JSON |
+| database unavailable | database |
+| disk full | file system |
 
 ## Questions
 
-1. Why do boundaries fail?
-2. Why is I/O closely connected to exceptions?
-3. What should professional code do when boundary failure happens?
+1. Why do boundaries fail? files not exiisting, permission denied, timeout with the system, JSON invalid, datavase may be unavailable 
+2. Why is I/O closely connected to exceptions? when data crosses the boundary failures can happen
+3. What should professional code do when boundary failure happens? should hndle it using proper erro handling to ensure the program doesnt failure 
 
 Complete:
 
 ```text
 Boundaries fail.
-Professional code handles __________ failure.
+Professional code handles Boundaries failure.
 ```
 
 ---
@@ -738,18 +738,25 @@ database query
 CPU work
 disk I/O
 ```
+answers:
+CPU work
+memory access
+disk I/O
+database query
+network call
+
 
 ## Questions
 
-1. Why is I/O often slower than memory?
-2. Why can calling an API inside a loop become dangerous?
-3. Why can too many database queries hurt performance?
-4. How does this connect to the ORM N+1 problem?
+1. Why is I/O often slower than memory? it crosses outside the running program 
+2. Why can calling an API inside a loop become dangerous? it can create too many network calls 
+3. Why can too many database queries hurt performance? the queries are boundary crossing 
+4. How does this connect to the ORM N+1 problem? it may cause extra database queries
 
 Complete:
 
-```text
-The N+1 problem is an __________ problem hiding behind object access.
+```
+The N+1 problem is an I/O  problem hiding behind object access.
 ```
 
 ---
@@ -765,28 +772,28 @@ HTTP input crosses network
         ↓
 Controller receives request
         ↓
-JSON becomes __________
+JSON becomes DTO
         ↓
-Service processes __________
+Service processes business logic
         ↓
-Repository may query __________
+Repository may query database
         ↓
-ORM maps rows to __________
+ORM maps rows to entites
         ↓
-Service creates response __________
+Service creates response DTO
         ↓
-Java object becomes __________
+Java object becomes JSON
         ↓
 HTTP response leaves backend
 ```
 
 ## Questions
 
-1. Where does input happen?
-2. Where does memory processing happen?
-3. Where does database I/O happen?
-4. Where does output happen?
-5. Why is this the full breathing cycle of a backend?
+1. Where does input happen? When the frontend sens the JSON request and the HTTP Input through the connect
+2. Where does memory processing happen? JSON become a DTO and the service process business logic
+3. Where does database I/O happen? when the queries from the repositiory the database
+4. Where does output happen? the java object becomes the JSON and HTTP response leaving the backend
+5. Why is this the full breathing cycle of a backend? because the data enters then java works in the memory and the data leaves as a output
 
 ---
 
@@ -823,20 +830,28 @@ Expected response:
 ## Tasks
 
 1. Create a `MealRequest` DTO.
+   public record MealRequest(
+    List<String> ingredients
+)
 2. Create a `MealResponse` DTO.
-3. Identify the input.
-4. Identify the output.
-5. Identify where serialization happens.
-6. Identify where deserialization happens.
-7. Identify which part belongs to the controller.
-8. Identify which part belongs to the service.
+   public record MealResponse(
+    String title,
+    String description,
+    List<String> steps
+   )
+3. Identify the input-> ingredients
+4. Identify the output-> the JSON response with title, description, and steps
+5. Identify where serialization happens -> when the MealResponse object becomes JSON
+6. Identify where deserialization happens -> the JSON request becomes a MealRequest object.
+7. Identify which part belongs to the controller ->  controller receives the JSON request as a MealRequest and returns a MealResponse
+8. Identify which part belongs to the service. -> service is mealService.generateMeal(request). It processes the ingredients and creates the meal suggestion
 
 ## Reflection
 
 Complete:
 
 ```text
-This feature contains REST + I/O + JSON + DTOs + objects because...
+This feature contains REST + I/O + JSON + DTOs + objects because data enters as a JSON request becomes a MealRequest DTO is processed by the service and  leaves as a MealResponse JSON response
 ```
 
 ---
@@ -846,21 +861,21 @@ This feature contains REST + I/O + JSON + DTOs + objects because...
 Fill in the missing pieces.
 
 ```text
-Memory gives the program a __________ space.
+Memory gives the program a working  space.
 
-Objects give memory __________.
+Objects give memory shape.
 
-Collections organize __________ objects.
+Collections organize many  objects.
 
-ORM connects objects to __________ storage.
+ORM connects objects to database  storage.
 
-Exceptions handle boundary __________.
+Exceptions handle boundary failure.
 
-Logging makes runtime behaviour __________.
+Logging makes runtime behaviour visible.
 
-I/O moves data __________ and __________.
+I/O moves data in and out.
 
-REST structures __________ I/O.
+REST structures web  I/O.
 ```
 
 ---
@@ -870,22 +885,33 @@ REST structures __________ I/O.
 Answer in your own words:
 
 1. What is I/O?
-2. Why is I/O how software touches the outside world?
+   input and output
+2 Why is I/O how software touches the outside world?
+   it lets data enter and leave the program
 3. What is the difference between input and memory?
+   Input is data entering. Memory is where Java works with the data
 4. What is a stream?
+   pipe for moving data gradually
 5. What is a buffer?
-6. What is serialization?
+   temporary memory to help the system go faster
+6.  What is serialization?
+   object to transferable format
 7. What is deserialization?
+   transferable format to object.
 8. Why is JSON important in REST APIs?
+   common API format
 9. What is a DTO?
+    Data Transfer Object used as a boundary data shape
 10. Why can I/O fail?
+    fails from the files, networks, JSON, databases, and disks
 11. Why is I/O often a performance bottleneck?
-12. Explain this sentence:
+    slower in the memory
+12.  Explain this sentence:
 
 ```text
 I/O is how Java systems breathe.
 ```
-
+as input comes in the java works with the memeory and the output leaves the system 
 ---
 
 # 🌟 Stretch Challenge — Design an I/O Flow
@@ -905,15 +931,38 @@ The backend returns a JSON response.
 ## Tasks
 
 1. Write the request JSON.
+   {
+  "name": "ubah kahie",
+  "email": "ubahkahie@example.com",
+  "course": "Computer Science"
+}
 2. Design a `StudentRequest` DTO.
+   public record StudentRequest(
+    String name,
+    String email,
+    String course
+   
 3. Design a `StudentResponse` DTO.
+   public record StudentResponse(
+    String message,
+    String studentName,
+    String course
+   
 4. Identify the input boundary.
+   the student registration JSON request to the backend
 5. Identify the output boundary.
+   returns a JSON response
 6. Identify where the database I/O happens.
+   saves the student registration details to the database
 7. Identify where logging output happens.
+   student registration was started, completed, or failed
 8. Identify two possible failure points.
+   invalid JSON and the database being unavailable
 9. Explain how the system should respond if validation fails.
+    the backend should not save the student returning an error response explaining what is wrong
 10. Explain how the system should respond if saving fails.
+    the backend should handle the database failure, log the problem, and return an error response saying
+    the registration could not be completed
 
 ---
 

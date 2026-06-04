@@ -638,10 +638,10 @@ Fill in the table.
 
 | Type | Purpose |
 |---|---|
-| Entity | ? |
-| DTO | ? |
-| Service | ? |
-| Collection | ? |
+| Entity | database-mapped object |
+| DTO | data crossing an API boundary |
+| Service | business logic / coordination |
+| Collection | many objects in memory |
 
 Use:
 

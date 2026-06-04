@@ -36,7 +36,8 @@ Answer these in your own words.
 Write one sentence.
 
 ```txt
-SOAP mainly focuses on...
+ SOAP mainly focuses on calling named operations or functions using structured XML messages
+
 ```
 
 ### 2. What does REST mainly focus on?
@@ -44,14 +45,14 @@ SOAP mainly focuses on...
 Write one sentence.
 
 ```txt
-REST mainly focuses on...
+REST mainly focuses on resources, using URLs and HTTP methods to communicate
 ```
 
 ### 3. Complete the contrast
 
 ```txt
-SOAP thinks in ____________________.
-REST thinks in ____________________.
+SOAP thinks in operation.
+REST thinks in resources
 ```
 
 ### 4. Why did JSON become common with REST APIs?
@@ -59,8 +60,8 @@ REST thinks in ____________________.
 Write two reasons.
 
 ```txt
-Reason 1:
-Reason 2:
+Reason 1: JSON is simple and shorter to read
+Reason 2:JSON works well with web and mobile application
 ```
 
 ---
@@ -73,12 +74,12 @@ Write either `SOAP` or `REST`.
 
 | Example | SOAP or REST? | Why? |
 |---|---|---|
-| `GetMealSuggestion()` | | |
-| `POST /api/meals` | | |
-| `CheckAccountBalance()` | | |
-| `GET /api/recipes/15` | | |
-| `SubmitInsuranceClaim()` | | |
-| `DELETE /api/meals/42` | | |
+| `GetMealSuggestion()` | SOUP | named function|
+| `POST /api/meals` |REST  | it uses an HTTP method and resource URL|
+| `CheckAccountBalance()` | SOAP| because it is operation based|
+| `GET /api/recipes/15` | REST| it uses GET to read a specific resource |
+| `SubmitInsuranceClaim()` |SOUP |it is a named operation |
+| `DELETE /api/meals/42` | REST| because it uses DELETE to remove a resource|
 
 ### Hint
 
@@ -112,11 +113,11 @@ Now try these.
 
 | SOAP-style operation | REST-style endpoint |
 |---|---|
-| `CreateMeal()` | |
-| `GetMealById()` | |
-| `DeleteMeal()` | |
-| `UploadFridgeImage()` | |
-| `GetRecipeSteps()` | |
+| `CreateMeal()` | POST /api/meals |
+| `GetMealById()` | GET /api/meals/{id} |
+| `DeleteMeal()` | DELETE /api/meals/{id}|
+| `UploadFridgeImage()` |POST /api/fridge-images |
+| `GetRecipeSteps()` | GET /api/recipes/{id}/steps|
 
 ### Think carefully
 
@@ -155,17 +156,17 @@ Example:
 Your answers:
 
 ```txt
-1.
-2.
-3.
-4.
+1. /fridge-images
+2. /ingredients
+3. /meal-suggestions
+4. /meals
 ```
 
 Now choose the two most important resources for version 1.
 
 ```txt
-Most important resource 1:
-Most important resource 2:
+Most important resource 1: /fridge-images
+Most important resource 2: /meals
 ```
 
 ---
@@ -201,31 +202,32 @@ Answer these before coding.
 ### 1. What is the resource?
 
 ```txt
-Resource:
+Resource:/meals
+
 ```
 
 ### 2. What HTTP method are we using?
 
 ```txt
-HTTP method:
+HTTP method: GET
 ```
 
 ### 3. Which class handles the route?
 
 ```txt
-Class:
+Class: MealController
 ```
 
 ### 4. Which class contains the business logic?
 
 ```txt
-Class:
+Class: MealService
 ```
 
 ### 5. Which class shapes the response data?
 
 ```txt
-Class:
+Class: MealResponse
 ```
 
 ---
@@ -340,11 +342,11 @@ You should see JSON.
 Fill in the blanks.
 
 ```txt
-The browser sends a __________ request.
-The request enters the __________.
-The controller calls the __________.
-The service returns a __________ object.
-Spring Boot converts the Java object into __________.
+The browser sends a HTTP request.
+The request enters the Controller.
+The controller calls the Service.
+The service returns a MealResponse object.
+Spring Boot converts the Java object into JSON.
 The browser displays the response.
 ```
 
@@ -378,7 +380,7 @@ backend
 HTTP
 boundary
 ```
-
+REST is a good fit for Fridge2Meal because the app has clear resources such as meals, ingredients and fridge images. The frontend can send an HTTP request to the backend, and the backend can return a JSON response. This creates a clear boundary because the frontend does not need to know how the backend creates the meal suggestion. Later, the same REST API can support image upload and AI meal suggestions
 ---
 
 ## Stretch challenge
@@ -409,8 +411,13 @@ Questions:
 
 ```txt
 1. Which file did you change?
+MealService.java and MealController.java
+
 2. Did you need to create a new DTO?
+No.
+
 3. Why or why not?
+Because the response structure is still the same: title, description and steps.
 ```
 
 ---

@@ -54,7 +54,7 @@ The same as above, logs images etc.
 
 4. Why is I/O not just about files?
 
-
+Its mainly about the flow of data, the inputted data can be a file, but it can be other things, and this is the same with the outputted data.
 
 5. Complete this sentence:
 
@@ -72,10 +72,10 @@ For each example, decide whether it is input, output, or both.
 |---|---|---|
 | User types their name into the console | input | info flowing into system |
 | Java prints “Hello” to the console | output | info flowing out of system |
-| Java reads `students.txt` | input | ? |
-| Java writes `results.txt` | output | ? |
-| Frontend sends JSON to backend | input | ? |
-| Backend returns JSON response | output | ? |
+| Java reads `students.txt` | input | data is flowing into the system |
+| Java writes `results.txt` | output | data is flowing out of the system |
+| Frontend sends JSON to backend | input | json is converted into an object and inputted to the system |
+| Backend returns JSON response | output | object converted into json and outputted out of the ystem |
 | Application writes a log message | output | ? |
 | Java queries a database | both | data is entering the database and info will be returned to java |
 | Java saves a row to a database | both | ? |
@@ -85,7 +85,7 @@ For each example, decide whether it is input, output, or both.
 Complete:
 
 ```text
-A boundary is crossed whenever...
+A boundary is crossed whenever I/O is used.
 ```
 
 ---
@@ -150,9 +150,9 @@ System.out.println("Hello world");
 
 ## Questions
 
-1. What data exists in memory?}
+1. What data exists in memory?
 
-Nothing
+"Hello World"
 
 2. Where does the data go?
 
@@ -207,16 +207,19 @@ Scanner object
 in the String name
 
 4. What output is produced?
+
+"Hello "name"".
+
 5. Complete the flow:
 
 ```text
 User types name
         ↓
-?
+System.in recieves the input
         ↓
 Scanner reads input
         ↓
-?
+String saved in memory, and java creates output
         ↓
 Console displays greeting
 ```
@@ -238,9 +241,9 @@ Explain why this is the wrong category of question.
 Use this structure:
 
 ```text
-Input is...
-Memory is...
-Static means...
+Input is the incoming flow of data
+Memory is the working substance of data
+Static means the data cant change in size
 The better question is...
 ```
 
@@ -249,9 +252,9 @@ The better question is...
 Complete:
 
 ```text
-Input = what __________
+Input = what the data is coming from
 
-Memory = where it is __________
+Memory = where it is stored
 
 Static/dynamic = how data is __________ or __________
 ```

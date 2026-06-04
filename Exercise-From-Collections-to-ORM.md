@@ -72,10 +72,18 @@ users
 
 | Database    | Java |
 | ----------- | ---- |
-| table       | ?    |
-| row         | ?    |
-| column      | ?    |
-| primary key | ?    |
+| table       | entity    |
+| row         | object  |
+| column      | property    |
+| primary key | ID    |
+
+```text
+1. The user class reprsents a user object
+2. The users table represents a table in the database
+3. One row in the users table corresponds to one object in java
+4. One column in the table corresponds to one field or property in java
+
+```
 
 ---
 
@@ -86,10 +94,10 @@ A normal Java class becomes a JPA entity when we tell JPA that it should be mapp
 Complete the missing annotations:
 
 ```java
-// Add annotation here
+@Entity
 public class User {
 
-    // Add annotation here
+    @Id
     private Long id;
 
     private String email;
@@ -118,6 +126,13 @@ Use this sentence starter:
 An entity is a Java object that...
 ```
 
+```text
+1. @Entity
+2. @Id
+3. Provides neutral ground for JPA to map a row onto??
+4. An entity is a Java object that maps to a database table
+```
+
 ---
 
 # Part 3 — One Row, One Object 🧱
@@ -137,7 +152,7 @@ Imagine this database row:
 Write the Java object that represents this row.
 
 ```java
-User user = new User(?, ?, ?);
+User user = new User(3, "sara@example.com", "Sara");
 ```
 
 ## Questions
@@ -146,6 +161,12 @@ User user = new User(?, ?, ?);
 2. Where does the row live long-term?
 3. What does ORM help translate between?
 
+
+```text
+1. The User object lives on the heap during runtime
+2. The row lives on the database long-term
+3. The ORM helps translate between the Objects and the Rows
+```
 ---
 
 # Part 4 — Many Rows, Collection of Objects 📚
@@ -169,16 +190,22 @@ List<User> users = userRepository.findAll();
 ```text
 users table
         ↓
-? rows
+many rows
         ↓
 ORM maps each row
         ↓
-? objects
+many User objects
         ↓
-List<?>
+List<User>
 ```
 
 4. Why did we learn collections before ORM?
+
+```text
+1. This means a list of user objects
+2. findAll() would return all 100 rows as a list of 100 user objects
+4. This is because there are usually many rows in a database, with each row being translated to an object, many rows becomes collections of objects.
+```
 
 ---
 
@@ -208,7 +235,14 @@ public interface UserRepository {
 5. Complete this sentence:
 
 ```text
-Repository = boundary between ? and ?
+Repository = boundary between buisness logic and data storage
+```
+
+```text
+1. It's job is to access tha data on a database to build entities
+2. No it shouldn't. This would violate SOLID principles and cause the repository to do too much
+3. No it shouldn't. This also violates SOLID principles and would lead to a bloated class with too many reasons to change
+4. SRP
 ```
 
 ---
@@ -240,17 +274,26 @@ public class UserService {
 5. Which part should belong to a message sender?
 6. Which part should belong to a report service?
 
+
+ ```text
+1. Email validation, database access, message sending and report generation are all mixed together
+2. A change in one of this processes would result in having to change the whole class
+3. Email validation should belong to the validator
+4. Database access should belong to the repository
+5. Message sending should belong to the message sender
+report generation should belong to the report service
+```
 ## Refactor Plan
 
 Fill in the responsibility table:
 
 | Responsibility            | Better Class |
 | ------------------------- | ------------ |
-| validate email            | ?            |
-| save user                 | ?            |
-| send welcome email        | ?            |
-| generate user report      | ?            |
-| coordinate the whole flow | ?            |
+| validate email            | EmailValidator            |
+| save user                 | UserRepository            |
+| send welcome email        | MessageSender            |
+| generate user report      | ReportServices            |
+| coordinate the whole flow | UserRegistrationService            |
 
 ---
 
@@ -295,6 +338,14 @@ public class UserRegistrationService {
 4. Which objects does it depend on?
 5. Is this composition? Explain.
 
+```text
+1. This functions as the coordinator for the other responsibilities
+2. No it doesn't directly know SQL
+3. No
+4.It depends on the validator, userRepository and MessageSender objects
+5. Yes this is composition as it brings together capabilities from other classes to achieve a given goal
+```
+
 ---
 
 # Part 8 — Persistence Context 🧠
@@ -324,9 +375,13 @@ Inside the same persistence context, JPA may return the same managed entity inst
 4. Complete this sentence:
 
 ```text
-The persistence context connects database identity to...
+The persistence context connects database identity to the entity
 ```
-
+```text
+1. It manages the entity during the current session
+2. It maintains consistency as if the same object is used again in the same context, the same managed object is returned
+3. It means the version of the table in java is tracked. This includes changes, whether it needs to be saved or whether the entity is being requested again
+```
 ---
 
 # Part 9 — Entity Lifecycle 🔄
@@ -337,10 +392,10 @@ Match each state to its meaning.
 
 | State           | Meaning |
 | --------------- | ------- |
-| New / transient | ?       |
-| Managed         | ?       |
-| Detached        | ?       |
-| Removed         | ?       |
+| New / transient | B       |
+| Managed         | A       |
+| Detached        | D       |
+| Removed         | C       |
 
 Meanings:
 
@@ -366,6 +421,12 @@ userRepository.save(user);
 ```
 
 3. Why does entity lifecycle matter?
+
+```text
+1. New/transient
+2. Managed
+3. ORM is about the objects state over time. Understanding this helps to make more efficient code
+```
 
 ---
 
@@ -401,6 +462,13 @@ SQL ? happens
         ↓
 Database row changes
 ```
+```text
+1. The users name is changed in memory
+2. It can detect that a managed entity has changed
+3. An SQL UPDATE can happen when the transaction commits
+4. It automatically updates the database with information edited in Java
+5. It changes the database after the transaction commits so sometimes changing an object changes the database way later
+```
 
 ---
 
@@ -434,9 +502,15 @@ orders.user_id → users.id
 ```text
 One User object
         ↓
-Many ? objects
+Many order objects
         ↓
-List<?>
+List<Order>
+```
+
+```text
+1. This represents a list of order objects
+2. This represents a foreign key within the orders table
+3.This is a One-to-Many relationship
 ```
 
 ---
@@ -462,9 +536,14 @@ List<Order> orders = user.getOrders();
 5. Complete this sentence:
 
 ```text
-ORM can make database access look like...
+ORM can make database access look like object access
 ```
-
+```text
+1. The user object
+2. The orders associated with the user
+3. It only loads related data when it's needed
+4. This occurs when you access the required data further down the line and it makes the query then
+```
 ---
 
 # Part 13 — The N+1 Problem 🧨
@@ -495,6 +574,14 @@ Use this sentence starter:
 The N+1 problem happens when...
 ```
 
+```text
+1. All the users
+2. It would call it 100 times as there are 100 users so 1 for each user
+3. 1+100
+4. Because it appears simple but loads over 100 times
+5. The N+1 problem happens when you make queries for every row in a database (N) after getting all the rows (+1 query)
+```
+
 ---
 
 # Part 14 — ORM and SOLID 🧱
@@ -503,11 +590,11 @@ Fill in the table.
 
 | SOLID Principle | ORM Meaning |
 | --------------- | ----------- |
-| SRP             | ?           |
-| OCP             | ?           |
-| LSP             | ?           |
-| ISP             | ?           |
-| DIP             | ?           |
+| SRP             | repositories should not contain business logic           |
+| OCP             | new persistence behavior should not break core logic           |
+| LSP             | entity models should tell the truth           |
+| ISP             | repository interfaces should stay focused            |
+| DIP             | services should depend on repository abstractions           |
 
 Use these ideas:
 
@@ -540,6 +627,19 @@ Answer these in your own words.
 ORM is a system for synchronizing object state with database state over time.
 ```
 
+```text
+1. ORM is a translator from a database to objects that java can handle and vice versa
+2. Because java is an object oriented language and so can only work with objects.
+3. A class labelled as an entity is mapped to a table on a database by the ORM
+4. A row is mapped to an individual object by the ORM
+5. Many rows in a database is mapped to a collection of objects in java by the ORM
+6. A repository handles data access to the database and structures the creation of entities as a result
+7. It's an in-memory space for entities. Maintains consistency by managing entities in that space
+8. Lazy loading improves performance as you only load the data you need. It can be dangerous if it's not understood that the data hasn't been loaded further down into the code if it hasn't been used yet.
+9. This is because an understanding of how databases work and how ORM translates it helps to write more efficient and effective code.
+10. It makes sure changes to the representation of database tables and rows present in java is reflected properly in the database over time and vice versa
+```
+
 ---
 
 # Stretch Challenge 🌟
@@ -567,7 +667,21 @@ You need:
 7. Explain where lazy loading could happen.
 8. Explain where the N+1 problem might appear.
 
+```text
+1. Customer, Order, OrderItem, Product
+2. CustomerRepository, OrderRepository
+3. CheckoutService
+4. Customer to Order
+5. OrderItem to Order
+6. List<OrderItem> orderItems = OrderRepository.findAll();
+7. List<Order> orders = customer.getOrders(); as the query to get the orders wouldn't happen until the orders list is actually used
+8. If we wanted to get the list of orders for every customer as we would have to make a query to get all the customers then a query for each customer to get their orders
+```
+
+
 ---
+
+
 
 # Final Compression 🧠
 

@@ -29,25 +29,40 @@ You are learning how Java systems breathe.
 Complete the missing words:
 
 ```text
-Input = data __________ the program
+Input = data into the program
 
-Output = data __________ the program
+Output = data out of the program
 
-Memory = where Java __________ with data
+Memory = where Java works with data
 
-I/O = how data crosses the __________ of the system
+I/O = how data crosses the boundary of the system
 ```
 
 ## Questions
 
 1. Why is a program without I/O like a room with no doors?
+Because data crosses the system boundary at every doorway and that is where I/0 is needed.
+A program that cannot recieve or send data is a closed room, I/O allows that.
+
 2. Give three examples of input.
+Console, Files system, JSON
+
+
 3. Give three examples of output.
+HTTP requests and responses, Logs, Database
+
+
 4. Why is I/O not just about files?
+It is a bridge for all communications, so it is constantly interacting with 
+hardware devices so its the communication between files aswell, not just the files.
+
+
+
 5. Complete this sentence:
 
 ```text
 I/O matters because software needs to...
+interact with many things, and without it programs would be unable to recieve instructions, read files or communicate with other systems.
 ```
 
 ---
@@ -58,22 +73,22 @@ For each example, decide whether it is input, output, or both.
 
 | Example | Input / Output / Both? | Why? |
 |---|---|---|
-| User types their name into the console | ? | ? |
-| Java prints “Hello” to the console | ? | ? |
-| Java reads `students.txt` | ? | ? |
-| Java writes `results.txt` | ? | ? |
-| Frontend sends JSON to backend | ? | ? |
-| Backend returns JSON response | ? | ? |
-| Application writes a log message | ? | ? |
-| Java queries a database | ? | ? |
-| Java saves a row to a database | ? | ? |
+| User types their name into the console | ? | ? |input
+| Java prints “Hello” to the console | ? | ? |output
+| Java reads `students.txt` | ? | ? |input
+| Java writes `results.txt` | ? | ? |output
+| Frontend sends JSON to backend | ? | ? |input
+| Backend returns JSON response | ? | ? |output
+| Application writes a log message | ? | ? |output
+| Java queries a database | ? | ? |input
+| Java saves a row to a database | ? | ? |output
 
 ## Reflection
 
 Complete:
 
 ```text
-A boundary is crossed whenever...
+A boundary is crossed whenever...data is involved, or any communication involving data is used.
 ```
 
 ---
@@ -84,15 +99,15 @@ Match the metaphor to the Java concept.
 
 | Metaphor | Java / Software Concept |
 |---|---|
-| water | ? |
-| water entering | ? |
-| water leaving | ? |
-| cups | ? |
-| containers | ? |
-| pipes | ? |
-| buckets | ? |
-| storage tanks | ? |
-| long-term reservoir | ? |
+| water | ? |text
+| water entering | ? |input
+| water leaving | ? |output
+| cups | ? |files
+| containers | ? |databases
+| pipes | ? |variables
+| buckets | ? |buffers
+| storage tanks | ? |objects
+| long-term reservoir | ? |streams
 
 Use these options:
 
@@ -111,7 +126,10 @@ database
 ## Questions
 
 1. Why is I/O about movement?
+It is not about files but the connections between files aswell as communication between systems 
+which is why its all movement, not just about the files, but the interactions of it all.
 2. Why is memory not the same thing as input?
+
 3. Explain this sentence:
 
 ```text
@@ -131,15 +149,15 @@ System.out.println("Hello world");
 
 ## Questions
 
-1. What data exists in memory?
-2. Where does the data go?
-3. Is this input or output?
+1. What data exists in memory? Hello world
+2. Where does the data go? It is printed to the console
+3. Is this input or output? It is output
 4. Complete the flow:
 
 ```text
 String in memory
         ↓
-?
+?System.out.println()
         ↓
 Console output
 ```
@@ -147,8 +165,9 @@ Console output
 ## Challenge
 
 Write one more example of console output.
+Hello everyone, Welcome, Thank you.
 
----
+--- Syten
 
 # ⌨️ Part 5 — Console Input
 
@@ -166,9 +185,9 @@ System.out.println("Hello " + name);
 
 ## Questions
 
-1. What is the input source?
-2. What reads the input?
-3. Where is the user’s name stored after it is read?
+1. What is the input source? System.in
+2. What reads the input? scanner.nextLine()
+3. Where is the user’s name stored after it is read? 
 4. What output is produced?
 5. Complete the flow:
 

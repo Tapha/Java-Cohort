@@ -438,7 +438,14 @@ big logs
 Complete:
 
 ```text
-Stream = pipe for moving data __________
+Stream = pipe for moving data gradually
+```
+
+```text
+1. This is a problem when the file is to big to read all at once
+2. Audio/video, big logs, large files
+3. Because data flows through a stream like water through a pipe
+4. Images, network responses, downloads
 ```
 
 ---
@@ -449,8 +456,8 @@ Match the term to the meaning.
 
 | Term | Meaning |
 |---|---|
-| InputStream | ? |
-| OutputStream | ? |
+| InputStream | Reads bytes into the program |
+| OutputStream | writes bytes out of the program |
 
 Use:
 
@@ -469,9 +476,14 @@ writes bytes out of the program
 4. Complete:
 
 ```text
-InputStream = pipe __________
+InputStream = pipe coming in
 
-OutputStream = pipe __________
+OutputStream = pipe going out
+
+```text
+1. byte-based
+2. file/network bytes
+3. Bytes in Java memory
 ```
 
 ---
@@ -482,10 +494,10 @@ Fill in the table.
 
 | Tool | Works With | Example Use |
 |---|---|---|
-| InputStream | ? | ? |
-| OutputStream | ? | ? |
-| Reader | ? | ? |
-| Writer | ? | ? |
+| InputStream | incoming bytes | downloading a video |
+| OutputStream | outgoing bytes | uploading a file |
+| Reader | incoming characters | reading a .txt file into java |
+| Writer | outgoing characters | Writing to a .txt file using java |
 
 ## Questions
 
@@ -494,9 +506,14 @@ Fill in the table.
 3. Complete:
 
 ```text
-Streams = __________
+Streams = bytes
 
-Readers/Writers = __________
+Readers/Writers = text
+```
+
+```text
+1. When working with text based files
+2. When working with bytes
 ```
 
 ---
@@ -514,8 +531,15 @@ A buffer is temporary memory used while moving data.
 5. Complete:
 
 ```text
-Buffer = temporary __________ used to make I/O smoother
+Buffer = temporary memory used to make I/O smoother
 ```
+```text
+1. It would take too long, similar to moving water one drop at a time
+2. This is because it takes a chunk of data and moves it all at once similar to a bucket taking a chunk of water and moving it somewhere else
+3. This suggests a buffer that brings in chunks of text
+4. This suggests a buffer that sends out chunks of text
+```
+
 
 ## Reflection
 
@@ -526,6 +550,10 @@ Instead of carrying water drop by drop,
 carry a bucket.
 ```
 
+```text
+This relates to buffers. Taking a bucket of water too and fro is faster than taking it across the distance one drop at a time. Similarly taking a chunk of data accross is faster than tanking a bit of data one at a time.
+```
+
 ---
 
 # 🧬 Part 15 — Serialization and Deserialization
@@ -533,9 +561,9 @@ carry a bucket.
 Complete the definitions:
 
 ```text
-Serialization = object → __________
+Serialization = object → transferable format
 
-Deserialization = __________ → object
+Deserialization = transferable format → object
 ```
 
 ## Questions
@@ -550,7 +578,7 @@ Complete the flow:
 ```text
 Java object
         ↓
-?
+serialization
         ↓
 JSON/text/bytes
         ↓
@@ -562,9 +590,16 @@ Reverse flow:
 ```text
 JSON/text/bytes
         ↓
-?
+deserilization
         ↓
 Java object
+```
+
+```text
+1. This is because they exist as runtime abstractions bound to a specific computer's memory structure. Different systems use different architectures which could lead to the raw memory block being misread
+2. This is so they're in a format where they can be used in any JVM runtime environment/ different computer
+3. Json text/bytes
+4. This is because it's the one reliable method of moving data across APIs
 ```
 
 ---
@@ -603,9 +638,15 @@ JSON shape:
 4. Complete:
 
 ```text
-Java object → __________ response
+Java object → JSON response
 
-JSON request → __________ object
+JSON request → Java object
+```
+
+```text
+1. The java object
+2. The JSON
+3. Often converts between the java object and JSON automatically
 ```
 
 ---

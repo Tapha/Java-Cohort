@@ -49,14 +49,28 @@ class User {
 ## Questions
 
 1. Which parts of this code are likely stored on the **stack**?
+
+The methods called, so in this example user.getemail() will be on the stack.
+
 2. Which object is created on the **heap**?
+
+The creation of the object, so here the user Amina with her email.
+
 3. What does the variable `user` refer to?
+
+It references the instance of a `User` with the name Amina and her email.
+
 4. When `main()` finishes, what can eventually happen to the `User` object?
+
+There is garbage collection, so it gets removed from memory
+
 5. In your own words, explain this line:
 
 ```text
 An object is structured memory.
 ```
+
+Objects are a way to have memory organised in a way that can be used to build an entire program
 
 ---
 
@@ -95,12 +109,32 @@ public class UserService {
 ## Questions
 
 1. What is this class responsible for?
+
+This class is responsible for validating the email of a user who has registered, saving their details, sending the welcome email and generating a user report, 4 different responsibilities.
+
 2. How many different reasons could this class change?
+
+4 reasons.
+
 3. Which method relates to validation?
+
+`validateEmail()`
+
 4. Which method relates to persistence/database work?
+
+`saveUser()`
+
 5. Which method relates to email?
+
+`sendWelcomeEmail()`
+
 6. Which method relates to reporting?
+
+`generateUserReport()`
+
 7. Why could this class become difficult to maintain as the system grows?
+
+Multiple responsibilites means that if you make a change to any of responsibilities, it could affect the others. This means if there are errors, it would affect multiple functions of the code. In the long term, debugging will be difficult as multiple errors could arise and it would be hard to locate where the bug actually is.
 
 ---
 
@@ -122,23 +156,38 @@ Just create the class names and method names.
 
 ```java
 public class UserRegistrationService {
+    public void registerUser(String email, String name){
+        EmailValidator emailValidator = new EmailValidator(email);
+        UserRepository userRepository = new UserRepository(email, name);
+        WelcomeEmailSender welcomeEmailSender = new WelcomeEmailSender(email);
+        UserReportService userReportService = new UserReportService(email);
 
+        emailValidator.validateEmail(email);
+        userRepository.saveUser(email,name);
+        welcomeEmailSender.sendWelcomeEmail(email);
+        userReportService.generateUserReport(email);
+        
+    }
 }
 
 public class EmailValidator {
-
+    private void validateEmail(String email){
+    }
 }
 
 public class UserRepository {
-
+    private void saveUser(String email, String name){
+    }
 }
 
 public class WelcomeEmailSender {
-
+    private void sendWelcomeEmail(String email) {
+    }
 }
 
 public class UserReportService {
-
+    private void generateUserReport(String email) {
+    }
 }
 ```
 
@@ -201,9 +250,20 @@ public class SmsSender implements MessageSender {
 ## Questions
 
 1. What capability does `MessageSender` represent?
-2. Why is `MessageSender` more flexible than depending directly on `EmailSender`?
+
+This is the interface that defines what the other classes can do. It represent being able to send messages only requiring a message and a destination.
+
+2. Why is `MessageSender` more flexible than depending directly on `EmailSender`?    
+
+Email sender requires an email, where as message sender doesn't and can be applied to different types of mediums to send messages.
+
 3. Which SOLID principle does this help with?
-4. How does this make the system easier to extend later?
+
+Interface segregation principle
+
+4. How does this make the system easier to extend later?    
+
+If there becomes another medium to sending messages, it can just be created by implementing the message sender. If you had Email sender and Message sender as their own individual classes without the interface, then more effort would be requiered to make this new class, and alongside that you lose the information that the Email sender and message sender are related and similar.
 
 ---
 
@@ -239,11 +299,11 @@ public class UserRegistrationService {
     private final MessageSender messageSender;
 
     public UserRegistrationService(MessageSender messageSender) {
-        // your code here
+        this.messageSender = messageSender;
     }
 
     public void register(String email, String name) {
-        // your code here
+        messageSender.send(email, "Welcome, " + name);
     }
 }
 ```
@@ -251,10 +311,24 @@ public class UserRegistrationService {
 ## Questions
 
 1. What changed in the design?
+
+We are using the interface, which means the code can be reused for instances that arent just for email, it can be used in other methods for SMS for example.
+
 2. What concrete class did we remove from `UserRegistrationService`?
+
+Email Sender
+
 3. What abstraction does it now depend on?
+
+messageSender
+
 4. Which principle is this?
+
+Depend on the interface
+
 5. Why is this better?
+
+now the service doesn't care how the person needs to be reached, via text or email or other methods. It's easier to extend to these other methods of sending messages.
 
 ---
 
@@ -279,10 +353,24 @@ class Penguin extends Bird {
 ## Questions
 
 1. Why does this design feel logical at first?
+
+Penguins are a type of bird
+
 2. Why does it become a problem in code?
+
+The peguin subclass is unable to call on a function that the bird superclass can do, the point of inheritance is that the subclass should be able to use the properties and methods that the super class has.
+
 3. What promise does `Bird` appear to make?
+
+Any objects that are birds should be able to fly
+
 4. How does `Penguin` break that promise?
+
+Penguins cant fly
+
 5. Which SOLID principle is involved here?
+
+Liskov's Substitution Principle
 
 ## Better Design
 
@@ -314,6 +402,8 @@ Explain this sentence:
 Inheritance should preserve truth.
 ```
 
+This states that every subclass should inherit all properties and attributes of the superclass, and if it cant then this isnt true inheritance.
+
 ---
 
 # Part 7 — Composition: Building With Parts 🧩
@@ -344,14 +434,28 @@ public class UserRegistrationService {
 ## Questions
 
 1. Which objects does `UserRegistrationService` use?
+
+EmailValidator, UserRepository and MessageSender
+
 2. Is this inheritance or composition?
+
+This is composition
+
 3. Why is this better than putting all logic inside one class?
+
+When you want to make changes, it's better if less logic can be affected by the change. So seperating out the classes allows for changes to affect less of the logic and the logic is spread out between multiple classes. Any breaks will only affect one small class of many rather than the entireity of a massive class
+
 4. What does composition allow us to do?
+
+
+
 5. Explain this sentence:
 
 ```text
 Composition lets us build bigger systems from smaller, clearer pieces.
 ```
+
+Seperating out the logic makes systems easier to build up. You can reuse code more easily and debugging is easier.
 
 ---
 
@@ -360,9 +464,21 @@ Composition lets us build bigger systems from smaller, clearer pieces.
 Answer these in your own words.
 
 1. What is the relationship between memory and objects?
+
+Objects are how memory is stored in object oriented programs allowing for memory to be manipulated, stored etc. Objects give life to memory and make it into things that can be used in a program at a higher level.
+
 2. What is the relationship between objects and dependencies?
+
+Objects can have other objects dependent upon it.
+
 3. Why do dependencies make software harder to change?
+
+The more dependencies a software has the more that is affected by slight changes in logic. If a piece of code has alot of dependencies then any changes will affect everything dependent on it.
+
 4. What does SOLID help us control?
+
+It helps us make systems more robust and even anti-fragile, and making it so chaos and complexity doesnt destroy the system.
+
 5. What does this sentence mean?
 
 ```text
@@ -370,6 +486,8 @@ Memory is where software lives.
 Objects give memory shape.
 SOLID keeps that shape coherent over time.
 ```
+
+It shows how memory is built up and given shape by objects to be manipulated and interact with other objects, allowing a coherent program to be built up. SOLID prinicples allows for this built up program to not fall and be robust in the face of new complexity and chao being introduced to the system
 
 ---
 

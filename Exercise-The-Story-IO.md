@@ -467,14 +467,14 @@ A buffer is temporary memory used while moving data.
 
 ## Questions
 
-1. Why is moving data one tiny piece at a time inefficient?
-2. Why is a buffer like a bucket?
-3. What does `BufferedReader` suggest?
-4. What does `BufferedWriter` suggest?
+1. Why is moving data one tiny piece at a time inefficient? it would take such a long time to finish
+2. Why is a buffer like a bucket? it collects the data before moving them on
+3. What does `BufferedReader` suggest? reading using temporary memory
+4. What does `BufferedWriter` suggest? writing text using temporary memory 
 5. Complete:
 
 ```text
-Buffer = temporary __________ used to make I/O smoother
+Buffer = temporary memory used to make I/O smoother
 ```
 
 ## Reflection
@@ -485,7 +485,7 @@ Explain this metaphor:
 Instead of carrying water drop by drop,
 carry a bucket.
 ```
-
+It is better to move the data in chunks like the water carried in a bucket instead of going back and further in tiny pieces like water droplets 
 ---
 
 # 🧬 Part 15 — Serialization and Deserialization
@@ -493,24 +493,25 @@ carry a bucket.
 Complete the definitions:
 
 ```text
-Serialization = object → __________
+Serialization = object → transferable format
 
-Deserialization = __________ → object
+Deserialization = transferable format → object
 ```
 
 ## Questions
 
-1. Why can’t Java memory objects directly travel across a network?
-2. Why do objects need to be converted before storage or transfer?
-3. What formats can objects be serialized into?
-4. Why is serialization important for APIs?
+1. Why can’t Java memory objects directly travel across a network? they need to be converted first 
+2. Why do objects need to be converted before storage or transfer? they live inside memory but the storage and netork need to be transferable formats like JSON text or bytes
+3. What formats can objects be serialized into? JSON text bytes
+4. Why is serialization important for APIs? they need to become external communcation format to work 
 
 Complete the flow:
 
 ```text
 Java object
         ↓
-?
+serialization
+
         ↓
 JSON/text/bytes
         ↓
@@ -522,7 +523,7 @@ Reverse flow:
 ```text
 JSON/text/bytes
         ↓
-?
+deserialization
         ↓
 Java object
 ```
@@ -557,15 +558,15 @@ JSON shape:
 
 ## Questions
 
-1. Which one lives inside Java memory?
-2. Which one crosses the network?
-3. What does Spring Boot often do automatically?
+1. Which one lives inside Java memory? the MealResponse the java object 
+2. Which one crosses the network? the JSON response
+3. What does Spring Boot often do automatically? converts between Java object and JSON
 4. Complete:
 
 ```text
-Java object → __________ response
+Java object → JSON response
 
-JSON request → __________ object
+JSON request → Java object
 ```
 
 ---
@@ -599,18 +600,18 @@ public MealResponse suggestMeal(@RequestBody MealRequest request) {
 
 ## Questions
 
-1. What is the JSON request body?
-2. What Java object represents the request?
-3. What does `@RequestBody` suggest conceptually?
-4. What does the service receive?
-5. What does the controller return?
+1. What is the JSON request body? "ingredients": ["tomato", "pasta", "cheese"]
+2. What Java object represents the request? MealRequest
+3. What does `@RequestBody` suggest conceptually?  that the JSON request is converted into a object
+4. What does the service receive? MealRequest object
+5. What does the controller return? MealResponse object
 
 Complete the flow:
 
 ```text
 JSON request body
         ↓
-Spring __________ JSON
+Spring deserializes  JSON
         ↓
 MealRequest object in memory
         ↓
@@ -618,7 +619,7 @@ Service uses object
         ↓
 MealResponse object
         ↓
-Spring __________ to JSON
+Spring serialises to JSON
         ↓
 HTTP response
 ```

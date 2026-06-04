@@ -54,6 +54,11 @@ class User {
 4. When `main()` finishes, what can eventually happen to the `User` object?
 5. In your own words, explain this line:
 
+1. The users email and name.
+2. The users email
+3. It refers to the person who is entering their details into the program.
+4. It will be stored in memory.
+5. The memory is highly organised into a class, it is not unorganised.
 ```text
 An object is structured memory.
 ```

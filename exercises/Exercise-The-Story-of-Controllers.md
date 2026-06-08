@@ -746,11 +746,11 @@ Fill in the table.
 
 | SOLID Principle | Controller Meaning |
 |---|---|
-| SRP |  |
-| OCP | ? |
-| LSP | ? |
-| ISP | ? |
-| DIP | ? |
+| SRP | controller handles HTTP boundary, not all business logic  |
+| OCP | new endpoints can be added without breaking existing ones |
+| LSP | controller contracts should behave consitently |
+| ISP | clients should receive focused DTOs, not giant shapes |
+| DIP | controllers depend on services/abstractions, not concrete low level details |
 
 Use these ideas:
 
@@ -769,29 +769,29 @@ controllers depend on services, not low-level details
 Complete:
 
 ```text
-Memory gives Java a __________ space.
+Memory gives Java a working space.
 
-Objects give memory __________.
+Objects give memory shape.
 
-Collections organize __________ objects.
+Collections organize many objects.
 
-ORM maps objects to __________ rows.
+ORM maps objects to database rows.
 
-I/O moves data __________ and __________.
+I/O moves data in and out.
 
-REST structures __________ communication.
+REST structures web communication.
 
-Controllers receive __________ input.
+Controllers receive HTTP input.
 
-DTOs shape __________ data.
+DTOs shape boundary data.
 
-Services perform __________ work.
+Services perform business work.
 
-Repositories access __________.
+Repositories access storage.
 
-Exceptions handle __________ paths.
+Exceptions handle failure paths.
 
-Logging makes runtime __________.
+Logging makes runtime visible.
 ```
 
 ---
@@ -814,7 +814,17 @@ Answer in your own words:
 ```text
 A controller is where the outside world becomes Java work.
 ```
-
+## Answers
+1. A controller takes HTTP request, sends the object to the service and then receives and sends on the response.
+2. A controller is a boundary because it handles the requests and responses, it is what the frontend communicates with.
+3. A route is a path to the resource needed in a request.
+4. A request body is the JSON data, path variable is a particular resource given by id and a query parameter helps filter given in the request.
+5. A DTO ensures that the request and response data is in the correct shape.
+6. Controllers should only handle the requests, it should not do the business logic. This makes the code maintainable and comply with SOLID.
+7. A controller does the requests and acts as the door whereas the service does the whole business logic.
+8. Status codes matter because they allow the user to have an idea of what's going on and how to fix if there is an error.
+9. A ResponseEntity is useful for managing the saving of the data to the database.
+10. A controller acts as the edge of the system and handles the incoming and outgoing requests therefore, acting as the door to the system. It then does deserialization and passes off to services where the Java work takes place. 
 ---
 
 # 🌟 Stretch Challenge — Design Your Own Controller

@@ -29,15 +29,15 @@ You are learning how the outside world enters your Java application.
 Complete the missing words:
 
 ```text
-Controller = HTTP __________
+Controller = HTTP boundary
 
-Route = external __________
+Route = external address
 
-DTO = boundary __________
+DTO = boundary shape
 
-Service = business __________
+Service = business use case
 
-Response = data leaving the __________
+Response = data leaving the system
 ```
 
 ## Questions
@@ -51,7 +51,12 @@ Response = data leaving the __________
 ```text
 A controller turns a web request into...
 ```
-
+## Answers
+1. A controller is like a front door because it receives the requests from the front end and welcomes them in through accepting the request. It will then process the request and use services then send the data back as a response from the same doorway. It is the entry and exit point of data in the backend. 
+2. The backend receives a request as JSON from the frontend.
+3. The controller returns the response as JSON to the frontend.
+4. The controller should only coordinte and manage the requests, it should hand off business logic to services and this allows it to comply with SOLID.
+5. A controller turns a web request into a Java object, passes to services and returns a response. 
 ---
 
 # 🚪 Part 2 — Controller as Doorway
@@ -78,6 +83,12 @@ Response returns to frontend
 4. Why is the controller a boundary?
 5. What could go wrong if the controller tries to do everything?
 
+## Answers
+1. Backend receives request.
+2. Service performs work.
+3. Response returns to frontend.
+4. A controller is a boundary because it sits at the edge of the backend and it receives requests and returns responses.
+5. If a controller tried to do everything, the code would be confusing to maintain and data could leak into the API. 
 ---
 
 # 🌐 Part 3 — HTTP Requests
@@ -86,18 +97,18 @@ For each request, explain what the client is asking for.
 
 | HTTP Request | What is being asked? |
 |---|---|
-| `GET /api/meals` | ? |
-| `GET /api/meals/5` | ? |
-| `POST /api/meals/suggestion` | ? |
-| `DELETE /api/meals/5` | ? |
-| `GET /api/meals?type=vegetarian` | ? |
+| `GET /api/meals` | retrieve all meals |
+| `GET /api/meals/5` | retrieve meal 5 |
+| `POST /api/meals/suggestion` | create meal suggestion |
+| `DELETE /api/meals/5` | remove meal 5 |
+| `GET /api/meals?type=vegetarian` | retrieve meal where the type is vegetarian |
 
 ## Reflection
 
 Complete:
 
 ```text
-An HTTP request is a message from...
+An HTTP request is a message from the outside to the backend. 
 ```
 
 ---
@@ -129,9 +140,13 @@ public class MealController {
 ```text
 GET /api/meals
         ↓
-?
+MealController.getMeals()
 ```
-
+## Answers
+1. /api/meals
+2. @GetMapping
+3. mealService.getMeals();
+4. A List of MealResponses (List<MealResponse>)
 ---
 
 # 🧾 Part 5 — HTTP Methods
@@ -140,11 +155,11 @@ Match the HTTP method to its usual meaning.
 
 | HTTP Method | Meaning |
 |---|---|
-| GET | ? |
-| POST | ? |
-| PUT | ? |
-| PATCH | ? |
-| DELETE | ? |
+| GET | read data |
+| POST | create or submit data |
+| PUT | replace/update data |
+| PATCH | partially update data |
+| DELETE | remove data |
 
 Use these meanings:
 
@@ -163,6 +178,11 @@ remove data
 3. Which method would you use to submit ingredients for a suggestion?
 4. Which method would you use to retrieve one meal?
 
+## Answers
+1. GET reads and retrieves the data whereas POST will create or submit data for /api/meals.
+2. DELETE
+3. POST
+4. GET
 ---
 
 # 📥 Part 6 — Request Body to Java Object
@@ -203,13 +223,17 @@ public MealResponse suggestMeal(@RequestBody MealRequest request) {
 ```text
 JSON request body
         ↓
-Spring __________ JSON
+Spring deserializes JSON
         ↓
 MealRequest object in memory
         ↓
-Controller method receives __________
+Controller method receives object
 ```
-
+## Answers
+1. "ingredients": ["tomato", "pasta", "cheese"]
+2. MealResponse
+3. It will take the JSON and turn it into a Java object which can be used.
+4. MealRequest
 ---
 
 # 📤 Part 7 — Java Object to Response Body
@@ -243,13 +267,14 @@ public MealResponse suggestMeal(@RequestBody MealRequest request) {
 ```text
 MealResponse object in memory
         ↓
-Spring __________ object
+Spring serializes object
         ↓
 JSON response body
         ↓
 HTTP response leaves backend
 ```
-
+## Answers
+1. 
 ---
 
 # 📦 Part 8 — DTOs

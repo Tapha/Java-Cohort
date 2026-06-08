@@ -278,7 +278,16 @@ JSON response body
         ↓
 HTTP response leaves backend
 ```
-
+1. MealResponse
+2. JSON
+3. MealResponse Object
+4. MealResponse object in memory
+        ↓
+Spring serializes object
+        ↓
+JSON response body
+        ↓
+HTTP response leaves backend
 ---
 
 # 📦 Part 8 — DTOs
@@ -293,8 +302,8 @@ Fill in the table.
 
 | DTO | Direction | Purpose |
 |---|---|---|
-| `MealRequest` | input / output? | ? |
-| `MealResponse` | input / output? | ? |
+| `MealRequest` | input / output? | input |
+| `MealResponse` | input / output? | output |
 
 ## Questions
 
@@ -308,7 +317,11 @@ DTO = __________ shape
 
 Entity = __________ shape
 ```
-
+1. This is where it recieves data from the request
+2. this is where it returns back to the frontend
+3. For security reason to protect the system
+4. DTO = boundary shape
+   Entity = storage shape
 ---
 
 # 🧠 Part 9 — Controller vs Service
@@ -344,11 +357,15 @@ public class MealController {
 Complete:
 
 ```text
-Controller should...
-Service should...
-Repository should...
+Controller should recieve the request and call the service
+Service should perform the business logic
+Repository should access or save data 
 ```
-
+1. validation, recipe decisions, nutirition calc, saving history, sending notifications and building the response
+2. because the controlle is too large and has many jobs to do
+3. the validation, deciding recipe, calc nutrition, sending notification, sending notification and building response -> to service
+4. saving history
+5. Single resposibility principle 
 ---
 
 # 🧱 Part 10 — Thin Controller
@@ -387,7 +404,12 @@ public class MealController {
 Controller = boundary coordinator
 Service = __________ coordinator
 ```
-
+1. MealService
+2. Recieves teh request and calls the service
+3. Works with ther business work
+4. each layer has one job so the controller does not become too large
+5. Controller = boundary coordinator
+   Service = business coordinator
 ---
 
 # 🔌 Part 11 — Dependency Injection
@@ -411,7 +433,11 @@ public MealController(MealService mealService) {
 ```text
 Dependency injection means dependencies are...
 ```
-
+1. MealService
+2. NO
+3. I think it is because spring provides it and the controler stars easier to update or test it
+4. depeendency inversion priniciple
+5. Dependency injection means dependencies are provided to a class instead of created inside it
 ---
 
 # 🧭 Part 12 — Path Variables
@@ -446,7 +472,15 @@ id = __________
         ↓
 getMealById(__________)
 ```
-
+1.  5
+2.  @PathVariable
+3.  Long ID
+4.  getMealById(id)
+5.  GET /api/meals/5
+        ↓
+   id = 5
+        ↓
+   getMealById(5)
 ---
 
 # 🔎 Part 13 — Query Parameters
@@ -476,11 +510,14 @@ public List<MealResponse> getMeals(@RequestParam String type) {
 Complete:
 
 ```text
-Path variable = which __________?
+Path variable = which resource?
 
-Query parameter = what __________ or __________?
+Query parameter = what filter or option?
 ```
-
+1. type
+2. vegetarian
+3. @RequestParam
+4. A path variable idenfities which resources and the queiry parameter gives options 
 ---
 
 # ⚠️ Part 14 — Validation at the Boundary

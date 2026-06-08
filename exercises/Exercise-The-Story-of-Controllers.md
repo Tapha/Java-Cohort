@@ -29,15 +29,15 @@ You are learning how the outside world enters your Java application.
 Complete the missing words:
 
 ```text
-Controller = HTTP __________
+Controller = HTTP boundary
 
-Route = external __________
+Route = external address
 
-DTO = boundary __________
+DTO = boundary shape
 
-Service = business __________
+Service = business logic
 
-Response = data leaving the __________
+Response = data leaving the backend
 ```
 
 ## Questions
@@ -51,7 +51,11 @@ Response = data leaving the __________
 ```text
 A controller turns a web request into...
 ```
-
+1. Thats where it recieved the requesr from the outside the backend
+2. HTTP request
+3. JSON response
+4. The service is where the business logic is dealt
+5. A controller truns a web request into Java work 
 ---
 
 # 🚪 Part 2 — Controller as Doorway
@@ -78,6 +82,11 @@ Response returns to frontend
 4. Why is the controller a boundary?
 5. What could go wrong if the controller tries to do everything?
 
+1. Controller
+2. SERVICE
+3. Controller
+4. This is where the outside information request enters the java backend
+5. It can become large and mix request up
 ---
 
 # 🌐 Part 3 — HTTP Requests
@@ -86,18 +95,18 @@ For each request, explain what the client is asking for.
 
 | HTTP Request | What is being asked? |
 |---|---|
-| `GET /api/meals` | ? |
-| `GET /api/meals/5` | ? |
-| `POST /api/meals/suggestion` | ? |
-| `DELETE /api/meals/5` | ? |
-| `GET /api/meals?type=vegetarian` | ? |
+| `GET /api/meals` | Gets all the meals |
+| `GET /api/meals/5` | Gets the meals with id 5 |
+| `POST /api/meals/suggestion` | Submits the ingredients to create a meal suggestion  |
+| `DELETE /api/meals/5` | deleteds the meal id 5 |
+| `GET /api/meals?type=vegetarian` | Gets meals filtered by the veg type |
 
 ## Reflection
 
 Complete:
 
 ```text
-An HTTP request is a message from...
+An HTTP request is a message from the outside the backend
 ```
 
 ---
@@ -131,7 +140,11 @@ GET /api/meals
         ↓
 ?
 ```
-
+1. the base route - /api/meals
+2. @Getmapping
+3. getMeals()
+4. List<MealResponse>
+5. GET /api/meals -> MealCobtroler.getMeals()
 ---
 
 # 🧾 Part 5 — HTTP Methods
@@ -140,11 +153,11 @@ Match the HTTP method to its usual meaning.
 
 | HTTP Method | Meaning |
 |---|---|
-| GET | ? |
-| POST | ? |
-| PUT | ? |
-| PATCH | ? |
-| DELETE | ? |
+| GET | reads the data |
+| POST | creates the data  |
+| PUT | replace/update data |
+| PATCH | partially updates the data |
+| DELETE | remove data|
 
 Use these meanings:
 
@@ -163,6 +176,10 @@ remove data
 3. Which method would you use to submit ingredients for a suggestion?
 4. Which method would you use to retrieve one meal?
 
+1. GET /api/meals reads meal data but the POST /api/meals submits meal data
+2. DELETE
+3. POST
+4. GET
 ---
 
 # 📥 Part 6 — Request Body to Java Object
@@ -209,7 +226,19 @@ MealRequest object in memory
         ↓
 Controller method receives __________
 ```
-
+1.  {
+  "ingredients": ["tomato", "pasta", "cheese"]
+}
+2.  MealRequest
+3.  takes the JSON body from the HTTP request and turns into a Java object
+4.  MealRequest
+5.  JSON request body
+        ↓
+Spring deserializes JSON
+        ↓
+MealRequest object in memory
+        ↓
+Controller method receives request
 ---
 
 # 📤 Part 7 — Java Object to Response Body

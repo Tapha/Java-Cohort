@@ -274,7 +274,9 @@ JSON response body
 HTTP response leaves backend
 ```
 ## Answers
-1. 
+1. MealResponse
+2. JSON
+3. Spring will serialize the MealResponse object into JSON.
 ---
 
 # 📦 Part 8 — DTOs
@@ -289,8 +291,8 @@ Fill in the table.
 
 | DTO | Direction | Purpose |
 |---|---|---|
-| `MealRequest` | input / output? | ? |
-| `MealResponse` | input / output? | ? |
+| `MealRequest` | input | Ensuring request complies with this format |
+| `MealResponse` |output | Ensure the format of the response is this |
 
 ## Questions
 
@@ -300,11 +302,14 @@ Fill in the table.
 4. Complete:
 
 ```text
-DTO = __________ shape
+DTO = boundary shape
 
-Entity = __________ shape
+Entity = storage shape
 ```
-
+## Answers
+1. Because an input is a request into the backend so MealRequest is the shape of the request data.
+2. Because an output from the backend is the response, the MealResponse will the the correct shape of the output.
+3. We don't want our frontend accessing the entities directly which would cause issues with data integrity. 
 ---
 
 # 🧠 Part 9 — Controller vs Service
@@ -340,11 +345,16 @@ public class MealController {
 Complete:
 
 ```text
-Controller should...
-Service should...
-Repository should...
+Controller should receive the request and return the response. 
+Service should handle the business logic.
+Repository should handle the access to data. 
 ```
-
+## Answers
+1. Handling the request and response, handling the business logic and handling respository.
+2. This is dangerous because the controller has too many responsibilities, which is against SOLID principles, particularly single responsibility principle.
+3. The business logic parts like validate ingredients, generate recipe, etc.
+4. Save history.
+5. Single Responsibility Principle. 
 ---
 
 # 🧱 Part 10 — Thin Controller
@@ -381,9 +391,13 @@ public class MealController {
 
 ```text
 Controller = boundary coordinator
-Service = __________ coordinator
+Service = logic coordinator
 ```
-
+## Answers
+1. MealService
+2. Pass the request object to the service to carry out the logic and then handle the response when returned back from the service.
+3. The service generates the meal based on the request, it does the main logic.
+4. It separates the responsibilities and makes the code easier to maintain. 
 ---
 
 # 🔌 Part 11 — Dependency Injection
@@ -405,9 +419,13 @@ public MealController(MealService mealService) {
 5. Complete:
 
 ```text
-Dependency injection means dependencies are...
+Dependency injection means dependencies are passed into the constructor. 
 ```
-
+## Answers
+1. A MealService.
+2. No it automatically instantiates the MealService object without new MealService.
+3. Spring handles the creation and it makes the code better for maintainability and extension.
+4. Dependency Inversion Principle (DIP).
 ---
 
 # 🧭 Part 12 — Path Variables
@@ -438,11 +456,15 @@ public MealResponse getMealById(@PathVariable Long id) {
 ```text
 GET /api/meals/5
         ↓
-id = __________
+id = 5
         ↓
-getMealById(__________)
+getMealById(5)
 ```
-
+## Answers
+1. 5
+2. @GetMapping("/{id}") 
+3. @PathVariable Long id
+4. mealService.getMealById(id);
 ---
 
 # 🔎 Part 13 — Query Parameters
@@ -472,11 +494,15 @@ public List<MealResponse> getMeals(@RequestParam String type) {
 Complete:
 
 ```text
-Path variable = which __________?
+Path variable = which resource?
 
-Query parameter = what __________ or __________?
+Query parameter = what filter or options?
 ```
-
+## Answers 
+1. ?type=vegetarian
+2. vegetarian
+3. @RequestParam String type
+4. A path variable is specific for a particular resources whereas a query parameter is for filtering results or for a search term. 
 ---
 
 # ⚠️ Part 14 — Validation at the Boundary
@@ -487,11 +513,11 @@ For a `MealRequest`, decide whether each input should be valid or invalid.
 
 | Request Body | Valid / Invalid? | Why? |
 |---|---|---|
-| `{ "ingredients": ["tomato"] }` | ? | ? |
-| `{ "ingredients": [] }` | ? | ? |
-| `{ "ingredients": null }` | ? | ? |
-| `{}` | ? | ? |
-| invalid JSON text | ? | ? |
+| `{ "ingredients": ["tomato"] }` | valid | contains a string array of ingredients |
+| `{ "ingredients": [] }` | valid | contains an empty array |
+| `{ "ingredients": null }` | invalid | it requires an array, can't be null |
+| `{}` | invalid | empty request, needs an array |
+| invalid JSON text | invalid | invalid JSON is not valid |
 
 ## Questions
 
@@ -501,9 +527,11 @@ For a `MealRequest`, decide whether each input should be valid or invalid.
 4. Complete:
 
 ```text
-The controller boundary is where untrusted input first becomes...
+The controller boundary is where untrusted input first becomes trusted using a DTO.
 ```
-
+1. To ensure that we are getting the correct data for the given request and prevents errors.
+2. Untrusted data first enters the backend through the request.
+3. If the input is valid, Spring will deserialize into a Java object. 
 ---
 
 # 🧨 Part 15 — Controller Failure Paths
@@ -512,13 +540,13 @@ Match each failure to a likely HTTP status code.
 
 | Failure | Status Code |
 |---|---|
-| invalid JSON | ? |
-| missing required field | ? |
-| meal not found | ? |
-| duplicate meal already exists | ? |
-| user not logged in | ? |
-| user logged in but not allowed | ? |
-| unexpected server error | ? |
+| invalid JSON | 400 |
+| missing required field | 400 |
+| meal not found | 404 |
+| duplicate meal already exists | 409 |
+| user not logged in | 401 |
+| user logged in but not allowed | 403 |
+| unexpected server error | 500 |
 
 Use:
 
@@ -537,6 +565,10 @@ Use:
 2. Why is `500 Internal Server Error` not the right response for every problem?
 3. Why should API errors be meaningful?
 
+## Answers
+1. To ensure the correct data is sent and received and if not failure takes place.
+2. It gives no idea of what the actual problem is, so other codes should be used to give the user an idea of how to fix the problem.
+3. To tell the user where the error went wrong and how to fix the error, error messages should be useful. 
 ---
 
 # 🧾 Part 16 — Status Codes
@@ -545,24 +577,24 @@ Fill in the table.
 
 | Status Code | Meaning |
 |---|---|
-| 200 OK | ? |
-| 201 Created | ? |
-| 204 No Content | ? |
-| 400 Bad Request | ? |
-| 401 Unauthorized | ? |
-| 403 Forbidden | ? |
-| 404 Not Found | ? |
-| 409 Conflict | ? |
-| 500 Internal Server Error | ? |
+| 200 OK | request succeeded |
+| 201 Created | new resource created |
+| 204 No Content | success with no body |
+| 400 Bad Request | client send invalid data |
+| 401 Unauthorized | authentication required |
+| 403 Forbidden | not allowed |
+| 404 Not Found | resource not found |
+| 409 Conflict | conflict with current state |
+| 500 Internal Server Error | unexpected server failure |
 
 ## Reflection
 
 Complete:
 
 ```text
-Response body = __________
+Response body = detail
 
-Status code = __________
+Status code = outcome signal
 ```
 
 ---
@@ -589,9 +621,13 @@ public ResponseEntity<MealResponse> createMeal(@RequestBody MealRequest request)
 5. Complete:
 
 ```text
-ResponseEntity = full HTTP __________ wrapper
+ResponseEntity = full HTTP response wrapper
 ```
-
+## Answers
+1. It allows us to control access to the entity.
+2. 201
+3. The response from mealService.createMeal(request)
+4. When controlling access to the database through requests. 
 ---
 
 # 🔄 Part 18 — Full Controller Flow
@@ -601,19 +637,19 @@ Complete the flow:
 ```text
 Frontend sends HTTP request
         ↓
-Spring matches __________
+Spring matches route
         ↓
-Controller method __________
+Controller method runs
         ↓
-Request body/path/query data becomes __________
+Request body/path/query data becomes Java values
         ↓
-Controller calls __________
+Controller calls service
         ↓
-Service performs __________
+Service performs business use case
         ↓
-Controller receives __________
+Controller receives result
         ↓
-Java result becomes __________
+Java result becomes JSON
         ↓
 HTTP response leaves backend
 ```
@@ -625,6 +661,11 @@ HTTP response leaves backend
 3. Where does serialization happen?
 4. Where does output happen?
 
+## Answers
+1. Request body/path/query data becomes Java values
+2. Service performs business use case
+3. Java result becomes JSON
+4. HTTP response leaves backend
 ---
 
 # 🍅 Part 19 — Fridge2Meal Controller
@@ -654,6 +695,31 @@ JSON body:
 7. Make the method call `mealService.generateMeal(request)`.
 8. Make the method return `MealResponse`.
 
+## Answers 
+1. public record MealRequest(
+    List<String> ingredients
+) {}
+2. public record MealResponse(
+    String title,
+    String description,
+    List<String> steps
+) {}
+3. 4. 5. 6. 7. 8.
+@RestController
+@RequestMapping("/api/meals")
+public class MealController {
+
+    private final MealService mealService;
+
+    public MealController(MealService mealService) {
+        this.mealService = mealService;
+    }
+
+    @PostMapping("/suggestion")
+    public MealResponse suggestMeal(@RequestBody MealRequest request) {
+        return mealService.generateMeal(request);
+    }
+}
 ## Reflection
 
 Explain the full flow:
@@ -661,15 +727,15 @@ Explain the full flow:
 ```text
 JSON ingredients
         ↓
-?
+MealRequest DTO
         ↓
 MealController
         ↓
-?
+MealService
         ↓
 MealResponse
         ↓
-?
+JSON response
 ```
 
 ---
@@ -680,7 +746,7 @@ Fill in the table.
 
 | SOLID Principle | Controller Meaning |
 |---|---|
-| SRP | ? |
+| SRP |  |
 | OCP | ? |
 | LSP | ? |
 | ISP | ? |

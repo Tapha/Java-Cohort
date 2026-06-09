@@ -528,11 +528,11 @@ For a `MealRequest`, decide whether each input should be valid or invalid.
 
 | Request Body | Valid / Invalid? | Why? |
 |---|---|---|
-| `{ "ingredients": ["tomato"] }` | ? | ? |
-| `{ "ingredients": [] }` | ? | ? |
-| `{ "ingredients": null }` | ? | ? |
-| `{}` | ? | ? |
-| invalid JSON text | ? | ? |
+| `{ "ingredients": ["tomato"] }` | Valid | it has the ingredient name |
+| `{ "ingredients": [] }` | invalid | ingreident should never be empty |
+| `{ "ingredients": null }` | invalid| the ingreident cant be null |
+| `{}` | invalid | the field is empty |
+| invalid JSON text | invalid | its a invalid JSON |
 
 ## Questions
 
@@ -544,7 +544,10 @@ For a `MealRequest`, decide whether each input should be valid or invalid.
 ```text
 The controller boundary is where untrusted input first becomes...
 ```
-
+1. For security as outside data shouldnt be trusted
+2. the controller boundary
+3. API should return a error response
+4. The controller boundary is where untrusted input first becomes data
 ---
 
 # 🧨 Part 15 — Controller Failure Paths
@@ -553,13 +556,13 @@ Match each failure to a likely HTTP status code.
 
 | Failure | Status Code |
 |---|---|
-| invalid JSON | ? |
-| missing required field | ? |
-| meal not found | ? |
-| duplicate meal already exists | ? |
-| user not logged in | ? |
-| user logged in but not allowed | ? |
-| unexpected server error | ? |
+| invalid JSON | 400 bad request |
+| missing required field | 400 bad request |
+| meal not found | 404 not found |
+| duplicate meal already exists | 409 conflict  |
+| user not logged in | 401 unauthorised |
+| user logged in but not allowed | 403 forbidden  |
+| unexpected server error | 500 intenral server error |
 
 Use:
 
@@ -578,6 +581,9 @@ Use:
 2. Why is `500 Internal Server Error` not the right response for every problem?
 3. Why should API errors be meaningful?
 
+1. The frontend and the whole system should know and display what the error was
+2. some errros may be caused by a bad input, data missing or permission issues
+3. the frontend may be able to handle the problem more efficiently 
 ---
 
 # 🧾 Part 16 — Status Codes
@@ -586,24 +592,24 @@ Fill in the table.
 
 | Status Code | Meaning |
 |---|---|
-| 200 OK | ? |
-| 201 Created | ? |
-| 204 No Content | ? |
-| 400 Bad Request | ? |
-| 401 Unauthorized | ? |
-| 403 Forbidden | ? |
-| 404 Not Found | ? |
-| 409 Conflict | ? |
-| 500 Internal Server Error | ? |
+| 200 OK | working  |
+| 201 Created | new created |
+| 204 No Content | worked but nothing sent back |
+| 400 Bad Request | the request was bad or missing data |
+| 401 Unauthorized | user needs to log in  |
+| 403 Forbidden | the user is logged in but not allowed |
+| 404 Not Found | the thing requested was not found |
+| 409 Conflict | there is a conflict such as user already exists |
+| 500 Internal Server Error | something wrong in the server |
 
 ## Reflection
 
 Complete:
 
 ```text
-Response body = __________
+Response body = detail
 
-Status code = __________
+Status code = outcome signal
 ```
 
 ---
@@ -626,13 +632,17 @@ public ResponseEntity<MealResponse> createMeal(@RequestBody MealRequest request)
 1. What does `ResponseEntity` allow us to control?
 2. What status code is being returned?
 3. What response body is being returned?
-4. When might `ResponseEntity` be useful?
 5. Complete:
+4. When might `ResponseEntity` be useful?
 
 ```text
 ResponseEntity = full HTTP __________ wrapper
 ```
-
+1. control the status of the code, the response and the headers
+2. 201 created
+3. reponse
+4. if we want to control the HTTP response more clearly like 201 created
+5. ResponseEntity = full HTTP response wrapper
 ---
 
 # 🔄 Part 18 — Full Controller Flow
@@ -642,19 +652,19 @@ Complete the flow:
 ```text
 Frontend sends HTTP request
         ↓
-Spring matches __________
+Spring matches route
         ↓
-Controller method __________
+Controller method runs
         ↓
-Request body/path/query data becomes __________
+Request body/path/query data becomes values
         ↓
-Controller calls __________
+Controller calls service
         ↓
-Service performs __________
+Service performs busniess logic
         ↓
-Controller receives __________
+Controller receives result
         ↓
-Java result becomes __________
+Java result becomes JSON request
         ↓
 HTTP response leaves backend
 ```
@@ -666,6 +676,10 @@ HTTP response leaves backend
 3. Where does serialization happen?
 4. Where does output happen?
 
+1. when spring turns JSON into data
+2. service
+3. spring turns java results into JSON
+4. when the HTTP response leaves the backend 
 ---
 
 # 🍅 Part 19 — Fridge2Meal Controller
@@ -695,6 +709,36 @@ JSON body:
 7. Make the method call `mealService.generateMeal(request)`.
 8. Make the method return `MealResponse`.
 
+ANSWER:
+
+import java.util.List;
+
+public record MealRequest(
+    List<String> ingredients
+) {}
+import java.util.List;
+
+public record MealResponse(
+    String title,
+    String description,
+    List<String> steps
+) {}
+@RestController
+@RequestMapping("/api/meals")
+public class MealController {
+
+    private final MealService mealService;
+
+    public MealController(MealService mealService) {
+        this.mealService = mealService;
+    }
+
+    @PostMapping("/suggestion")
+    public MealResponse suggestMeal(@RequestBody MealRequest request) {
+        return mealService.generateMeal(request);
+    }
+}
+
 ## Reflection
 
 Explain the full flow:
@@ -702,15 +746,16 @@ Explain the full flow:
 ```text
 JSON ingredients
         ↓
-?
+MealRequest DTO
         ↓
 MealController
         ↓
-?
+MealService
         ↓
 MealResponse
         ↓
-?
+JSON response
+
 ```
 
 ---
@@ -721,11 +766,11 @@ Fill in the table.
 
 | SOLID Principle | Controller Meaning |
 |---|---|
-| SRP | ? |
-| OCP | ? |
-| LSP | ? |
-| ISP | ? |
-| DIP | ? |
+| SRP | controller handles HTTP boundary, not all business logic |
+| OCP | new endpoints can be added without breaking existing ones |
+| LSP | controller contracts should behave consistently |
+| ISP | clients should receive focused DTOs |
+| DIP | controllers depend on services, not low-level details |
 
 Use these ideas:
 
@@ -744,29 +789,29 @@ controllers depend on services, not low-level details
 Complete:
 
 ```text
-Memory gives Java a __________ space.
+Memory gives Java a working space.
 
-Objects give memory __________.
+Objects give memory shape.
 
-Collections organize __________ objects.
+Collections organize many  objects.
 
-ORM maps objects to __________ rows.
+ORM maps objects to database  rows.
 
-I/O moves data __________ and __________.
+I/O moves data in and out.
 
-REST structures __________ communication.
+REST structures web  communication.
 
-Controllers receive __________ input.
+Controllers receive HTTP  input.
 
-DTOs shape __________ data.
+DTOs shape boundary  data.
 
-Services perform __________ work.
+Services perform business  work.
 
-Repositories access __________.
+Repositories access data storage.
 
-Exceptions handle __________ paths.
+Exceptions handle failure paths.
 
-Logging makes runtime __________.
+Logging makes runtime visible.
 ```
 
 ---
@@ -789,7 +834,16 @@ Answer in your own words:
 ```text
 A controller is where the outside world becomes Java work.
 ```
-
+1. HTTP boundary that receives requests and returns response
+2. where outside data enters the backend
+3. External address for an endpoint
+4. Request body is data sent in the request, path variable identifies a specific resource, query parameter gives filters or options
+5. Data Transfer Object to shape data going in or out of the API
+6. So business logic stays in the service and the controller does not do too many jobs
+7. Controller handles HTTP requests and responses but the service handles business logic
+8. tell the frontend what happened
+9. Controls the status code, response body and headers
+10. It means the controller takes an HTTP request from outside the backend and turns it into Java method or service work
 ---
 
 # 🌟 Stretch Challenge — Design Your Own Controller
@@ -819,7 +873,40 @@ DELETE /api/students/{id}
 9. Identify which methods should return one object.
 10. Identify which methods should call `studentService`.
 
----
+1. StudentController
+2. /api/students
+3.                 GET /api/students: GET
+                   GET /api/students/{id} : GET
+                   POST /api/students : POST
+                   GET /api/students?course=java : GET
+                   DELETE /api/students/{id} : DELETE
+4. /api/students/{id}
+5. /api/students?course=java
+6.
+   public record StudentRequest(
+    String name,
+    String course
+) {}
+
+7.  public record StudentResponse(
+    Long id,
+    String name,
+    String course
+
+) {}
+
+8. GET /api/students
+   GET /api/students?course=java
+
+9. GET /api/students/{id}
+   POST /api/students 
+
+10. getStudents()
+    getStudentById(id)
+    createStudent(request)
+    getStudentsByCourse(course)
+    deleteStudent(id)
+--
 
 # 🧠 Final Compression
 

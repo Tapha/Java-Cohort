@@ -234,16 +234,16 @@ Record the result in this table:
 
 | Check | Result | Notes |
 |---|---|---|
-| Frontend opens | ✅ / 🟡 / 🔴 | |
-| Camera/capture works | ✅ / 🟡 / 🔴 | |
-| Image URI/file exists | ✅ / 🟡 / 🔴 | |
-| Axios request fires | ✅ / 🟡 / 🔴 | |
-| Backend logs show request | ✅ / 🟡 / 🔴 | |
-| Response returns to frontend | ✅ / 🟡 / 🔴 | |
-| Meal title displays | ✅ / 🟡 / 🔴 | |
-| Ingredients display | ✅ / 🟡 / 🔴 | |
-| Steps display | ✅ / 🟡 / 🔴 | |
-| Time estimate displays | ✅ / 🟡 / 🔴 | |
+| Frontend opens | ✅ | Frontend launches correctly |
+| Camera/capture works |  🔴 |No camera functionality yet, images can only be uploaded |
+| Image URI/file exists | ✅ |Image is uploaded correctly |
+| Axios request fires | ✅ |Request sent to backend |
+| Backend logs show request | 🔴 | Running logs don't show request was sent |
+| Response returns to frontend | ✅ | Image response is retuned correctly |
+| Meal title displays | ✅ |Correctly shown |
+| Ingredients display | ✅ |Correctly shown |
+| Steps display | ✅ |Correctly shown |
+| Time estimate displays | ✅ |Correctly shown |
 
 ---
 
@@ -289,7 +289,13 @@ If frontend sends "photo"
 but backend expects "image",
 the loop breaks.
 ```
-
+## Answers for code on main
+1. http://localhost:8080/api/meals/suggestion
+2. "image"
+3. file
+4. image/jpeg
+5. Backend doesn't expect a fieldname, it just needs multipart file. 
+6. No
 ---
 
 # 🚦 8️⃣ Part 3 — Backend Endpoint Check
@@ -317,6 +323,14 @@ public ResponseEntity<MealResponse> suggestMealFromImage(
 5. Does the parameter name match the frontend `FormData` field?
 6. Which service method does the controller call?
 
+
+## Answers for code on main
+1. /suggestion
+2. POST
+3. This controller end point will only accept multipart request data.
+4. request
+5. No implementation uses DTO.
+6. generateMeal()
 ---
 
 # 🧪 9️⃣ Part 4 — Test Backend Directly Without Frontend
@@ -368,14 +382,14 @@ curl -X POST http://localhost:8080/api/meals/from-image \
 
 | Check | Result | Notes |
 |---|---|---|
-| Backend endpoint reachable | ✅ / 🟡 / 🔴 | |
-| Multipart request accepted | ✅ / 🟡 / 🔴 | |
-| Image field name works | ✅ / 🟡 / 🔴 | |
-| Response returns JSON | ✅ / 🟡 / 🔴 | |
-| Response has title | ✅ / 🟡 / 🔴 | |
-| Response has ingredients | ✅ / 🟡 / 🔴 | |
-| Response has steps | ✅ / 🟡 / 🔴 | |
-| Response has time estimate | ✅ / 🟡 / 🔴 | |
+| Backend endpoint reachable | ✅ | |
+| Multipart request accepted | ✅ | |
+| Image field name works | 🟡| Backend doesn't expect a specific field name |
+| Response returns JSON | ✅ | |
+| Response has title | ✅ | |
+| Response has ingredients | ✅ | |
+| Response has steps | ✅ | |
+| Response has time estimate | ✅ | |
 
 ---
 
@@ -528,6 +542,14 @@ class MealServiceTest {
 4. What would make this test fail?
 5. Which SOLID principle makes this easier?
 
+
+## Answers 
+1. MealService requires a port in its constructor but we can simulate a port by creating a fake one with the same structure.
+2. It doesn't need an image, we just need to test with something that represents an image (has the same shape).
+3. We are testing if the service generates the correct response.
+4. a
+5. The dependency inversion principle because the service depends on the abstraction (port) rather than the implementation (adapter). 
+
 ---
 
 # 🚦 1️⃣3️⃣ Part 7 — Controller Multipart Test Shape
@@ -601,6 +623,14 @@ class MealControllerTest {
 5. What would fail if the endpoint path was wrong?
 6. What would fail if the JSON response shape was wrong?
 
+
+## Answers 
+1. A mock representation of a real axios multipart-file request.
+2. Tests the endpoint which the request is being sent to.
+3. We are only interested in testing the controller here, so we do not want the real implementation of MealService as this may cause issues.
+4. Title, ingredients at index 0, step at index 0 and the time estimate. 
+5. The test request wouldn't be accepted by the controller and the test would fail.
+6. 
 ---
 
 # ⚠️ 1️⃣4️⃣ Part 8 — Failure Case Tests
@@ -625,6 +655,8 @@ Try these failure scenarios.
 3. Which failures should become follow-up tickets?
 4. Which failure should block merge?
 
+## Answers
+1. 
 ---
 
 # 🖥️ 1️⃣5️⃣ Part 9 — Frontend Response Check
@@ -663,6 +695,12 @@ Time estimate
 4. What happens if the response is missing a field?
 5. Does the frontend log or display useful information during failure?
 
+## Answers 
+1. It's stored in a const and then stored in state array with type interface. 
+2. There is no loading state while the request is being processed.
+3. An error is displayed in console. 
+4. An error is displayed in console.
+5. It will display certain errors in the console but not to the user. 
 ---
 
 # 📊 1️⃣6️⃣ Part 10 — Test Evidence Table
@@ -671,18 +709,18 @@ Complete this after testing.
 
 | Evidence | Result | Notes |
 |---|---|---|
-| Frontend sends multipart request | ✅ / 🟡 / 🔴 | |
-| Backend receives `MultipartFile` | ✅ / 🟡 / 🔴 | |
-| Controller calls service | ✅ / 🟡 / 🔴 | |
-| Service calls `MealVisionPort` | ✅ / 🟡 / 🔴 | |
-| Adapter returns meal suggestion | ✅ / 🟡 / 🔴 | |
-| Backend returns JSON response | ✅ / 🟡 / 🔴 | |
-| Frontend receives response | ✅ / 🟡 / 🔴 | |
-| Meal title displayed | ✅ / 🟡 / 🔴 | |
-| Ingredients displayed | ✅ / 🟡 / 🔴 | |
-| Steps displayed | ✅ / 🟡 / 🔴 | |
-| Time estimate displayed | ✅ / 🟡 / 🔴 | |
-| Backend logs checked | ✅ / 🟡 / 🔴 | |
+| Frontend sends multipart request | ✅  | |
+| Backend receives `MultipartFile` | ✅ | |
+| Controller calls service | ✅  | |
+| Service calls `MealVisionPort` | ✅ |Required modification but done |
+| Adapter returns meal suggestion | ✅ | |
+| Backend returns JSON response | ✅  | |
+| Frontend receives response | ✅  | |
+| Meal title displayed | ✅  | |
+| Ingredients displayed | ✅ | |
+| Steps displayed | ✅  | |
+| Time estimate displayed | ✅  | |
+| Backend logs checked |  🟡  |Backend logs need more reporting |
 | Failure cases noted | ✅ / 🟡 / 🔴 | |
 
 ---

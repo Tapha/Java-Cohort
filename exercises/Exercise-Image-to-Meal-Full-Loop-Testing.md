@@ -234,16 +234,17 @@ Record the result in this table:
 
 | Check | Result | Notes |
 |---|---|---|
-| Frontend opens | ✅ / 🟡 / 🔴 | |
-| Camera/capture works | ✅ / 🟡 / 🔴 | |
-| Image URI/file exists | ✅ / 🟡 / 🔴 | |
-| Axios request fires | ✅ / 🟡 / 🔴 | |
-| Backend logs show request | ✅ / 🟡 / 🔴 | |
-| Response returns to frontend | ✅ / 🟡 / 🔴 | |
-| Meal title displays | ✅ / 🟡 / 🔴 | |
-| Ingredients display | ✅ / 🟡 / 🔴 | |
-| Steps display | ✅ / 🟡 / 🔴 | |
-| Time estimate displays | ✅ / 🟡 / 🔴 | |
+| Frontend opens | ✅  | |
+| Camera/capture works | 🟡  | Were making use of upload for the time being which works|
+| Image URI/file exists | ✅ | |
+| Axios request fires | ✅ | |
+| Backend logs show request | 🔴 | Haven't implemented logging|
+| Response returns to frontend | ✅  | |
+| Meal title displays | ✅  | |
+| Ingredients display | ✅  | |
+| Steps display | ✅  | |
+| Time estimate displays | ✅ | |
+
 
 ---
 
@@ -290,6 +291,15 @@ but backend expects "image",
 the loop breaks.
 ```
 
+```text
+1. http://localhost:8080/api/meals/suggestion
+2. image
+3. Doesn't have a name
+4. Jpeg
+5. It doesn't look for a specific field name but binds the request parameters (formdata ) to a MealRequest DTO
+6. Not exactly
+```
+
 ---
 
 # 🚦 8️⃣ Part 3 — Backend Endpoint Check
@@ -316,6 +326,15 @@ public ResponseEntity<MealResponse> suggestMealFromImage(
 4. What is the `MultipartFile` parameter called?
 5. Does the parameter name match the frontend `FormData` field?
 6. Which service method does the controller call?
+
+```text
+1. /suggestion
+2. POST
+3. It means it accepts data of type MULTIPART_FORM_DATA_VALUE
+4. request
+5. no
+6. generateMeal(request)
+```
 
 ---
 
@@ -368,14 +387,14 @@ curl -X POST http://localhost:8080/api/meals/from-image \
 
 | Check | Result | Notes |
 |---|---|---|
-| Backend endpoint reachable | ✅ / 🟡 / 🔴 | |
-| Multipart request accepted | ✅ / 🟡 / 🔴 | |
-| Image field name works | ✅ / 🟡 / 🔴 | |
-| Response returns JSON | ✅ / 🟡 / 🔴 | |
-| Response has title | ✅ / 🟡 / 🔴 | |
-| Response has ingredients | ✅ / 🟡 / 🔴 | |
-| Response has steps | ✅ / 🟡 / 🔴 | |
-| Response has time estimate | ✅ / 🟡 / 🔴 | |
+| Backend endpoint reachable | ✅  | |
+| Multipart request accepted | ✅  | |
+| Image field name works | ✅  | |
+| Response returns JSON | ✅  | |
+| Response has title | ✅  | |
+| Response has ingredients | ✅  | |
+| Response has steps | ✅  | |
+| Response has time estimate | ✅  | |
 
 ---
 
@@ -528,6 +547,14 @@ class MealServiceTest {
 4. What would make this test fail?
 5. Which SOLID principle makes this easier?
 
+```text
+1. This is because we don't need the actual port to test service
+2. This is because we're only testing the service class not how it reacts to specific images
+3. The service behaviour when getting the response
+4. If there is no response given or if the response is not what is expected
+5. DIP
+```
+
 ---
 
 # 🚦 1️⃣3️⃣ Part 7 — Controller Multipart Test Shape
@@ -601,6 +628,14 @@ class MealControllerTest {
 5. What would fail if the endpoint path was wrong?
 6. What would fail if the JSON response shape was wrong?
 
+```text
+1. This represents the mock image that we pass into the controller
+2. This tests the endpont that the image is sent to
+3. We don't need the real MealService to test the endpoints
+4. Title, Ingredients, Steps and Time Estimate
+5. It wouldn't return a 200 or ok status and so .andExpect(status().isOk()) would fail
+6. Every assertion for title, ingredients, steps and time estimate
+```
 ---
 
 # ⚠️ 1️⃣4️⃣ Part 8 — Failure Case Tests
@@ -625,6 +660,12 @@ Try these failure scenarios.
 3. Which failures should become follow-up tickets?
 4. Which failure should block merge?
 
+```text
+1. None
+2. All of them
+3. The frontend not silently failing
+4. Backend service throws error
+```
 ---
 
 # 🖥️ 1️⃣5️⃣ Part 9 — Frontend Response Check
@@ -663,6 +704,14 @@ Time estimate
 4. What happens if the response is missing a field?
 5. Does the frontend log or display useful information during failure?
 
+```text
+1. It's stored in the MealResponse Interface
+2. A loaded variable is set to false
+3. Nothing shows in the frontend
+4.The field comes up as empty
+5. Not at the moment
+```
+
 ---
 
 # 📊 1️⃣6️⃣ Part 10 — Test Evidence Table
@@ -671,19 +720,19 @@ Complete this after testing.
 
 | Evidence | Result | Notes |
 |---|---|---|
-| Frontend sends multipart request | ✅ / 🟡 / 🔴 | |
-| Backend receives `MultipartFile` | ✅ / 🟡 / 🔴 | |
-| Controller calls service | ✅ / 🟡 / 🔴 | |
-| Service calls `MealVisionPort` | ✅ / 🟡 / 🔴 | |
-| Adapter returns meal suggestion | ✅ / 🟡 / 🔴 | |
-| Backend returns JSON response | ✅ / 🟡 / 🔴 | |
-| Frontend receives response | ✅ / 🟡 / 🔴 | |
-| Meal title displayed | ✅ / 🟡 / 🔴 | |
-| Ingredients displayed | ✅ / 🟡 / 🔴 | |
-| Steps displayed | ✅ / 🟡 / 🔴 | |
-| Time estimate displayed | ✅ / 🟡 / 🔴 | |
-| Backend logs checked | ✅ / 🟡 / 🔴 | |
-| Failure cases noted | ✅ / 🟡 / 🔴 | |
+| Frontend sends multipart request | ✅  | |
+| Backend receives `MultipartFile` | ✅  | |
+| Controller calls service | ✅ | |
+| Service calls `MealVisionPort` | ✅  | |
+| Adapter returns meal suggestion | ✅  | |
+| Backend returns JSON response | ✅  | |
+| Frontend receives response | ✅  | |
+| Meal title displayed | ✅  | |
+| Ingredients displayed | ✅  | |
+| Steps displayed | ✅  | |
+| Time estimate displayed | ✅ | |
+| Backend logs checked |  🔴 | |
+| Failure cases noted |  🔴 | |
 
 ---
 
@@ -701,6 +750,20 @@ Answer these after completing the exercise.
 8. Which parts are still fake/simulated?
 9. Which failure cases need follow-up tickets?
 10. Would you be comfortable merging this feature into the shared project?
+
+```text
+1. The service
+2. The backend receiving a multipart image specifically
+3. Yes
+4.Yes
+5. Providing the response
+6. This is so it depends on an abstraction as opposed to concrete definition which abides by the DIP solid principle
+7. How the Frontend gets and send the image, how the controller routes the image to the service to handle it and how the service calls MealVisionAdapter
+8. The response to the image as well as the analysis of the image
+9. Having the frontend fail loudly
+10. Yes
+
+```
 
 ---
 

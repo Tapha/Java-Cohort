@@ -234,16 +234,16 @@ Record the result in this table:
 
 | Check | Result | Notes |
 |---|---|---|
-| Frontend opens | ✅ / 🟡 / 🔴 | |
-| Camera/capture works | ✅ / 🟡 / 🔴 | |
+| Frontend opens | ✅  | |
+| Camera/capture works | 🔴 |not a part of this ticket |
 | Image URI/file exists | ✅ / 🟡 / 🔴 | |
 | Axios request fires | ✅ / 🟡 / 🔴 | |
 | Backend logs show request | ✅ / 🟡 / 🔴 | |
-| Response returns to frontend | ✅ / 🟡 / 🔴 | |
-| Meal title displays | ✅ / 🟡 / 🔴 | |
-| Ingredients display | ✅ / 🟡 / 🔴 | |
-| Steps display | ✅ / 🟡 / 🔴 | |
-| Time estimate displays | ✅ / 🟡 / 🔴 | |
+| Response returns to frontend | ✅  | |
+| Meal title displays | ✅ | |
+| Ingredients display | ✅ | |
+| Steps display | ✅ | |
+| Time estimate displays | ✅ | |
 
 ---
 
@@ -276,10 +276,25 @@ const response = await axios.post(
 ## Questions
 
 1. What is the endpoint URL?
+
+api/meals/from-image
+
 2. What is the multipart field name?
+
+"form-data"
+
 3. What is the image file name?
+
+fridge.jpg
+
 4. What is the image MIME type?
+
+image/jpeg
+
 5. What does the backend expect the field name to be?
+
+
+
 6. Does the frontend field name match the backend parameter?
 
 Important:
@@ -311,11 +326,29 @@ public ResponseEntity<MealResponse> suggestMealFromImage(
 ## Questions
 
 1. What route handles the image upload?
+
+/from-image
+
 2. What HTTP method is used?
+
+POST
+
 3. What does `consumes = MediaType.MULTIPART_FORM_DATA_VALUE` mean?
+
+It tells the controller what information to expect, and in this case its media of multipart form data.
+
 4. What is the `MultipartFile` parameter called?
+
+an object
+
 5. Does the parameter name match the frontend `FormData` field?
+
+yes they are both "image"
+
 6. Which service method does the controller call?
+
+ service class = mealService 
+ service method = suggestMealFromImage()
 
 ---
 
@@ -368,14 +401,14 @@ curl -X POST http://localhost:8080/api/meals/from-image \
 
 | Check | Result | Notes |
 |---|---|---|
-| Backend endpoint reachable | ✅ / 🟡 / 🔴 | |
-| Multipart request accepted | ✅ / 🟡 / 🔴 | |
-| Image field name works | ✅ / 🟡 / 🔴 | |
-| Response returns JSON | ✅ / 🟡 / 🔴 | |
-| Response has title | ✅ / 🟡 / 🔴 | |
-| Response has ingredients | ✅ / 🟡 / 🔴 | |
-| Response has steps | ✅ / 🟡 / 🔴 | |
-| Response has time estimate | ✅ / 🟡 / 🔴 | |
+| Backend endpoint reachable | ✅  | |
+| Multipart request accepted | ✅  | |
+| Image field name works | ✅ / 🟡 / 🔴 |different name used |
+| Response returns JSON | ✅ | |
+| Response has title | ✅ | |
+| Response has ingredients | ✅| |
+| Response has steps | ✅| |
+| Response has time estimate | ✅ | |
 
 ---
 
@@ -523,10 +556,25 @@ class MealServiceTest {
 ## Questions
 
 1. Why do we use a fake port?
+
+We only want to test the service class, and therefore anything that can cause the test to fail but isn't related to the service needs to be mocked
+
 2. Why does this test not need a real image?
+
+Its not apart of the tested behaviour, and it may cause the test to fail, so using a fake is better
+
 3. What behaviour is being tested?
+
+If when the service class is given an image, does it return a meal suggestion JSON containing the 
+
 4. What would make this test fail?
+
+if the response title, isnt "Tomato Pasta", if the usedIngredients list doesnt contain "tomato", if the steps list is empty or if the timeEstimateMinute is not equal to 20.
+
 5. Which SOLID principle makes this easier?
+
+
+
 
 ---
 

@@ -235,7 +235,7 @@ Record the result in this table:
 | Check | Result | Notes |
 |---|---|---|
 | Frontend opens | ✅ | Frontend launches correctly |
-| Camera/capture works |  🔴 |No camera functionality yet, images can only be uploaded |
+| Camera/capture works |  🟡 |No camera functionality yet, images can only be uploaded |
 | Image URI/file exists | ✅ |Image is uploaded correctly |
 | Axios request fires | ✅ |Request sent to backend |
 | Backend logs show request | 🔴 | Running logs don't show request was sent |
@@ -294,8 +294,8 @@ the loop breaks.
 2. "image"
 3. file
 4. image/jpeg
-5. Backend doesn't expect a fieldname, it just needs multipart file. 
-6. No
+5. Backend doesn't expect a fieldname, it just needs multipart file, which is called image in DTO. 
+6. No because the code doesn't use @RequestParam('image'), it uses a DTO. 
 ---
 
 # 🚦 8️⃣ Part 3 — Backend Endpoint Check
@@ -325,11 +325,11 @@ public ResponseEntity<MealResponse> suggestMealFromImage(
 
 
 ## Answers for code on main
-1. /suggestion
+1. /api/meals/suggestion
 2. POST
 3. This controller end point will only accept multipart request data.
-4. request
-5. No implementation uses DTO.
+4. The code uses an implementation using a DTO so the DTO structure is a MultipartFile type with name image. 
+5. No implementation of @RequestParam("image"), the code uses DTO.
 6. generateMeal()
 ---
 
@@ -384,7 +384,7 @@ curl -X POST http://localhost:8080/api/meals/from-image \
 |---|---|---|
 | Backend endpoint reachable | ✅ | |
 | Multipart request accepted | ✅ | |
-| Image field name works | 🟡| Backend doesn't expect a specific field name |
+| Image field name works | 🟡| Backend doesn't expect a specific field name, uses DTO |
 | Response returns JSON | ✅ | |
 | Response has title | ✅ | |
 | Response has ingredients | ✅ | |
@@ -545,9 +545,9 @@ class MealServiceTest {
 
 ## Answers 
 1. MealService requires a port in its constructor but we can simulate a port by creating a fake one with the same structure.
-2. It doesn't need an image, we just need to test with something that represents an image (has the same shape).
+2. It doesn't need an image, we just need to test with something that represents an image (has the same shape). We are testing to see if it creates the correct response. 
 3. We are testing if the service generates the correct response.
-4. a
+4. One way this test would fail is if the mealService method was not implemented correctly and had the wrong functionality. 
 5. The dependency inversion principle because the service depends on the abstraction (port) rather than the implementation (adapter). 
 
 ---
@@ -630,7 +630,7 @@ class MealControllerTest {
 3. We are only interested in testing the controller here, so we do not want the real implementation of MealService as this may cause issues.
 4. Title, ingredients at index 0, step at index 0 and the time estimate. 
 5. The test request wouldn't be accepted by the controller and the test would fail.
-6. 
+6. The jsonPath .andExpect parts of the test would fail as those values in the JSON response would be wrong. 
 ---
 
 # ⚠️ 1️⃣4️⃣ Part 8 — Failure Case Tests
@@ -656,7 +656,10 @@ Try these failure scenarios.
 4. Which failure should block merge?
 
 ## Answers
-1. 
+1. There are no concrete checks in terms of the backend side for error handling and checking fields, etc. The frontend does check if the file is of type image/ to ensure that only an image is being sent across to the backend and not another type of file. This check is not enough and more need to be implemented.
+2. There should be extra checks implemented to ensure that respones are the correct format with data included within each section. Also, there should be checks to ensure that the correct multipart-file is sent.
+3. Each of the errors not handled should be handled in the next tickets, with the correct multipart-file being first with missing image.
+4. A merge should be blocked if a request/response is not sent or received by either side. Code should not be merged if the basic functionality of the ticket is not met. 
 ---
 
 # 🖥️ 1️⃣5️⃣ Part 9 — Frontend Response Check
@@ -721,7 +724,7 @@ Complete this after testing.
 | Steps displayed | ✅  | |
 | Time estimate displayed | ✅  | |
 | Backend logs checked |  🟡  |Backend logs need more reporting |
-| Failure cases noted | ✅ / 🟡 / 🔴 | |
+| Failure cases noted | ✅ |More checks are needed on the frontend and the backend for files and error handling. |
 
 ---
 
@@ -741,6 +744,17 @@ Answer these after completing the exercise.
 10. Would you be comfortable merging this feature into the shared project?
 
 ---
+## Answers
+1. The frontend was easiest to test because it is just whether the image can be uploaded and the correct response gets outputted to the browser.
+2. The hardest part to prove was the backend because there is no logging or output of what is happening behind the scenes.
+3. Yes the frontend sent it in a way which is accepted by the backend and the backend validates this by using a DTO.
+4. Yes the backend sent JSON in the correct format and the frontend validates this by storing the response as a MealResponse interface type.
+5. It makes it easier in the sense that the code is written in respect to not knowing the implementation, which makes it simpler. This made testing easier too. 
+6. It should depend on MealVisionPort because that is the abstraction which we should depend on the comply with the SOLID principle DIP.
+7. The controller is real implementation and the service, the uploading of the image is also real too.
+8. The parts that are simulated are the responses, they are just a hardcoded example and also the Adapter logic for AI as we haven't implemented that yet.
+9. The most important ones are image error handling and logging in the backend so we have more visibility of what is happening.
+10. Yes, this feature meets all the acceptance criteria of the ticket and has been tested. 
 
 # 🧾 1️⃣8️⃣ Follow-Up Tickets to Create
 

@@ -47,8 +47,12 @@ Example starting point:
 “People filming their desk setups.”
 
 ## Answers
-1. 
-
+1. People sharing more of their life online.
+2. People gaining the curiosity and interest to see the persepective of other people's lives.
+3. People want to be influencers by gaining a following and make money from social media, particularly TikTok.
+4. People are always interested in the perspective of other people's lives. 
+5. People may want to see the working life of people at a company before they start. 
+6. The psychological link of the interest/curiosity is the strongest because that is what is driving the increase in content online. 
 ---
 
 ### 3. Mechanism Test
@@ -73,7 +77,7 @@ Answer:
 3. The behaviour of putting an unrealistic version of yourself out into the public view.
 4. The main system pushing this behaviour is social media because it makes people have an unrealistic view of themselves and everything needs to appear fine in their life.
 5. The reasons people post their skincare routines and people talking honestly about their experience with financial anxiety.
-6. 
+6. If another link could be proven with more evidence that disproves mine. 
 
 ---
 

@@ -68,6 +68,15 @@ Answer:
 * What evidence would make your link stronger?
 * What evidence would weaken your link?
 
+```text
+1. Your tiktok feed is basically your personality analysis
+2. Tiktoks algorithm aims to be able to bring you things you would personally find interesting or at least engaging to get you to engage with the app more and by engaging with the app more, the algorithm gains deeper insights into what you like and through that what kind of person you are.
+3. Both can subtly change, both have nuance
+4. Given the attention economy, for tiktok, the consumers of content are the product since they can be targetted for advertising. In order to get the users of tiktok to see the ads which make tiktok money, they need to keep the content on tiktok engaging for each person
+5. If tiktoks algorithm made a sort of model of ones personality and tendencies using the information gotten from using the app and if that model behaved similarly to the person
+6. If tiktok's algorithm was able to create a model of the person and it was very inaccurate for the majority of people
+```
+
 ---
 
 ### 4. Weak Link → Strong Link
@@ -86,6 +95,10 @@ For each one, answer:
 * What shared mechanism can make it stronger?
 * What is the improved version?
 * What does the improved version help us understand?
+
+```text
+1. AI feels like magic since it's inner workings are a black box to us. We may understand how to train it but as for how everything it learns is woven together to provide accurate replies is not very well known. The original compaison has too little context to function as a strong systems insight. Adding more context would make it stronger. The improved version helps us understand that we should be careful when training AI as it's main goals could easily be hidden from us.
+```
 
 ---
 

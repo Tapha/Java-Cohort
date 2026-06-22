@@ -48,8 +48,8 @@ Answer: With social media people see other hyper attractive people on the app an
 * What pressure or need is driving both things? The need to look as good as people they see online, or they feel bad when they compare themselves to people less attractive.
 * What behaviour repeats across both? Increase of people spending on sking care products and increas in finanical anxiety due to spending on skincare or cosmetic procedures.
 * What system is encouraging this behaviour? Social media being as influencing as it is, and because of how easy it is to access it.
-* What evidence would make your link stronger? Looking at skin care sales and the rise of the skin care industry, how much it is promoted by influencers.
-* What evidence would weaken your link? 
+* What evidence would make your link stronger? Looking at skin care sales and the rise of the skin care industry, how much it is promoted by influencers. The average person increasing in attractiveness, the competiton nowadays to look the best and showoff for the opposite gender.
+* What evidence would weaken your link? If there are budget friendly options which do not actually cause financial anxiety, people with good income may be able to afford good skin care products and may not consider it a financial strain.
 
 ---
 
@@ -57,8 +57,8 @@ Answer: With social media people see other hyper attractive people on the app an
 
 Rewrite each weak connection into a stronger systems insight:
 
-* “AI is like magic.”
-* “Football tactics are like chess.”
+* “AI is like magic.” - AI is like magic in the sense where it can fulfil a task with the user using minimal effort and time.
+* “Football tactics are like chess.” Football tactics are similar to chess in where a great move can cause a significant advantage for the whole game, and a bad move or series of bad moves can cause a defeat.
 * “Crypto is like religion.”
 * “Gym content is capitalism.”
 * “TikTok trends are like viruses.”

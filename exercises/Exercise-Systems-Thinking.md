@@ -15,6 +15,14 @@ Answer:
 * What is the hidden link between the content and that wider emergence?
 * Why might this content be appearing more now?
 
+```text
+1. Vague posting
+2. Twitter
+3. Usually people like to provide context on what's going on so other people interact and understand the post
+4. It may be connected to the rise of ragebait which in of itself is more of an attention grabbing mechanism
+5. Since we live in an attention economy, being able to get said attention is linked to being able to make more money
+6. It may be the next evolution of people trying to drive as much interation online
+```
 ---
 
 ### 2. Distance Ladder
@@ -32,6 +40,15 @@ Now link it across increasing distance:
 
 Example starting point:
 “People filming their desk setups.”
+
+```text
+1. People filming themselves talking about their personal/questionable/craziest stories
+2. People are becoming more open as with the growth of the internet more niches have been made more accessebile/known about by the public and so people are more comfortable expressing more
+3. People are looking more for people like them online
+4. People feel like they may be more seen if they manage to find people who understand their experiences online
+5. Increasing lonliness leads to more embarrsing content stories
+6. the psychological link
+```
 
 ---
 

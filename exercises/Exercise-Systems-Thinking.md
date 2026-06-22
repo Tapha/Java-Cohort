@@ -4,16 +4,16 @@
 
 ### 1. Content → Emergence Bridge
 
-Choose one unexpected type of content you keep seeing online.
+Choose one unexpected type of content you keep seeing online. 
 
-Answer:
+Answer: Launch of many restaurants, almost every week, a new restaurant is established which social media has influenced.
 
-* What is the content?
-* Where are you seeing it?
-* Why does it feel unexpected or oddly common?
-* What larger behaviour, trend, anxiety, desire, or social shift might it be connected to?
-* What is the hidden link between the content and that wider emergence?
-* Why might this content be appearing more now?
+* What is the content? Video of the restaurant, food they are selling, where it is based and possible mention of a competetive price to attract customers.
+* Where are you seeing it? Tiktok, instagram, social media mainly.
+* Why does it feel unexpected or oddly common? Since covid, Titkok created an era of more than means but a way to advertise anything and a platform where people feel comfortable sharing anything.
+* What larger behaviour, trend, anxiety, desire, or social shift might it be connected to? The trend of sharing a lot of your life on social media and people have become more confident sharing or advertising anything due to the nature and the way the app has emerged and grown. 
+* What is the hidden link between the content and that wider emergence? The link is that, Tiktok started a new era which changed social media, covid also had a massive impact as people spent a lot more time at home and this forced people to look towards social media to gain a insight into real life experiences, creating a platform where everyone documents various parts of their life.
+* Why might this content be appearing more now? Tiktok and social media has pushed people more into business and a lot of ideas are shared through social media about jobs not being the best way to start a business which is why we have seen the shift to many people starting a business like a restaurant or content creation, or some type of business involving social media or advertising through it.
 
 ---
 
@@ -23,12 +23,12 @@ Choose one content pattern.
 
 Now link it across increasing distance:
 
-* What is the obvious link?
-* What is a slightly wider cultural link?
-* What is a social or economic link?
-* What is a psychological link?
-* What is the strangest but still believable link?
-* Which link is the strongest, and why?
+* What is the obvious link? The link is towards the rise of social media which has created a new world in which social media is the biggest way to advertise, and this has allowed for more opportunity to create business that leverage social medias visibility.
+* What is a slightly wider cultural link? People in certain cultures may set trends and this causes others to try and follow or replicate another idea, I belive that is what is causing many people to open a resturant when they see someone from a similar culture has succeeded.
+* What is a social or economic link? Social media is leveraged for visibility, in terms of economics, it has increased the revenue from social media hugely, there are many opportunities to gain brand deals, money through monetization which was never as big before as a result, in a way it has created jobs and opportunites for many people.
+* What is a psychological link? It causes people to feel like they are missing out when they see people their own age having certain experiences, this can cause people to feel left behind or even depressed when they see it constantly and compare it to their own life, creating a false version of reality, when it is just someone's highlight of the month.
+* What is the strangest but still believable link? The strangest link, is that a lot of restaurants are not what they seem but social media, exaggerates everything, creating a image in your head that is not realistic, and people believe what they see more and struggle to detach from it.
+* Which link is the strongest, and why? In this case, I belive the strongest link is the psychological link, this is what affects most peoples mood and actions, for example Andrew Tate has convinced young boys growing up that they need to beccome an alpha male and many young boys have adopted this mindest just from videos online, that could be dangerous if specific content is allowed to be advertised to certain audiences or young kids.
 
 Example starting point:
 “People filming their desk setups.”
@@ -44,7 +44,7 @@ Example:
 
 Answer:
 
-* What exactly is the connection?
+* What exactly is the connection? Skincare routines
 * What pressure or need is driving both things?
 * What behaviour repeats across both?
 * What system is encouraging this behaviour?

@@ -42,14 +42,14 @@ Pick one strange connection.
 Example:
 “Skincare routines are connected to financial anxiety.”
 
-Answer:
+Answer: With social media people see other hyper attractive people on the app and assume it is the norm, this is a false sense of reality and may cause people to spend a lot of their money on skincare products, especially ones advertised on social media and putting a financial strain on many.
 
-* What exactly is the connection? Skincare routines
-* What pressure or need is driving both things?
-* What behaviour repeats across both?
-* What system is encouraging this behaviour?
-* What evidence would make your link stronger?
-* What evidence would weaken your link?
+* What exactly is the connection? Skincare routines can be considered expensive, while there are budget options people will go for whatever product has been advertised the best and think less about the cost, this can cause a surge in people's outgoings as they want to look better regardless of the cost.
+* What pressure or need is driving both things? The need to look as good as people they see online, or they feel bad when they compare themselves to people less attractive.
+* What behaviour repeats across both? Increase of people spending on sking care products and increas in finanical anxiety due to spending on skincare or cosmetic procedures.
+* What system is encouraging this behaviour? Social media being as influencing as it is, and because of how easy it is to access it.
+* What evidence would make your link stronger? Looking at skin care sales and the rise of the skin care industry, how much it is promoted by influencers.
+* What evidence would weaken your link? 
 
 ---
 

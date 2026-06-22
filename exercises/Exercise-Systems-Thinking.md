@@ -98,6 +98,9 @@ For each one, answer:
 
 ```text
 1. AI feels like magic since it's inner workings are a black box to us. We may understand how to train it but as for how everything it learns is woven together to provide accurate replies is not very well known. The original compaison has too little context to function as a strong systems insight. Adding more context would make it stronger. The improved version helps us understand that we should be careful when training AI as it's main goals could easily be hidden from us.
+2. Good football tactics involve an understanding of the game state and trying to consider that as well as your opponenets game state and options in order to gain an advantage by having a plan for the future which is also how chess is played. It feels like the only thing making it weak is context which it could be stronger with. The improved version helps us understand that a good understaing of the game state/system better informs our tactics in whatever field
+3.
+4. Most gym content is made by people for their own profit by selling you products and services that promise to take away your body insecurities which come from comparing yourself to them. 
 ```
 
 ---
@@ -115,6 +118,9 @@ Answer:
 * Who could use this insight: a business, creator, teacher, investor, designer, or policymaker?
 * What should they do differently because of it?
 
+```text
+
+```
 ---
 
 ### Final Reflection

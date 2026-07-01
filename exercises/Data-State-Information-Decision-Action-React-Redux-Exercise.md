@@ -265,21 +265,21 @@ Action
 
 | # | Example | Your Answer |
 |---|---|---|
-| 1 | `cartCount = 3` | |
-| 2 | `state.cartCount = 3` | |
-| 3 | `cartCount > 0` means the cart is not empty | |
-| 4 | Enable checkout | |
-| 5 | Show checkout button | |
-| 6 | `isLoggedIn = false` | |
-| 7 | `state.isLoggedIn = false` | |
-| 8 | User is not allowed to view dashboard | |
-| 9 | Redirect to login page | |
-| 10 | Hide dashboard link | |
-| 11 | `stockLevel = 0` | |
-| 12 | `state.stockLevel = 0` | |
-| 13 | Product is unavailable | |
-| 14 | Disable add-to-cart | |
-| 15 | Show “Out of stock” message | |
+| 1 | `cartCount = 3` |Data |
+| 2 | `state.cartCount = 3` |State |
+| 3 | `cartCount > 0` means the cart is not empty |Information |
+| 4 | Enable checkout |Decision |
+| 5 | Show checkout button |Action |
+| 6 | `isLoggedIn = false` |Data |
+| 7 | `state.isLoggedIn = false` |State |
+| 8 | User is not allowed to view dashboard |Information |
+| 9 | Redirect to login page |Decision |
+| 10 | Hide dashboard link |Action |
+| 11 | `stockLevel = 0` |Data |
+| 12 | `state.stockLevel = 0` |State |
+| 13 | Product is unavailable |Information |
+| 14 | Disable add-to-cart |Decision |
+| 15 | Show “Out of stock” message |Action |
 
 ---
 
@@ -372,18 +372,23 @@ Complete the chain:
 ```text
 Data:
 ...
+3
 
 State:
 ...
+cartCount as it uses useState()
 
 Information:
 ...
+cartCount > 0
 
 Decision:
 ...
+As hasItems is true, checkout should be shown.
 
 Action:
 ...
+Render checkout
 ```
 
 ---
@@ -403,18 +408,23 @@ Complete the chain:
 ```text
 Data:
 ...
+0
 
 State:
 ...
+cartCount which uses useState()
 
 Information:
 ...
+cartcount > 0
 
 Decision:
 ...
+Checkout should not be shown as hasItems is false
 
 Action:
 ...
+Disable checkout
 ```
 
 ---

@@ -265,8 +265,8 @@ Action
 
 | # | Example | Your Answer |
 |---|---|---|
-| 1 | `cartCount = 3` | |
-| 2 | `state.cartCount = 3` | |
+| 1 | `cartCount = 3` | data |
+| 2 | `state.cartCount = 3` | state|
 | 3 | `cartCount > 0` means the cart is not empty | |
 | 4 | Enable checkout | |
 | 5 | Show checkout button | |

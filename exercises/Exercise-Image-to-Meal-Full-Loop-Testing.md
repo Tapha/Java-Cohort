@@ -4,7 +4,7 @@
 
 You have now built a full feature loop:
 
-```text
+```texts
 Take fridge photo
         ↓
 Frontend sends image using multipart POST
@@ -234,16 +234,16 @@ Record the result in this table:
 
 | Check | Result | Notes |
 |---|---|---|
-| Frontend opens | ✅ / 🟡 / 🔴 | |
-| Camera/capture works | ✅ / 🟡 / 🔴 | |
-| Image URI/file exists | ✅ / 🟡 / 🔴 | |
-| Axios request fires | ✅ / 🟡 / 🔴 | |
-| Backend logs show request | ✅ / 🟡 / 🔴 | |
-| Response returns to frontend | ✅ / 🟡 / 🔴 | |
-| Meal title displays | ✅ / 🟡 / 🔴 | |
-| Ingredients display | ✅ / 🟡 / 🔴 | |
-| Steps display | ✅ / 🟡 / 🔴 | |
-| Time estimate displays | ✅ / 🟡 / 🔴 | |
+| Frontend opens | ✅  | Frontend loaded successfully at http://localhost:8081|
+| Camera/capture works | ✅ | Image selection/upload worked using the upload button|
+| Image URI/file exists | ✅ |An image was selected before the meal response was returned |
+| Axios request fires | ✅ | Upload triggered the request to the backend|
+| Backend logs show request | 🟡 |No detailed backend upload log was printed, but the Network tab shows the backend request returned 200 OK |
+| Response returns to frontend | ✅  |The mock meal response returned after upload |
+| Meal title displays | ✅  | Tomato Pasta displayed|
+| Ingredients display | ✅  | Pasta and Tomatoes displayed|
+| Steps display | ✅ | Cooking steps displayed|
+| Time estimate displays | ✅  |15 Minutes displayed |
 
 ---
 
@@ -289,7 +289,12 @@ If frontend sends "photo"
 but backend expects "image",
 the loop breaks.
 ```
-
+1. http://localhost:8080/api/meals/suggestion
+2. image
+3. image/jpeg
+4. Code checks file.type.startsWith("image/") so the selected file must be an image type such as image/jpeg or image/png
+5. image
+6. Yes in the network tab-> Payload tab shows image (binary) and the request returned 200 OK
 ---
 
 # 🚦 8️⃣ Part 3 — Backend Endpoint Check
@@ -317,6 +322,12 @@ public ResponseEntity<MealResponse> suggestMealFromImage(
 5. Does the parameter name match the frontend `FormData` field?
 6. Which service method does the controller call?
 
+1. /api/meals/suggestion
+2. POST
+3. Allows the uploaded form fields including the image to be mapped into the request object
+4. There is no direct MultipartFile parameter in the controller method, The controller uses MealRequest request instead,therefore uploaded image is expected to be inside the MealRequest DTO
+5. Yes, the frontend sends the image using the field name image, and the Network Payload tab showed image (binary)
+6. mealService.generateMeal(request)
 ---
 
 # 🧪 9️⃣ Part 4 — Test Backend Directly Without Frontend
@@ -368,14 +379,14 @@ curl -X POST http://localhost:8080/api/meals/from-image \
 
 | Check | Result | Notes |
 |---|---|---|
-| Backend endpoint reachable | ✅ / 🟡 / 🔴 | |
-| Multipart request accepted | ✅ / 🟡 / 🔴 | |
-| Image field name works | ✅ / 🟡 / 🔴 | |
-| Response returns JSON | ✅ / 🟡 / 🔴 | |
-| Response has title | ✅ / 🟡 / 🔴 | |
-| Response has ingredients | ✅ / 🟡 / 🔴 | |
-| Response has steps | ✅ / 🟡 / 🔴 | |
-| Response has time estimate | ✅ / 🟡 / 🔴 | |
+| Backend endpoint reachable | ✅ | Insomnia returned 200 OK from /api/meals/suggestion|
+| Multipart request accepted | ✅  | Multipart request was accepted by the backend|
+| Image field name works | ✅  |Field name image worked |
+| Response returns JSON | ✅  |Backend returned a JSON meal response|
+| Response has title | ✅ | Response included Tomato Pasta|
+| Response has ingredients | ✅ | Response included Pasta and Tomatoes|
+| Response has steps | ✅ |Response included Boil pasta, Cook tomatoes, and Mix together |
+| Response has time estimate | ✅  | Response included timeEstimate: 15|
 
 ---
 
@@ -528,6 +539,11 @@ class MealServiceTest {
 4. What would make this test fail?
 5. Which SOLID principle makes this easier?
 
+1. Bceause the service should be ested without dpeneidng on the real work such as the real camera, or the ai service. It allows us to give the controlled meal response so the service behaviour can be checked to see if it works
+2. The aim is to test the mealservice can pass the request to the vision port and return the meal response
+3. if mealservices works as expected by recieving the request, calls the vision port and returns a response
+4. if the mealservice didnt call the port, called the wrong method, didnt return a reponse or the wrong response.
+5. DIP bc mealservice depends on the mealVisionPort rather then depending on speciifc implementor 
 ---
 
 # 🚦 1️⃣3️⃣ Part 7 — Controller Multipart Test Shape
@@ -601,6 +617,13 @@ class MealControllerTest {
 5. What would fail if the endpoint path was wrong?
 6. What would fail if the JSON response shape was wrong?
 
+1. The fake uploaded image file used in the controller test
+2. Test if the correct backend route can accept a  form data request
+3. Purpose is to only check that the endpoint accepts the uploaded image and returns the expected response
+4. title, ingredients, steps, and timeEstimate
+5. the test would fail because the controller route would not be found
+6. jsonPath checks would fail
+
 ---
 
 # ⚠️ 1️⃣4️⃣ Part 8 — Failure Case Tests
@@ -625,6 +648,10 @@ Try these failure scenarios.
 3. Which failures should become follow-up tickets?
 4. Which failure should block merge?
 
+1. Only checks to see if it works, a valid image can be uploaded and the backend returns a meal response. The frontend also checks that the selected file is an image by using file.type.startsWith("image/")
+2. Doesnt really handle anything else such as handling for missing images, wrong field names, empty image files, backend service errors, or missing response field
+3. Follow up tickets should be created for sad paths such as missing image validation, wrong field name handling, empty file validation, backend error handling, frontend error messages, and frontend response validation
+4. When the normal happy path does not work like if a vlaid image cannot be uploaded
 ---
 
 # 🖥️ 1️⃣5️⃣ Part 9 — Frontend Response Check
@@ -663,6 +690,12 @@ Time estimate
 4. What happens if the response is missing a field?
 5. Does the frontend log or display useful information during failure?
 
+1. stored in meal state using setMeal(data) after getMealSuggestion(file) returns the backend response
+2. no clear loading message shown on the page
+3. the error is logged using console.error("Failed to load meal suggestion:", error). However, there is no user friendly error message shown on the page
+4. the frontend may not display correctly using the full title, steps etc...
+5. The frontend logs useful information for developers through the console, but it does not yet display useful failure information to the user
+   
 ---
 
 # 📊 1️⃣6️⃣ Part 10 — Test Evidence Table
@@ -671,19 +704,19 @@ Complete this after testing.
 
 | Evidence | Result | Notes |
 |---|---|---|
-| Frontend sends multipart request | ✅ / 🟡 / 🔴 | |
-| Backend receives `MultipartFile` | ✅ / 🟡 / 🔴 | |
-| Controller calls service | ✅ / 🟡 / 🔴 | |
-| Service calls `MealVisionPort` | ✅ / 🟡 / 🔴 | |
-| Adapter returns meal suggestion | ✅ / 🟡 / 🔴 | |
-| Backend returns JSON response | ✅ / 🟡 / 🔴 | |
-| Frontend receives response | ✅ / 🟡 / 🔴 | |
-| Meal title displayed | ✅ / 🟡 / 🔴 | |
-| Ingredients displayed | ✅ / 🟡 / 🔴 | |
-| Steps displayed | ✅ / 🟡 / 🔴 | |
-| Time estimate displayed | ✅ / 🟡 / 🔴 | |
-| Backend logs checked | ✅ / 🟡 / 🔴 | |
-| Failure cases noted | ✅ / 🟡 / 🔴 | |
+| Frontend sends multipart request | ✅ | The frontend code uses FormData and sends the image using apiClient.post("/meals/suggestion", formData)|
+| Backend receives `MultipartFile` | ✅  |The backend accepts the image through MealRequest, which contains MultipartFile image |
+| Controller calls service | ✅  |MealController calls mealService.generateMeal(request) |
+| Service calls `MealVisionPort` | ✅ |MealService now depends on MealVisionPort, and MealVisionAdapter provides the implementation
+| Adapter returns meal suggestion | ✅  | The adapter returns the mock meal suggestion|
+| Backend returns JSON response | ✅ | Insomnia returned 200 OK with JSON containing title, ingredients, steps, and timeEstimate|
+| Frontend receives response | ✅ | The frontend stores the response using setMeal(data)|
+| Meal title displayed | ✅ | Tomato Pasta displayed on the frontend|
+| Ingredients displayed | ✅ | Pasta and Tomatoes displayed on the frontend|
+| Steps displayed | ✅  |Cooking steps displayed on the frontend |
+| Time estimate displayed | ✅ | 15 Minutes displayed on the frontend|
+| Backend logs checked | ✅ | Backend ran successfully, but there was no detailed custom upload log|
+| Failure cases noted | ✅  | Missing image validation, empty file validation, backend error handling, and frontend error messages were noted as follow-up work|
 
 ---
 
@@ -701,6 +734,18 @@ Answer these after completing the exercise.
 8. Which parts are still fake/simulated?
 9. Which failure cases need follow-up tickets?
 10. Would you be comfortable merging this feature into the shared project?
+
+
+1. the frontend display because after uploading an image the meal title, ingredients, steps and time         estimate appeared clearly on the page
+2. the upload shape  I had to check that the frontend sent the file as image and that the backend         expected MultipartFile image inside MealRequest
+3. Yes, the frontend sent the image in the correct shape. It used 'FormData' with the field name                 'image', and the backend expected 'MultipartFile image' inside 'MealRequest'
+4. Yes backend response matched the frontend,  returned title, ngredients steps and timeEstimate which         the frontend displayed from the meal state
+5. The adapter pattern made it easier to keep the image processing logic separate from the controller         and frontend
+6. The service should depend on MealVisionPort because it is the abstraction. This would make it easier         to replace the mock adapter with real AI later without changing the service logic
+7. The real parts are the image upload, multipart request, backend endpoint, service call, JSON response         and frontend display
+8. The fake part is the actual image analysis because the adapter currently returns a mock meal suggeston
+9. Follow-up tickets are needed for missing image validation, empty file validation, backend error         handling, frontend error messages and real AI integration
+10. Yes I would be comfortable merging this as a Phase 1 mock loop because the happy path works and the         backend tests pass. It still needs better validation and real image analysis later
 
 ---
 

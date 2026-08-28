@@ -15,6 +15,14 @@ Answer:
 * What is the hidden link between the content and that wider emergence?
 * Why might this content be appearing more now?
 
+```text
+1. Vague posting
+2. Twitter
+3. Usually people like to provide context on what's going on so other people interact and understand the post
+4. It may be connected to the rise of ragebait which in of itself is more of an attention grabbing mechanism
+5. Since we live in an attention economy, being able to get said attention is linked to being able to make more money
+6. It may be the next evolution of people trying to drive as much interation online
+```
 ---
 
 ### 2. Distance Ladder
@@ -33,6 +41,15 @@ Now link it across increasing distance:
 Example starting point:
 “People filming their desk setups.”
 
+```text
+1. People filming themselves talking about their personal/questionable/craziest stories
+2. People are becoming more open as with the growth of the internet more niches have been made more accessebile/known about by the public and so people are more comfortable expressing more
+3. People are looking more for people like them online
+4. People feel like they may be more seen if they manage to find people who understand their experiences online
+5. Increasing lonliness leads to more embarrsing content stories
+6. the psychological link
+```
+
 ---
 
 ### 3. Mechanism Test
@@ -50,6 +67,15 @@ Answer:
 * What system is encouraging this behaviour?
 * What evidence would make your link stronger?
 * What evidence would weaken your link?
+
+```text
+1. Your tiktok feed is basically your personality analysis
+2. Tiktoks algorithm aims to be able to bring you things you would personally find interesting or at least engaging to get you to engage with the app more and by engaging with the app more, the algorithm gains deeper insights into what you like and through that what kind of person you are.
+3. Both can subtly change, both have nuance
+4. Given the attention economy, for tiktok, the consumers of content are the product since they can be targetted for advertising. In order to get the users of tiktok to see the ads which make tiktok money, they need to keep the content on tiktok engaging for each person
+5. If tiktoks algorithm made a sort of model of ones personality and tendencies using the information gotten from using the app and if that model behaved similarly to the person
+6. If tiktok's algorithm was able to create a model of the person and it was very inaccurate for the majority of people
+```
 
 ---
 
@@ -70,6 +96,13 @@ For each one, answer:
 * What is the improved version?
 * What does the improved version help us understand?
 
+```text
+1. AI feels like magic since it's inner workings are a black box to us. We may understand how to train it but as for how everything it learns is woven together to provide accurate replies is not very well known. The original compaison has too little context to function as a strong systems insight. Adding more context would make it stronger. The improved version helps us understand that we should be careful when training AI as it's main goals could easily be hidden from us.
+2. Good football tactics involve an understanding of the game state and trying to consider that as well as your opponenets game state and options in order to gain an advantage by having a plan for the future which is also how chess is played. It feels like the only thing making it weak is context which it could be stronger with. The improved version helps us understand that a good understaing of the game state/system better informs our tactics in whatever field
+3.
+4. Most gym content is made by people for their own profit by selling you products and services that promise to take away your body insecurities which come from comparing yourself to them. 
+```
+
 ---
 
 ### 5. Pattern → Prediction
@@ -85,6 +118,9 @@ Answer:
 * Who could use this insight: a business, creator, teacher, investor, designer, or policymaker?
 * What should they do differently because of it?
 
+```text
+
+```
 ---
 
 ### Final Reflection
